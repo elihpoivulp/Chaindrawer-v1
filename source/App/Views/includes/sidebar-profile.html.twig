@@ -1,0 +1,26 @@
+{% set data_caret = 'data-caret="false"' %}
+{% set name_class = 'text-black-100' %}
+{% set role_class = 'text-black-50' %}
+{% set dropdown_class = 'dropdown-menu dropdown-menu-full dropdown-menu-caret-center' %}
+
+{% if area != 'drawer'%}
+    {% set data_caret = '' %}
+    {% set name_class = 'navbar-text-100' %}
+    {% set role_class = 'navbar-text-50' %}
+    {% set dropdown_class = 'dropdown-menu dropdown-menu-right' %}
+{% endif %}
+
+<a href="#" class="nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown" {{ data_caret }}>
+    <img width="32" height="32" class="rounded-circle mr-8pt" src="{{ load_static('assets/chndrwr/images/users/elliot.jpg') }}" alt="account" />
+    <span class="flex d-flex flex-column mr-8pt">
+                        <span class="{{ name_class }}">{{ user.getName }}</span>
+                        <small class="{{ role_class }}">{{ user_type|capitalize }}</small>
+                    </span>
+</a>
+<div class="{{ dropdown_class }}">
+    <div class="dropdown-header"><strong>Account</strong></div>
+    <a class="dropdown-item" href="#">Edit Account</a>
+    <a class="dropdown-item" href="#">Billing</a>
+    <a class="dropdown-item" href="#">Payments</a>
+    <a class="dropdown-item" href="{{ site_url('auth/logout') }}">Logout</a>
+</div>

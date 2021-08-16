@@ -1,0 +1,6 @@
+#Options -Multiviews
+RewriteEngine On
+RewriteBase /projects/canlibo/chaindrawer
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.php?_url=$1 [L,QSA]

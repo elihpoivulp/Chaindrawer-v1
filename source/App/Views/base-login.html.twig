@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <body class="layout-boxed layout-sticky-subnav">
+    {% include 'includes/preloader.html.twig' %}
+    <div class="mdk-drawer-layout js-mdk-drawer-layout" data-push data-responsive-width="992px">
+        <div class="mdk-drawer-layout__content page-content">
+            {% include 'includes/header-login.html.twig' %}
+            {% block breadcrumb %}
+            {% endblock %}
+            <div class="container-fluid page__container" id="app-body">
+                {% block content %}
+                {% endblock %}
+            </div>
+            {% include 'includes/footer.html.twig' %}
+        </div>
+    </div>
+    {% include 'includes/scripts.html.twig' %}
+    {% block page_specific_scripts %}
+    {% endblock %}
+    </body>
+{% endblock %}

@@ -1,0 +1,65 @@
+<div class="mdk-drawer js-mdk-drawer" id="default-drawer">
+    <div class="mdk-drawer__content">
+        <div class="sidebar sidebar-dark sidebar-left" data-perfect-scrollbar>
+            <a href="" class="sidebar-brand sidebar-brand-dark bg-dark">
+                <img class="sidebar-brand-icon" src="{{ load_static('assets/chndrwr/images/cd-logo-only.png') }}" alt="{{ app }} logo">
+                {{ app }}
+            </a>
+            <div class="sidebar-heading">Account</div>
+            <ul class="sidebar-menu">
+                <li class="sidebar-menu-item active">
+                    <a class="sidebar-menu-button"
+                       href="">
+                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">insert_chart_outlined</span>
+                        <span class="sidebar-menu-text">Dashboard</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="sidebar-heading">Axie</div>
+            <ul class="sidebar-menu">
+                <li class="sidebar-menu-item">
+                    <a class="sidebar-menu-button"
+                       data-toggle="collapse"
+                       href="#components_menu">
+                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left fa fa-rocket"></span>
+                        Teams
+                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                    </a>
+                    <ul class="sidebar-submenu collapse sm-indent"
+                        id="components_menu">
+                        <li class="sidebar-menu-item">
+                            <a class="sidebar-menu-button"
+                               href="#">
+                                <span class="sidebar-menu-text">My Teams</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu-item">
+                            <a class="sidebar-menu-button"
+                               href="#">
+                                <span class="sidebar-menu-text">All Teams</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a class="sidebar-menu-button"
+                       data-toggle="collapse"
+                       href="#plugins_menu">
+                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">videogame_asset</span>
+                        Players
+                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                    </a>
+                    <ul class="sidebar-submenu collapse sm-indent"
+                        id="plugins_menu">
+                        <li class="sidebar-menu-item">
+                            <a class="sidebar-menu-button"
+                               href="#">
+                                <span class="sidebar-menu-text">In My Team</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

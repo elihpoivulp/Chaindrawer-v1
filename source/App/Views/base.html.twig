@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="dark-mode headings-family-oswald">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="180x180"
+          href="{{ load_static('assets/chndrwr/images/favicon/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32"
+          href="{{ load_static('assets/chndrwr/images/favicon/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16"
+          href="{{ load_static('assets/chndrwr/images/favicon/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ load_static('assets/chndrwr/images/favicon/site.webmanifest') }}">
+    <link rel="mask-icon" href="{{ load_static('assets/chndrwr/images/favicon/safari-pinned-tab.svg" color="#5bbad5') }}">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <title>{% block title %} {{ app ~  ' | ' ~ title ?? app }} {% endblock %}</title>
+    {% include 'includes/stylesheets.html.twig' %}
+    {% block page_specific_styles %}
+    {% endblock %}
+</head>
+{% block body %}
+{% endblock %}
+</html>

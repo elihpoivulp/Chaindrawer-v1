@@ -1,0 +1,51 @@
+<button class="navbar-toggler d-block d-lg-none rounded-0" type="button" data-toggle="sidebar">
+    <span class="material-icons">menu</span>
+</button>
+<!-- TODO: change condition -->
+<a href="" class="navbar-brand mr-16pt {{ user_type|lower != 'admin' ? 'd-lg-none' : '' }}">
+    <img class="navbar-brand-icon mr-0 mr-lg-8pt"
+         src="{{ load_static('assets/chndrwr/images/cd-logo-only.png') }}" width="40" alt="{{ app }}">
+    <span class="d-none d-lg-block">{{ app }}</span>
+</a>
+
+<div class="flex"></div>
+
+<div class="nav navbar-nav flex-nowrap d-flex ml-0 mr-16pt">
+    <!-- TODO: change condition -->
+    <div class="nav-item dropdown d-sm-flex {{ user_type == 'admin' ? 'd-none' : '' }}">
+        {% include 'includes/sidebar-profile.html.twig' with {'area': 'header'} %}
+    </div>
+{#    {% if show_mail %}#}
+{#        {% include 'includes/admin/mail.html.twig' %}#}
+{#    {% endif %}#}
+    <div class="nav-item ml-16pt dropdown dropdown-notifications">
+        <button class="nav-link btn-flush dropdown-toggle" type="button" data-toggle="dropdown" data-dropdown-disable-document-scroll data-caret="false">
+            <i class="material-icons">notifications</i>
+            <span class="badge badge-notifications badge-accent">1</span>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right">
+            <div data-perfect-scrollbar
+                 class="position-relative">
+                <div class="dropdown-header"><strong>System notifications</strong></div>
+                <div class="list-group list-group-flush mb-0">
+                    <a href="javascript:void(0);" class="list-group-item list-group-item-action unread">
+                            <span class="d-flex align-items-center mb-1">
+                                <small class="text-black-50">3 minutes ago</small>
+                                <span class="ml-auto unread-indicator bg-accent"></span>
+                            </span>
+                        <span class="d-flex">
+                                <span class="avatar avatar-xs mr-2">
+                                    <span class="avatar-title rounded-circle bg-light">
+                                        <i class="material-icons font-size-16pt text-accent">attach_money</i>
+                                    </span>
+                                </span>
+                                <span class="flex d-flex flex-column">
+                                    <span class="text-black-70">Withdraw is available</span>
+                                </span>
+                            </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

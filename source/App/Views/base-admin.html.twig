@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <body class="layout-sticky layout-sticky-subnav">
+    {% include 'includes/preloader.html.twig' %}
+    <div class="mdk-header-layout js-mdk-header-layout">
+        {% include 'includes/admin/header-admin.html.twig' %}
+        <div class="mdk-header-layout__content">
+            <div class="mdk-drawer-layout js-mdk-drawer-layout" data-push data-responsive-width="992px">
+                <div class="mdk-drawer-layout__content page-content" id="app-body">
+                    {% block breadcrumb %}
+                    {% endblock %}
+                    {% block content %}
+                    {% endblock %}
+                </div>
+                {% include 'includes/admin/drawer-admin.html.twig' %}
+            </div>
+        </div>
+    </div>
+    {% include 'includes/scripts.html.twig' %}
+    </body>
+{% endblock %}
