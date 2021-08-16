@@ -132,10 +132,12 @@ class UserModel extends BaseDBModel
         if ($this->manager) {
             $sql = "SELECT
                 A.AssetTeamName,
-                MS.ManagerShareAmount
+                MS.ManagerShareAmount,
+                SUM(MP.ManagerPayoutAmount) AS TotalReturned
                 FROM ManagerShares MS
                 JOIN SharesForAssetTeams SFAT on SFAT.SharesForAssetTeamID = MS.FundForAssetTeamID
                 JOIN AssetTeams A on SFAT.SharesForAssetTeamID = A.FundForAssetTeamID
+                JOIN ManagerPayouts MP on SFAT.SharesForAssetTeamID = MP.SharesForAssetTeamID
                 WHERE MS.ManagerAccountID = :id
                 GROUP BY SFAT.SharesForAssetTeamID ASC;
                 ";
