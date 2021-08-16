@@ -4,20 +4,27 @@
             <div class="bg-dark rounded page-section py-lg-32pt px-16pt px-lg-24pt">
                 <div class="row">
                     <div class="col-md-8 col-sm-4 mb-24pt mb-md-0 text-white">
-                        <img class="brand-icon mb-12ptsssssssssssssssssschangethislater" src="{{ load_static('assets/chndrwr/images/cd-landscape-logo.png') }}" width="200" alt="{{ app }} logo">
-{#                        <p class="measure-lead-max mb-0 small">#}
-{#                            <strong>{{ app }}</strong>#}
-{#                            is a Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium, asperiores assumenda, consequuntur delectus eaque, eius hic ipsam iure porro quibusdam repellendus vitae voluptatem? Animi ducimus fugit in, quos tenetur veritatis.#}
-{#                        </p>#}
+                        <img class="brand-icon mb-12pt" src="{{ load_static('assets/chndrwr/images/cd-landscape-logo.png') }}" width="200" alt="{{ app }} logo">
+                        <p class="measure-lead-max mb-0 small">
+                            <strong>{{ app }}</strong>
+                            is a Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium, asperiores assumenda, consequuntur delectus eaque, eius hic ipsam iure porro quibusdam repellendus vitae voluptatem? Animi ducimus fugit in, quos tenetur veritatis.
+                        </p>
                     </div>
                     <div class="col-md-4 text-md-right">
-                        <p class="mb-8pt d-flex align-items-md-center justify-content-md-end">
+                        <p class="mb-8pt d-flex align-items-md-center justify-content-md-end mb-12pt">
                             <a href=""
                                class="text-white-70 text-underline mr-16pt">Terms</a>
                             <a href=""
                                class="text-white-70 text-underline">Privacy policy</a>
                         </p>
-                        <p class="text-white-50 small mb-0">Copyright 2021 {{ app}} &copy; All rights reserved.</p>
+                        <div class="text-white-50 small mb-0">&copy;
+                            <script>
+                                let date = new Date();
+                                document.write(date.getFullYear().toString());
+                            </script>
+                            {{ app }}
+                            <p>All rights reserved.</p>
+                        </div>
                     </div>
                 </div>
             </div>
