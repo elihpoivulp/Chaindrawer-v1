@@ -5,8 +5,23 @@
     <div class="mdk-drawer-layout js-mdk-drawer-layout" data-push data-responsive-width="992px">
         <div class="mdk-drawer-layout__content page-content">
             {% include 'includes/header-default.html.twig' %}
-            {% block breadcrumb %}
-            {% endblock %}
+            <div class="border-bottom-2 py-32pt position-relative z-1">
+                <div class="container-fluid page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
+                    {% block breadcrumb %}
+                    {% endblock %}
+                    <div class="row" role="tablist">
+                        <div class="col-auto border-left">
+                            <h6 class="m-0">&#8369; {{ account.manager.getFormattedBalance }}</h6>
+                            <p class="text-50 mb-0 d-flex align-items-center">
+                                Balance
+                            </p>
+                        </div>
+                        <div class="col-auto border-left">
+                            <a href="#" class="btn btn-accent disabled">Cash Out</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="container-fluid page__container" id="app-body">
                 {% block content %}
                 {% endblock %}
