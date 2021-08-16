@@ -58,7 +58,7 @@ class Router
             $routes = $this->getNamespace() . join('\\', $location);
             $route_obj = new $routes();
             foreach ($route_obj->getRoutes() as $path => $params) {
-                $params['controller'] = $route_obj->getController();
+                $params['controller'] = $params['controller'] ?? $route_obj->getController();
                 $params['namespace'] = $namespace;
                 $this->routes[$this->cleanPath($route . '/' . $path)] = $params;
             }
