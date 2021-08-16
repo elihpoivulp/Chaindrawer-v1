@@ -21,6 +21,16 @@ class Controller
         $this->model = new $model();
     }
 
+    public function getURIAsArray(): array
+    {
+        return explode('/', ltrim($this->request->getPath(), '/'));
+    }
+
+    public function getURIOnPos(int $index): ?string
+    {
+       return $this->getURIAsArray()[$index] ?? null;
+    }
+
     public function __call(string $name, array $arguments)
     {
         $method = "{$name}Action";
