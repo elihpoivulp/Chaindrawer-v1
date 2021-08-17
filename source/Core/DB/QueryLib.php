@@ -12,7 +12,7 @@ abstract class QueryLib extends DB
     protected string $sql = '';
     protected int $limit;
     protected array $bind = [];
-    protected mixed $result_list = null;
+    protected $result_list = null;
     protected array $fetch_mode = [];
 
     protected const DEFAULT_FETCH_MODE = PDO::FETCH_ASSOC;
@@ -34,7 +34,7 @@ abstract class QueryLib extends DB
     /**
      * @throws Exception
      */
-    public function select(string|array $columns = ['*'], $prefix_idetifier = self::LEFT_TABLE_IDENTIFIER): static
+    public function select($columns = ['*'], $prefix_idetifier = self::LEFT_TABLE_IDENTIFIER): self
     {
         $col_keys = $this->joinColumns($columns, $prefix_idetifier);
         $sql = "SELECT $col_keys FROM " . $this->tableName() . ' AS ' . $prefix_idetifier;
@@ -76,7 +76,7 @@ abstract class QueryLib extends DB
     //     return $this;
     // }
 
-    public function limit(int $limit): static
+    public function limit(int $limit): self
     {
         $this->limit = $limit;
         return $this;

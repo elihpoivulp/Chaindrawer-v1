@@ -57,7 +57,7 @@ class Auth extends FormController
                 ]);
             }
         }
-        $this->render('login.html.twig', context: [
+        $this->render('login.html.twig', [
             'title' => 'Login',
             'form' => $form
         ]);

@@ -14,15 +14,40 @@ class Field
 
     public string $type;
     public string $required_type = '';
+    public string $error_message;
+    /**
+     * @var array|mixed
+     */
+    public $extra_input_class;
+    public string $value;
+    public string $id;
+    public string $label;
+    public string $placeholder;
+    public string $name;
 
-    public function __construct(public string $name, public string $id = '', public string $label = '', public string $placeholder = '', public string $value = '', public string|array $extra_input_class = [], public string $error_message = '', string $type = '')
+    public function __construct(string $name, string $id = '', string $label = '', string $placeholder = '', string $value = '', $extra_input_class = [], string $error_message = '', string $type = '')
     {
+        $this->name = $name;
+        $this->id = $id;
+        $this->label = $label;
+        $this->placeholder = $placeholder;
+        $this->value = $value;
+        $this->extra_input_class = $extra_input_class;
+        $this->error_message = $error_message;
         $this->type = $type ?? self::INPUT_TYPE_TEXT;
     }
 
     static public function input(array $options): self
     {
-        return new Field(...$options);
+        $name = $options['name'];
+        $id = $options['id'] ?? '';
+        $label = $options['label'] ?? '';
+        $placeholder = $options['placeholder'] ?? '';
+        $value = $options['value'] ?? '';
+        $extra_input_class = $options['extra_input_class'] ?? [];
+        $error_message = $options['error_message'] ?? '';
+        $type = $options['type'] ?? '';
+        return new Field($name, $id, $label, $placeholder, $value, $extra_input_class, $error_message, $type);
     }
 
     public function __toString()

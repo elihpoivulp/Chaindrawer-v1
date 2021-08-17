@@ -20,7 +20,7 @@ class Admin extends AdminViewOnly
 
     public function indexAction()
     {
-        $this->render('index.html.twig', context: [
+        $this->render('index.html.twig', [
             'title' => 'Admin'
         ]);
     }

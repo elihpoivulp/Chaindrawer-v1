@@ -20,7 +20,7 @@ class UserModel extends BaseDBModel
     protected ?string $UserPhoto;
     protected string $UserEmail;
 
-    public ManagerModel|bool $manager = false;
+    public $manager = false;
     // public array|bool $shares = false;
     // public array|bool $AssetTeams = false;
 

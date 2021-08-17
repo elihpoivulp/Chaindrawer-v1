@@ -28,7 +28,7 @@ class AuthForm extends ModelForm
         ];
     }
 
-    public function validate(): array|bool
+    public function validate()
     {
         $result = parent::validate();
         if ($result) {

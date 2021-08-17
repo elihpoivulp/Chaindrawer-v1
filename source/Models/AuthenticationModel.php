@@ -33,7 +33,7 @@ class AuthenticationModel extends DBFormModel
     /**
      * @throws Exception
      */
-    public function authenticate(): bool|Login
+    public function authenticate()
     {
         $login = $this->select($this->columns())->where([$this->primaryKey() => $this->username])->fetch(['mode' => [PDO::FETCH_CLASS, Login::class]]);
         if (!$login || $login->LoginIsActive == 0) {

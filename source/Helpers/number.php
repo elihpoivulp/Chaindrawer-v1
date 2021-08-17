@@ -1,5 +1,5 @@
 <?php
-function toShortFormat(float|int $num): string
+function toShortFormat($num): string
 {
     $suffixes = ["", "K", "M", "B","T"];
     $num = intval($num);

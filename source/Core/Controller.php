@@ -8,11 +8,18 @@ use CD\Core\Models\Model;
 class Controller
 {
     static protected string $namespace = '';
-    protected mixed $model = null;
+    protected $model = null;
     protected string $modelNamespace = 'CD\\Models';
+    protected array $params;
+    protected View $view;
+    protected Request $request;
 
-    public function __construct(protected array $params, protected View $view, protected Request $request)
-    {    }
+    public function __construct(array $params, View $view, Request $request)
+    {
+        $this->params = $params;
+        $this->view = $view;
+        $this->request = $request;
+    }
 
 
     public function loadModel(string $model_name)
@@ -47,7 +54,7 @@ class Controller
         }
     }
 
-    protected function before(): mixed
+    protected function before()
     {
         return true;
     }

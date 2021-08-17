@@ -7,15 +7,18 @@ use CD\Core\Models\DBFormModel;
 
 abstract class ModelForm extends FormValidations
 {
-    public function __construct(protected DBFormModel $model)
+    protected $model;
+
+    public function __construct(DBFormModel $model)
     {
+        $this->model = $model;
     }
 
     public function field(string $attribute): Field
     {
         if (!property_exists($this->model, $attribute)) {
             // TODO: Throw Exception
-            exit("Attribute \"$attribute\" does not exist on Model" . $this->model::class);
+            exit("Attribute \"$attribute\" does not exist on Model" . get_class($this->model));
         }
         $opts = [
             'value' => $this->model->$attribute,
@@ -26,7 +29,7 @@ abstract class ModelForm extends FormValidations
         return Field::input($opts);
     }
 
-    public function validate(): array|bool
+    public function validate()
     {
         $result = parent::validate();
         $prop_values = array_map(fn($attr) => $this->$attr, $this->fields);

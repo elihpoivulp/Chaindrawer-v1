@@ -48,7 +48,7 @@ abstract class FormValidations extends Form
         }
     }
 
-    public function validate(): array|bool
+    public function validate()
     {
         foreach ($this->rules() as $attribute => $rules) {
             $value = $this->$attribute;
@@ -78,7 +78,7 @@ abstract class FormValidations extends Form
         return empty($this->errors);
     }
 
-    private function addError(int|string $attribute, string $rule, $params = [])
+    private function addError($attribute, string $rule, $params = [])
     {
         $message = $this->errorMessages()[$rule] ?? '';
         if (!empty($params)) {
@@ -99,7 +99,7 @@ abstract class FormValidations extends Form
         return has_key_presence($attribute, $this->errors);
     }
 
-    public function getFirstError(string $attribute): string|bool
+    public function getFirstError(string $attribute)
     {
         return $this->errors[$attribute][0] ?? false;
     }

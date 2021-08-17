@@ -14,7 +14,7 @@ class ActiveAccount extends DB
         $this->db = $this->db();
     }
 
-    public function getRelatedUser(string $token): UserModel|bool
+    public function getRelatedUser(string $token)
     {
         $sql = 'SELECT
                 U.UserID,

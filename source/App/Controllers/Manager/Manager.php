@@ -58,7 +58,7 @@ class Manager extends ManagerViewOnly
             //     $rate = round($arr[1], 2);
             //     $api['data'][] = ['y' => $rate, 'x' => "$date"];
             // }
-        } catch (Exception) {
+        } catch (Exception $e) {
             // TODO: show cached data
             Session::setFlash('toastr', 'We\'ve encountered a minor problem, but do not fret, this is not your fault.', [
                 'type' => Session::FLASH_TYPE_WARNING,
@@ -69,7 +69,7 @@ class Manager extends ManagerViewOnly
 
         $api['data'][] = ['y' => $data['current_rate'], 'x' => date_format(date_create('@'. strtotime('now')), 'c')];
         $data['api'] = json_encode($api);
-        $this->render('index.html.twig', context: [
+        $this->render('index.html.twig', [
             'title' => 'Dashboard',
             'data' => $data,
             'account' => $account,

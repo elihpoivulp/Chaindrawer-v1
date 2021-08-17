@@ -1,21 +1,22 @@
 {
-    "name": "npg/chaindrawer",
-    "type": "project",
-    "autoload": {
-        "psr-4": {
-            "CD\\": "source/"
-        }
-    },
-    "authors": [
-        {
-            "name": "Nicko Gamba",
-            "email": "p.nickogamba@gmail.com"
-        }
-    ],
-    "require": {
-        "vlucas/phpdotenv": "^5.3",
-        "twig/twig": "^3.0",
-        "codenix-sv/coingecko-api": "^1.0",
-        "ext-pdo": "*"
+  "name": "npg/chaindrawer",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "CD\\": "source/"
     }
+  },
+  "authors": [
+    {
+      "name": "Nicko Gamba",
+      "email": "p.nickogamba@gmail.com"
+    }
+  ],
+  "require": {
+    "vlucas/phpdotenv": "^5.3",
+    "twig/twig": "^3.0",
+    "codenix-sv/coingecko-api": "^1.0",
+    "ext-pdo": "*",
+    "ext-json": "*"
+  }
 }

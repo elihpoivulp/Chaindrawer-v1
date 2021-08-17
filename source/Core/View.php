@@ -35,10 +35,10 @@ class View
             $twig->addFunction(new TwigFunction('getFlashToast', function (string $key = ''): ?string {
                 return Session::getFlashToast($key);
             }));
-            $twig->addFunction(new TwigFunction('toShortFormat', function (int|float $num): string {
+            $twig->addFunction(new TwigFunction('toShortFormat', function ($num): string {
                 return toShortFormat($num);
             }));
-            $twig->addFunction(new TwigFunction('round', function (int|float $num, int $precision = 2): float {
+            $twig->addFunction(new TwigFunction('round', function ($num, int $precision = 2): float {
                 return round($num, $precision);
             }));
             $role = 'Guest';

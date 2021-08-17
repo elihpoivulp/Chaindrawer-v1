@@ -57,7 +57,7 @@ class Session
         return null;
     }
 
-    static public function getFlashAlert(string $key): null|string
+    static public function getFlashAlert(string $key)
     {
         self::initFlash();
         if (has_key_presence($key, $_SESSION[self::FLASH_KEY]) && !is_blank($_SESSION[self::FLASH_KEY][$key]['message'])) {
@@ -98,7 +98,7 @@ class Session
         return null;
     }
 
-    static public function get(string $key): mixed
+    static public function get(string $key)
     {
         if (self::exists($key)) {
             return $_SESSION[$key];

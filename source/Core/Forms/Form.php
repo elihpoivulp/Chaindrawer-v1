@@ -11,7 +11,7 @@ class Form extends BaseForm
         $field = new Form();
     }
 
-    public function setFormClassList(string|array $class_list): void
+    public function setFormClassList($class_list): void
     {
         $this->form_class_list = $class_list;
     }
