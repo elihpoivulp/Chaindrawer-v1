@@ -1,0 +1,19 @@
+{% extends 'base-manager.html.twig' %}
+{% block breadcrumb %}
+    {% include 'includes/breadcrumb.html.twig' with {
+        'section': 'Teams',
+        'trails': {
+            'active': 'My Teams'
+        }
+    } %}
+{% endblock breadcrumb %}
+{% block content %}
+    <div class="page-section">
+        <div class="page-separator">
+            <div class="page-separator__text">Teams</div>
+        </div>
+    </div>
+    {% block page_specific_scripts %}
+        {% include 'includes/charts.js.html.twig' %}
+    {% endblock page_specific_scripts %}
+{% endblock content %}
