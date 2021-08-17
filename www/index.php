@@ -16,9 +16,9 @@ $request = new Request();
 $view = new View();
 
 $router = new Router();
-$router->addRoute('manager', routes_file: '@manager/routes');
-$router->addRoute('admin', routes_file: '@admin/routes');
-$router->addRoute('auth', routes_file: '@auth/routes');
+$router->addRoute('manager', [], '@manager/routes');
+$router->addRoute('admin', [], '@admin/routes');
+$router->addRoute('auth', [], '@auth/routes');
 $router->addRoute('sandbox', ['controller' => 'Sandbox']);
 // $router->addRoute('login', ['controller' => 'Login', 'namespace' => 'Login']);
 // $router->addRoute('logout', ['controller' => 'Login', 'action' => 'logout', 'namespace' => 'Login']);
