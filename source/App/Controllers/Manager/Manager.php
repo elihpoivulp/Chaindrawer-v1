@@ -73,7 +73,11 @@ class Manager extends ManagerViewOnly
             'title' => 'Dashboard',
             'data' => $data,
             'account' => $account,
-            'monthly_payouts' => $monthly
+            'monthly_payouts' => $monthly,
+            'menu' => [
+                'menu_page' => $this->getURIOnPos(1),
+                'menu_active' => ''
+            ]
         ]);
     }
 }

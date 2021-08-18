@@ -118,7 +118,7 @@ class UserModel extends BaseDBModel
         return [];
     }
 
-    public function getTotalProfit(): string
+    public function getTotalIncome(): string
     {
         $sql = "SELECT SUM(ManagerPayoutAmount) AS TotalIncome FROM ManagerPayouts
                 WHERE ManagerAccountID = :id";
@@ -127,7 +127,7 @@ class UserModel extends BaseDBModel
         return toShortFormat($s->fetchAll()[0]['TotalIncome']);
     }
 
-    public function getTeams(): array
+    public function getTeamsAndPayouts(): array
     {
         if ($this->manager) {
             $sql = "SELECT
@@ -139,9 +139,29 @@ class UserModel extends BaseDBModel
                 JOIN AssetTeams A on SFAT.SharesForAssetTeamID = A.FundForAssetTeamID
                 JOIN ManagerPayouts MP on SFAT.SharesForAssetTeamID = MP.SharesForAssetTeamID
                 WHERE MS.ManagerAccountID = :id
-                GROUP BY SFAT.SharesForAssetTeamID ASC;
+                GROUP BY SFAT.SharesForAssetTeamID ASC
                 ";
             $s = $this->db->prepare($sql);
+            $s->execute([':id' => $this->manager->ManagerAccountID]);
+            return $s->fetchAll();
+        }
+        return [];
+    }
+
+    public function getMyTeams(): array
+    {
+        if ($this->manager) {
+            $sql = "SELECT
+                A.AssetTeamID,
+                A.AssetTeamName
+                FROM ManagerShares MS
+                JOIN SharesForAssetTeams SFAT on SFAT.SharesForAssetTeamID = MS.FundForAssetTeamID
+                JOIN AssetTeams A on SFAT.SharesForAssetTeamID = A.FundForAssetTeamID
+                WHERE MS.ManagerAccountID = :id
+                GROUP BY SFAT.SharesForAssetTeamID ASC
+                ";
+            $s = $this->db->prepare($sql);
+            $s->setFetchMode(PDO::FETCH_CLASS, TeamsModel::class);
             $s->execute([':id' => $this->manager->ManagerAccountID]);
             return $s->fetchAll();
         }
@@ -151,38 +171,6 @@ class UserModel extends BaseDBModel
     private function isManager(): bool
     {
         $role = Config::MANAGER_TERM;
-        $wow = [
-            [
-                'ClassID' => 2,
-                'ClassName' => 'Math Class',
-                'ClassCode' => '0ff3',
-                'AcceptedStudentID' => 3,
-                'RelatedClassID' => 2,
-                'RelatedStudentID' => 2,
-                'StudentID' => 2,
-                'StudentFullName' => 'Iguana',
-            ],
-            [
-                'ClassID' => 2,
-                'ClassName' => 'Math Class',
-                'ClassCode' => '0ff3',
-                'AcceptedStudentID' => 1,
-                'RelatedClassID' => 2,
-                'RelatedStudentID' => 1,
-                'StudentID' => 1,
-                'StudentFullName' => 'Dinosaur',
-            ],
-            [
-                'ClassID' => 2,
-                'ClassName' => 'Math Class',
-                'ClassCode' => '0ff3',
-                'AcceptedStudentID' => 5,
-                'RelatedClassID' => 2,
-                'RelatedStudentID' => 5,
-                'StudentID' => 5,
-                'StudentFullName' => 'Bird',
-            ]
-        ];
         return has_inclusion_of($role, array_column($this->getRoles(), 'RoleName'));
     }
 
