@@ -41,6 +41,9 @@ class View
             $twig->addFunction(new TwigFunction('round', function ($num, int $precision = 2): float {
                 return round($num, $precision);
             }));
+            $twig->addFunction(new TwigFunction('get_uri', function ($pos = null) {
+                return get_uri($pos);
+            }));
             $role = 'Guest';
             $user = null;
             if (SessionsUserAuth::isLoggedIn()) {
@@ -52,6 +55,7 @@ class View
                     $role = array_column($user->getRoles(), 'RoleName');
                 }
             }
+            get_uri();
             $twig->addGlobal('app', Config::WEBSITE_NAME);
             $twig->addGlobal('user', $user);
             $twig->addGlobal('user_type', $role);
