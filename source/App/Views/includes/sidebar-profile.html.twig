@@ -23,4 +23,30 @@
     <a class="dropdown-item" href="#">Billing</a>
     <a class="dropdown-item" href="#">Payments</a>
     <a class="dropdown-item" href="{{ site_url('auth/logout') }}">Logout</a>
+    {% if user_type|length > 1 %}
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-header"><strong>Switch Dashboard</strong></div>
+        <a href="{{ site_url('admin') }}" class="dropdown-item d-flex align-items-center {% if get_uri(0) == 'admin' %}active{% endif %}">
+            <div class="avatar avatar-sm mr-8pt">
+                <span class="avatar-title rounded bg-primary">ADM</span>
+            </div>
+            <small class="ml-4pt flex">
+                <span class="d-flex flex-column">
+                    <strong class="text-black-100">Admin Dashboard</strong>
+                    <span class="text-black-50">Administrator</span>
+                </span>
+            </small>
+        </a>
+        <a href="{{ site_url('manager/dashboard') }}" class="dropdown-item d-flex align-items-center {% if get_uri(0) == 'manager' %}active{% endif %}">
+            <div class="avatar avatar-sm mr-8pt">
+                <span class="avatar-title rounded bg-accent">MNR</span>
+            </div>
+            <small class="ml-4pt flex">
+                <span class="d-flex flex-column">
+                    <strong class="text-black-100">Manager Dashboard</strong>
+                    <span class="text-black-50">Manager</span>
+                </span>
+            </small>
+        </a>
+    {% endif %}
 </div>
