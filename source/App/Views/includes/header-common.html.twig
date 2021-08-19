@@ -2,7 +2,7 @@
     <span class="material-icons">menu</span>
 </button>
 <!-- TODO: change condition -->
-<a href="" class="navbar-brand mr-16pt {{ user_type|lower != 'admin' ? 'd-lg-none' : '' }}">
+<a href="" class="navbar-brand mr-16pt d-lg-none">
     <img class="navbar-brand-icon mr-0 mr-lg-8pt"
          src="{{ load_static('assets/chndrwr/images/cd-logo-only.png') }}" width="40" alt="{{ app }}">
     <span class="d-none d-lg-block">{{ app }}</span>
@@ -11,13 +11,9 @@
 <div class="flex"></div>
 
 <div class="nav navbar-nav flex-nowrap d-flex ml-0 mr-16pt">
-    <!-- TODO: change condition -->
-    <div class="nav-item dropdown d-sm-flex {{ user_type == 'admin' ? 'd-none' : '' }}">
+    <div class="nav-item dropdown d-sm-flex">
         {% include 'includes/sidebar-profile.html.twig' with {'area': 'header'} %}
     </div>
-{#    {% if show_mail %}#}
-{#        {% include 'includes/admin/mail.html.twig' %}#}
-{#    {% endif %}#}
     <div class="nav-item ml-16pt dropdown dropdown-notifications">
         <button class="nav-link btn-flush dropdown-toggle" type="button" data-toggle="dropdown" data-dropdown-disable-document-scroll data-caret="false">
             <i class="material-icons">notifications</i>
@@ -48,4 +44,7 @@
             </div>
         </div>
     </div>
+    {% if 'Admin' in user_type %}
+        {% include 'includes/admin/mail.html.twig' %}
+    {% endif %}
 </div>

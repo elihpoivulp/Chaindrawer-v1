@@ -49,7 +49,7 @@ class View
                 if (!$user) {
                     SessionsUserAuth::logout();
                 } else {
-                    $role = $user->getRoles()[0]['RoleName'];
+                    $role = array_column($user->getRoles(), 'RoleName');
                 }
             }
             $twig->addGlobal('app', Config::WEBSITE_NAME);
