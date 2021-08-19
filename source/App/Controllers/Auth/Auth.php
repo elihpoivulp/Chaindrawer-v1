@@ -86,8 +86,19 @@ class Auth extends FormController
         if (SessionsUserAuth::getToken() === $token) {
             $login = new ActiveAccount();
             $user = $login->getRelatedUser($token);
-            $role = strtolower($user->getRoles()[0]['RoleName']);
-            Response::redirect(self::ROLE_ROUTES[strtolower($role)]);
+            $role = $user->getRoles()[0] ?? null;
+            if (!is_null($role)) {
+                $role = strtolower($role['RoleName']);
+                Response::redirect(self::ROLE_ROUTES[strtolower($role)]);
+            } else {
+                Session::setFlash('toastr', 'An error has occurred. Please try again later.', [
+                    'type' => Session::FLASH_TYPE_WARNING,
+                    'title' => 'Warning',
+                    'dismissable' => true
+                ]);
+                SessionsUserAuth::logout();
+                Response::redirect('auth/login');
+            }
         }
         Response::redirect('auth/login');
     }
