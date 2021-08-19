@@ -8,7 +8,13 @@ class Form extends BaseForm
 {
     public function field(string $attribute): Field
     {
-        $field = new Form();
+        $opts = [
+            'value' => $this->$attribute,
+            'name' => $attribute,
+            'extra_input_class' => $this->hasError($attribute) ? 'is-invalid' : '',
+            'error_message' => $this->getFirstError($attribute)
+        ];
+        return Field::input($opts);
     }
 
     public function setFormClassList($class_list): void
