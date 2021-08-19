@@ -3,13 +3,20 @@
 namespace CD\Core;
 
 use CD\Core\Sessions\Session;
+use CD\Core\Utils\Token;
+use Exception;
 
 class CSRFToken
 {
+    /**
+     * @throws Exception
+     */
     static public function generateToken()
     {
+
         if (!Session::exists('CDProtectionToken')) {
-            Session::set('CDProtectionToken', base64_encode(openssl_random_pseudo_bytes(32)));
+            $token = new Token(bin2hex(random_bytes(32)));
+            Session::set('CDProtectionToken', $token->getHash());
         }
         return Session::get('CDProtectionToken');
     }

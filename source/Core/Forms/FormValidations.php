@@ -4,6 +4,8 @@
 namespace CD\Core\Forms;
 
 
+use CD\Core\CSRFToken;
+
 abstract class FormValidations extends Form
 {
     public const RULE_REQUIRED = 'required';
@@ -21,6 +23,8 @@ abstract class FormValidations extends Form
         self::RULE_MAX => 'Max length of this field must be {max}',
         self::RULE_MATCH => 'This field must be the same as {match}'
     ];
+
+    protected string $csrf_token;
 
     protected array $fields = [];
 
@@ -50,6 +54,9 @@ abstract class FormValidations extends Form
 
     public function validate()
     {
+        if (isset($this->csrf_token) && !CSRFToken::verifyCSRFToken($this->csrf_token)) {
+            return false;
+        }
         foreach ($this->rules() as $attribute => $rules) {
             $value = $this->$attribute;
             foreach ($rules as $rule) {

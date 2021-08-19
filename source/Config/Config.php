@@ -37,7 +37,7 @@ class Config
      * Secret key for hashing
      * @var string
      */
-    public const SECRET_KEY = 'true4espMnrT2QfZqbotQKHE97RZDgpCmBWR';
+    public const SECRET_KEY = 'Spv6TcDxCR15wRDTWKAc9Wg4TBsNfUuX';
 
     public const MAX_LOGIN_AGE = 60 * 60 * 24; // 1 day
 
