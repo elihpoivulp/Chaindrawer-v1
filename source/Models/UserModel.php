@@ -100,7 +100,7 @@ class UserModel extends BaseDBModel
                 JOIN Accounts A on A.AccountID = M.AccountID
                 WHERE M.UserID = :id";
         $s = $this->db->prepare($sql);
-        $s->bindValue(':id', 1, PDO::PARAM_INT);
+        $s->bindValue(':id', $this->UserID, PDO::PARAM_INT);
         $s->setFetchMode(PDO::FETCH_CLASS, ManagerModel::class);
         $s->execute();
         return $s->fetch();
