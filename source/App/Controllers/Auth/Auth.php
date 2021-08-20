@@ -16,7 +16,7 @@ use Exception;
 
 class Auth extends FormController
 {
-    static protected string $namespace = 'home';
+    static protected string $template_namespace = 'home';
     public const ROLE_ROUTES = [
         'manager' => 'manager/dashboard',
         'admin' => 'admin'
@@ -30,7 +30,7 @@ class Auth extends FormController
     public function __construct(array $params, View $view, Request $request)
     {
         parent::__construct($params, $view, $request);
-        $this->registerPath(VIEWS_PATH . '/' . static::$namespace, static::$namespace);
+        $this->registerPath(VIEWS_PATH . '/' . static::$template_namespace, static::$template_namespace);
         // $this->loadModel(AuthenticationModel::class);
         $this->loadModel('AuthenticationModel');
     }

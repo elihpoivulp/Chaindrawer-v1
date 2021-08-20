@@ -7,7 +7,7 @@ use CD\Core\Models\Model;
 
 class Controller
 {
-    static protected string $namespace = '';
+    static protected string $template_namespace = '';
     protected $model = null;
     protected string $modelNamespace = 'CD\\Models';
     protected array $params;
@@ -65,7 +65,7 @@ class Controller
 
     protected function render(string $template_name, array $context = [], ?string $namespace = null): void
     {
-        $namespace = $namespace ?? static::$namespace;
+        $namespace = $namespace ?? static::$template_namespace;
         if (!empty($namespace)) {
             if (str_starts_with($template_name, '@')) {
                 // $template_name = preg_replace('/^@\w+\/([\w\d\/.]$)/', "@$namespace/$1", $template_name);

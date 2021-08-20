@@ -12,12 +12,12 @@ use Exception;
 
 class Manager extends ManagerViewOnly
 {
-    static protected string $namespace = 'manager';
+    static protected string $template_namespace = 'manager';
 
     public function __construct(array $params, View $view, Request $request)
     {
         parent::__construct($params, $view, $request);
-        $this->registerPath(VIEWS_PATH . "/" . static::$namespace, static::$namespace);
+        $this->registerPath(VIEWS_PATH . "/" . static::$template_namespace, static::$template_namespace);
     }
 
     public function indexAction()
