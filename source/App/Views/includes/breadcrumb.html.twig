@@ -7,7 +7,11 @@
                 {% if key == 'active' %}
                     {% set active = 'active' %}
                 {% endif %}
-                <li class="breadcrumb-item {{ active }}">{{ page|title }}</li>
+                {% if page.url != null %}
+                    <li class="breadcrumb-item {{ active }}"><a href="{{ page.url }}">{{ page.name|title }}</a></li>
+                {% else %}
+                    <li class="breadcrumb-item {{ active }}">{{ page.name|title }}</li>
+                {% endif %}
             {% endfor %}
         </ol>
     </div>
