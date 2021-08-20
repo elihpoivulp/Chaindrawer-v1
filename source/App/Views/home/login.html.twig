@@ -20,7 +20,7 @@
             {% autoescape false %}
                 {{ form.begin('post', action, ['col-md-5', 'p-0', 'mx-auto']) }}
                 {{ getFlashAlert('msg') }}
-                {{ form.field('username').required }}
+                {{ form.field('username').required.autofocus }}
                 {{ form.field('password').password.required }}
                 <div class="text-center">
                     <button class="btn btn-accent">Login</button>

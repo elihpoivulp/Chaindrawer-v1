@@ -3,7 +3,10 @@
     {% include 'includes/breadcrumb.html.twig' with {
         'section': 'Account',
         'trails': {
-            'active': 'Dashboard'
+            'active': {
+                'url': null,
+                'name': 'Dashboard'
+            }
         }
     } %}
 {% endblock breadcrumb %}

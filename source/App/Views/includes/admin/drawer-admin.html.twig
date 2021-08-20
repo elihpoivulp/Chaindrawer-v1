@@ -14,9 +14,9 @@
             </div>
             <div class="sidebar-heading">Overview</div>
             <ul class="sidebar-menu">
-                <li class="sidebar-menu-item active">
+                <li class="sidebar-menu-item {% if get_uri(1) == null %}active{% endif %}">
                     <a class="sidebar-menu-button"
-                       href="#">
+                       href="{{ site_url('admin') }}">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">insert_chart_outlined</span>
                         <span class="sidebar-menu-text">Dashboard</span>
                     </a>
@@ -25,7 +25,7 @@
 
             <div class="sidebar-heading">Axie Infinity</div>
             <ul class="sidebar-menu">
-                <li class="sidebar-menu-item">
+                <li class="sidebar-menu-item {% if get_uri(1) == 'teams' %}active open{% endif %}">
                     <a class="sidebar-menu-button js-sidebar-collapse"
                        data-toggle="collapse"
                        href="#teams_menu">
@@ -35,15 +35,15 @@
                     </a>
                     <ul class="sidebar-submenu collapse sm-indent"
                         id="teams_menu">
-                        <li class="sidebar-menu-item">
+                        <li class="sidebar-menu-item {% if get_uri(1) == 'teams' and get_uri(2) == null %}active{% endif %}">
                             <a class="sidebar-menu-button"
-                               href="#">
+                               href="{{ site_url('admin/teams') }}">
                                 <span class="sidebar-menu-text">All Teams</span>
                             </a>
                         </li>
-                        <li class="sidebar-menu-item">
+                        <li class="sidebar-menu-item {% if get_uri(1) == 'teams' and get_uri(2) == 'new' %}active{% endif %}">
                             <a class="sidebar-menu-button"
-                               href="#">
+                               href="{{ site_url('admin/teams/new') }}">
                                 <span class="sidebar-menu-text">New Team</span>
                             </a>
                         </li>

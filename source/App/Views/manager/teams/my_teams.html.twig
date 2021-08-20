@@ -3,7 +3,10 @@
     {% include 'includes/breadcrumb.html.twig' with {
         'section': 'Teams',
         'trails': {
-            'active': 'My Teams'
+            'active': {
+                'url': null,
+                'name': 'My Teams'
+            }
         }
     } %}
 {% endblock breadcrumb %}
