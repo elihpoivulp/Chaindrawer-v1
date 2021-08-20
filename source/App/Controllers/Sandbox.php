@@ -20,7 +20,8 @@ class Sandbox extends Controller
         //     $result .= "$key = :$key AND ";
         // }
         // print_r($result);
-
+        $money = '1000000.0';
+        echo preg_match('/^\d+\.\d{2}/', $money);
         echo '</pre>';
     }
 }
