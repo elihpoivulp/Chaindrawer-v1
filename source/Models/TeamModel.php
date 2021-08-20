@@ -60,4 +60,28 @@ class TeamModel extends DBFormModel
         return $s->execute();
 
     }
+
+    public function getInfo()
+    {
+        $s = $this->db->prepare(
+            'SELECT * FROM TeamInfo WHERE TeamID = :id'
+        );
+        $s->execute([':id' => $this->AssetTeamID]);
+        return $s->fetch();
+    }
+
+    public function getTeamManagers()
+    {
+        $s = $this->db->prepare(
+            '
+                SELECT 
+                MS.ManagerAccountID,
+                ROUND((MS.ManagerShareAmount / SFAT.SharesForAssetTeamGoalAmount) * 100, 2) AS OwnershipRate
+                FROM ManagerShares MS
+                JOIN SharesForAssetTeams SFAT ON SFAT.SharesForAssetTeamID = MS.FundForAssetTeamID 
+                WHERE SharesForAssetTeamID = :id'
+        );
+        $s->execute([':id' => $this->AssetTeamID]);
+        return $s->fetchAll();
+    }
 }

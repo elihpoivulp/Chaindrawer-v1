@@ -177,7 +177,7 @@ class UserModel extends BaseDBModel
                 GROUP BY SFAT.SharesForAssetTeamID ASC
                 ";
             $s = $this->db->prepare($sql);
-            $s->setFetchMode(PDO::FETCH_CLASS, TeamsModel::class);
+            $s->setFetchMode(PDO::FETCH_CLASS, TeamModel::class);
             $s->execute([':id' => $this->manager->ManagerAccountID]);
             return $s->fetchAll();
         }
