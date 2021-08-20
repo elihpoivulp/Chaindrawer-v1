@@ -19,6 +19,7 @@ class Teams extends AdminViewOnly
     {
         parent::__construct($params, $view, $request);
         $this->registerPath(VIEWS_PATH . "/"  . static::$template_namespace, static::$template_namespace);
+        $this->loadModel('TeamModel');
     }
 
     public function indexAction()
@@ -30,8 +31,7 @@ class Teams extends AdminViewOnly
 
     public function newTeamAction()
     {
-        $model = new TeamModel();
-        $form = new NewTeamForm($model);
+        $form = new NewTeamForm($this->model);
         if ($this->request->isPost()) {
             $form->loadData($this->request->getBody());
             if ($form->validate() === true) {
@@ -53,7 +53,7 @@ class Teams extends AdminViewOnly
         foreach ($platform->getAll() as $platform) {
             $platforms[$platform['AssetPlatformID']] = $platform['AssetPlatformName'];
         }
-        foreach (array_reverse($model->getTeamTypes()) as $team_type) {
+        foreach (array_reverse($this->model->getTeamTypes()) as $team_type) {
             $team_types[$team_type['TeamTypeID']] = $team_type['TeamTypeName'];
         }
         $this->render('teams/new.html.twig', [
