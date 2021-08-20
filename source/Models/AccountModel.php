@@ -13,6 +13,22 @@ class AccountModel extends BaseDBModel
     protected int $AccountOpenedByUserID;
     protected ?int $AccountUpdatedByUserID;
 
+
+    public function tableName(): string
+    {
+        return 'Accounts';
+    }
+
+    public function columns(): array
+    {
+        return ['*'];
+    }
+
+    public function primaryKey(): string
+    {
+        return 'AccountID';
+    }
+
     public function getFormattedBalance(): string
     {
         return number_format($this->getBalance(), 2);

@@ -20,6 +20,22 @@ class UserModel extends BaseDBModel
     protected ?string $UserPhoto;
     protected string $UserEmail;
 
+
+    public function tableName(): string
+    {
+        return 'Users';
+    }
+
+    public function columns(): array
+    {
+        return ['*'];
+    }
+
+    public function primaryKey(): string
+    {
+        return 'UserID';
+    }
+
     public $manager = false;
     // public array|bool $shares = false;
     // public array|bool $AssetTeams = false;
@@ -136,7 +152,7 @@ class UserModel extends BaseDBModel
                 SUM(MP.ManagerPayoutAmount) AS TotalReturned
                 FROM ManagerShares MS
                 JOIN SharesForAssetTeams SFAT on SFAT.SharesForAssetTeamID = MS.FundForAssetTeamID
-                JOIN AssetTeams A on SFAT.SharesForAssetTeamID = A.FundForAssetTeamID
+                JOIN AssetTeams A on SFAT.SharesForAssetTeamID = A.ShareForAssetTeamID
                 JOIN ManagerPayouts MP on SFAT.SharesForAssetTeamID = MP.SharesForAssetTeamID
                 WHERE MS.ManagerAccountID = :id
                 GROUP BY SFAT.SharesForAssetTeamID ASC
@@ -156,7 +172,7 @@ class UserModel extends BaseDBModel
                 A.AssetTeamName
                 FROM ManagerShares MS
                 JOIN SharesForAssetTeams SFAT on SFAT.SharesForAssetTeamID = MS.FundForAssetTeamID
-                JOIN AssetTeams A on SFAT.SharesForAssetTeamID = A.FundForAssetTeamID
+                JOIN AssetTeams A on SFAT.SharesForAssetTeamID = A.ShareForAssetTeamID
                 WHERE MS.ManagerAccountID = :id
                 GROUP BY SFAT.SharesForAssetTeamID ASC
                 ";
