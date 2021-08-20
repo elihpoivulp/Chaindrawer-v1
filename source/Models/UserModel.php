@@ -12,7 +12,7 @@ class UserModel extends BaseDBModel
 {
     protected int $UserID;
     protected string $UserFirstName;
-    protected string $UserMiddleName;
+    protected ?string $UserMiddleName;
     protected string $UserLastName;
     protected string $UserGender;
     protected string $UserAddress1;
