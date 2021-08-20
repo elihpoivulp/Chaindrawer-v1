@@ -1,0 +1,54 @@
+{% extends 'base-admin.html.twig' %}
+{% block breadcrumb %}
+    {% include 'includes/breadcrumb.html.twig' with {
+        'section': 'Teams',
+        'trails': {
+            0: {
+                'url': site_url('admin'),
+                'name': 'Dashboard'
+            },
+            1: {
+                'url': site_url('admin/teams'),
+                'name': 'Teams'
+            },
+            'active': {
+                'url': null,
+                'name': 'New Team'
+            }
+        }
+    } %}
+{% endblock breadcrumb %}
+{% block content %}
+    <div class="container-fluid page__container">
+        <div class="page-section">
+            {% autoescape false %}
+                {{ form.form.begin('post', site_url('admin/teams/new'), ['col-md-12', 'p-0', 'mx-auto']) }}
+                {{ getFlashAlert('msg') }}
+                <div class="form-row mb-3">
+                    <div class="col-md-8">
+                        {{ form.form.field('AssetTeamName', 'AssetTeamName', 'Team Name').required.autofocus }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form.form.field('Amount', 'Amount', 'Goal Amount').amount(10).required }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form.form.field('TeamTypeID', 'TeamTypeID', 'Team Type').select(form.team_types).required }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form.form.field('PlayerID', 'PlayerID', 'Player').select(form.players).required }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form.form.field('AssetPlatFormID', 'AssetPlatformID', 'Platform').select(form.platforms).required }}
+                    </div>
+                </div>
+                <div class="text-right">
+                    <button class="btn btn-outline-accent btn-rounded">
+                        <i class="material-icons icon--left">save</i>
+                        Save
+                    </button>
+                </div>
+                {{ form.form.end }}
+            {% endautoescape %}
+        </div>
+    </div>
+{% endblock content %}

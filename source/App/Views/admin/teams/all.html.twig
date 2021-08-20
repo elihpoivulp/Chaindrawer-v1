@@ -1,0 +1,23 @@
+{% extends 'base-admin.html.twig' %}
+{% block breadcrumb %}
+    {% include 'includes/breadcrumb.html.twig' with {
+        'section': 'Teams',
+        'trails': {
+            0: {
+                'url': site_url('admin'),
+                'name': 'Dashboard'
+            },
+            'active': {
+                'url': null,
+                'name': 'Teams'
+            }
+        }
+    } %}
+{% endblock breadcrumb %}
+{% block content %}
+    <div class="container-fluid page__container">
+        <div class="page-section">
+            Nothing here yet...
+        </div>
+    </div>
+{% endblock content %}
