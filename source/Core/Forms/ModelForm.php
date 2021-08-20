@@ -14,7 +14,7 @@ abstract class ModelForm extends FormValidations
         $this->model = $model;
     }
 
-    public function field(string $attribute): Field
+    public function field(string $attribute, string $id = '', string $label = ''): Field
     {
         if (!property_exists($this->model, $attribute)) {
             // TODO: Throw Exception
@@ -23,6 +23,8 @@ abstract class ModelForm extends FormValidations
         $opts = [
             'value' => $this->model->$attribute,
             'name' => $attribute,
+            'id' => $id,
+            'label' => $label,
             'extra_input_class' => $this->hasError($attribute) ? 'is-invalid' : '',
             'error_message' => $this->getFirstError($attribute)
         ];

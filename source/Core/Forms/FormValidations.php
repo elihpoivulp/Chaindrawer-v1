@@ -13,6 +13,8 @@ abstract class FormValidations extends Form
     public const RULE_MIN = 'min';
     public const RULE_MAX = 'max';
     public const RULE_MATCH = 'match';
+    public const RULE_MONEY = 'money';
+    public const RULE_NUMERIC = 'numeric';
 
     public array $errors = [];
 
@@ -21,7 +23,9 @@ abstract class FormValidations extends Form
         self::RULE_EMAIL => 'This field must be a valid email address',
         self::RULE_MIN => 'Min length of this field must be {min}',
         self::RULE_MAX => 'Max length of this field must be {max}',
-        self::RULE_MATCH => 'This field must be the same as {match}'
+        self::RULE_MATCH => 'This field must be the same as {match}',
+        self::RULE_MONEY => 'This field does not follow USD format (###,###.##)',
+        self::RULE_NUMERIC => 'This field must be a valid number'
     ];
 
     protected string $csrf_token;
@@ -78,6 +82,16 @@ abstract class FormValidations extends Form
                 }
                 if ($ruleName === self::RULE_MATCH && has_value_exactly($value, $this->{$rule['match']})) {
                     $this->addError($attribute, self::RULE_MATCH, $rule);
+                }
+                if ($ruleName === self::RULE_MONEY) {
+                    if (!preg_match('/^\d+\.\d{2}$/', str_replace(',', '', $value))) {
+                        $this->addError($attribute, self::RULE_MONEY);
+                    }
+                }
+                if ($ruleName === self::RULE_NUMERIC) {
+                    if (!preg_match('/^\d+$/', str_replace(',', '', $value))) {
+                        $this->addError($attribute, self::RULE_NUMERIC);
+                    }
                 }
             }
             $this->fields[] = $attribute;
