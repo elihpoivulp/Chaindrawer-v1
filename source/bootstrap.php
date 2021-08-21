@@ -6,3 +6,4 @@ require_once 'Config/init.php';
 require_once 'Config/constants.php';
 require_once 'Config/_env.php';
 require_once 'Helpers/url.php';
+require_once 'Helpers/text.php';
