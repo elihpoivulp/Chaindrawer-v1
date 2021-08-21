@@ -23,6 +23,7 @@ class Field
     public string $required_type = '';
     public string $error_message;
     public string $auto_focus = '';
+    public string $flush_class = '';
     /**
      * @var array|mixed
      */
@@ -65,6 +66,7 @@ class Field
         $placeholder = !empty($this->placeholder) ? $this->placeholder : $label;
         $label = ucfirst($label);
         $classes = is_array($this->extra_input_class) ? join(', ', $this->extra_input_class) : $this->extra_input_class;
+        $classes .= " $this->flush_class";
         $html = '';
         switch ($this->type) {
             case '':
@@ -119,6 +121,12 @@ class Field
     public function autofocus(): self
     {
         $this->auto_focus = 'autofocus';
+        return $this;
+    }
+
+    public function flush(): self
+    {
+        $this->flush_class = 'form-control-flush';
         return $this;
     }
 
