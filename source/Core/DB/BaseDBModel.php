@@ -22,6 +22,13 @@ abstract class BaseDBModel extends DB
         return $s->fetchAll();
     }
 
+    protected function conditionArrayToString(array $clause, string $separator = ' AND WHERE '): string
+    {
+        $clause = array_map(fn($val) => "$val = :$val", array_keys($clause));
+        $separator = trim($separator);
+        return join( " $separator ", $clause);
+    }
+
     abstract public function tableName(): string;
 
     abstract public function columns(): array;
