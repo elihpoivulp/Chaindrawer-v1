@@ -21,34 +21,44 @@
 {% block content %}
     <div class="container-fluid page__container">
         <div class="page-section">
-            {% autoescape false %}
-                {{ form.form.begin('post', site_url('admin/teams/new'), ['col-md-12', 'p-0', 'mx-auto']) }}
-                {{ getFlashAlert('msg') }}
-                <div class="form-row mb-3">
-                    <div class="col-md-8">
-                        {{ form.form.field('AssetTeamName', 'AssetTeamName', 'Team Name').required.autofocus }}
+            <div class="page-separator">
+                <div class="page-separator__text">New Team</div>
+            </div>
+            <div class="card card--raised border-left-4 border-left-accent">
+                {% autoescape false %}
+                    {{ form.form.begin('post', site_url('admin/teams/new'), ['col-md-12', 'p-0', 'mx-auto']) }}
+                    <div class="card-body">
+                        {{ getFlashAlert('msg') }}
+                        <div class="form-row mb-3">
+                            <div class="col-md-8 mt-24pt">
+                                {{ form.form.field('AssetTeamName', 'AssetTeamName', 'Team Name').required.autofocus }}
+                            </div>
+                            <div class="col-md-4 mt-24pt">
+                                {{ form.form.field('Amount', 'Amount', 'Goal Amount').amount(10).required }}
+                            </div>
+                            <div class="col-md-4 mt-24pt">
+                                {{ form.form.field('TeamTypeID', 'TeamTypeID', 'Team Type').select(form.team_types).required.flush }}
+                            </div>
+                            <div class="col-md-4 mt-24pt">
+                                {{ form.form.field('PlayerID', 'PlayerID', 'Player').select(form.players).required }}
+                            </div>
+                            <div class="col-md-4 mt-24pt">
+                                {{ form.form.field('AssetPlatFormID', 'AssetPlatformID', 'Platform').select(form.platforms).required }}
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="col-md-4">
-                        {{ form.form.field('Amount', 'Amount', 'Goal Amount').amount(10).required }}
+                    <div class="card-footer">
+                        <div class="text-right">
+                            <button class="btn btn-outline-accent btn-rounded">
+                                <i class="material-icons icon--left">save</i>
+                                Save
+                            </button>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        {{ form.form.field('TeamTypeID', 'TeamTypeID', 'Team Type').select(form.team_types).required }}
-                    </div>
-                    <div class="col-md-4">
-                        {{ form.form.field('PlayerID', 'PlayerID', 'Player').select(form.players).required }}
-                    </div>
-                    <div class="col-md-4">
-                        {{ form.form.field('AssetPlatFormID', 'AssetPlatformID', 'Platform').select(form.platforms).required }}
-                    </div>
-                </div>
-                <div class="text-right">
-                    <button class="btn btn-outline-accent btn-rounded">
-                        <i class="material-icons icon--left">save</i>
-                        Save
-                    </button>
-                </div>
-                {{ form.form.end }}
-            {% endautoescape %}
+                    {{ form.form.end }}
+                {% endautoescape %}
+            </div>
         </div>
     </div>
 {% endblock content %}
