@@ -3,17 +3,10 @@
 
 namespace CD\Core\Models;
 
-use CD\Core\DB\QueryLib;
-use PDO;
+use CD\Core\DB\BaseDBModel;
 
-abstract class DBFormModel extends QueryLib
+abstract class DBFormModel extends BaseDBModel
 {
-    protected PDO $db;
-
-    public function __construct()
-    {
-        $this->db = $this->db();
-    }
     public function setPropertyValues(array $data): void
     {
         foreach ($data as $key => $value) {
