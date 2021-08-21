@@ -39,7 +39,7 @@ class ActiveAccount extends DB
         $s = $this->db->prepare($sql);
         $s->bindValue(':token', $token, PDO::PARAM_STR);
         $s->execute();
-        $s->setFetchMode(PDO::FETCH_CLASS, UserModel::class);
+        $s->setFetchMode(PDO::FETCH_CLASS, User::class);
         return $s->fetch();
     }
 

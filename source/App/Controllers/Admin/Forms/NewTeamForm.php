@@ -36,7 +36,7 @@ class NewTeamForm extends ModelForm
     {
         $result = parent::validate();
         if ($result) {
-            $insert_id = $this->model->insertNewAmount(str_replace(',', '', $this->Amount));
+            $insert_id = $this->model->insertAmount(str_replace(',', '', $this->Amount));
             if ($insert_id) {
                 $this->model->ShareForAssetTeamID = $insert_id;
                 $saved = $this->model->saveNewTeam();

@@ -5,7 +5,7 @@ namespace CD\Core;
 use CD\Core\Sessions\Session;
 use CD\Core\Sessions\SessionsUserAuth;
 use CD\Models\ActiveAccount;
-use CD\Models\UserModel;
+use CD\Models\User;
 use Exception;
 
 class LoginRequiredController extends Controller
@@ -13,7 +13,7 @@ class LoginRequiredController extends Controller
     /**
      * @throws Exception
      */
-    protected UserModel $user;
+    protected User $user;
 
     protected function before(): bool
     {

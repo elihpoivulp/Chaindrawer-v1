@@ -8,7 +8,7 @@ use CD\Config\Config;
 use CD\Core\DB\BaseDBModel;
 use PDO;
 
-class UserModel extends BaseDBModel
+class User extends BaseDBModel
 {
     protected int $UserID;
     protected string $UserFirstName;
@@ -117,7 +117,7 @@ class UserModel extends BaseDBModel
                 WHERE M.UserID = :id";
         $s = $this->db->prepare($sql);
         $s->bindValue(':id', $this->UserID, PDO::PARAM_INT);
-        $s->setFetchMode(PDO::FETCH_CLASS, ManagerModel::class);
+        $s->setFetchMode(PDO::FETCH_CLASS, Manager::class);
         $s->execute();
         return $s->fetch();
     }
@@ -177,7 +177,7 @@ class UserModel extends BaseDBModel
                 GROUP BY SFAT.SharesForAssetTeamID ASC
                 ";
             $s = $this->db->prepare($sql);
-            $s->setFetchMode(PDO::FETCH_CLASS, TeamModel::class);
+            $s->setFetchMode(PDO::FETCH_CLASS, Team::class);
             $s->execute([':id' => $this->manager->ManagerAccountID]);
             return $s->fetchAll();
         }

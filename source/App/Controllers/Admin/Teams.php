@@ -9,6 +9,7 @@ use CD\Core\View;
 use CD\Core\ViewControllers\AdminViewOnly;
 use CD\Models\AssetPlatformModel;
 use CD\Models\PlayerModel;
+use CD\Models\Team;
 
 class Teams extends AdminViewOnly
 {
@@ -18,7 +19,7 @@ class Teams extends AdminViewOnly
     {
         parent::__construct($params, $view, $request);
         $this->registerPath(VIEWS_PATH . "/"  . static::$template_namespace, static::$template_namespace);
-        $this->loadModel('TeamModel');
+        $this->loadModel('Teams');
     }
 
     public function indexAction()
@@ -32,7 +33,7 @@ class Teams extends AdminViewOnly
 
     public function newTeamAction()
     {
-        $form = new NewTeamForm($this->model);
+        $form = new NewTeamForm(new Team());
         if ($this->request->isPost()) {
             $form->loadData($this->request->getBody());
             if ($form->validate() === true) {

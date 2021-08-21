@@ -157,6 +157,9 @@ abstract class QueryLib extends DB
 
     protected function joinColumns(array $columns, string $prefix_identifier): string
     {
-        return join(', ', array_map(fn($v) => "$prefix_identifier.$v", $columns));
+        return $table = $this->tableName();
+        $s = $this->db->prepare("SELECT * FROM $table");
+        $s->execute();
+        return $s->fetchAll();
     }
 }
