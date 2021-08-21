@@ -35,7 +35,12 @@ class AuthenticationModel extends DBFormModel
      */
     public function authenticate()
     {
-        $login = $this->select($this->columns())->where([$this->primaryKey() => $this->username])->fetch(['mode' => [PDO::FETCH_CLASS, Login::class]]);
+
+        $s = $this->db->prepare('SELECT * FROM Logins WHERE LoginUsername = :username');
+        $s->execute(['username' => $this->username]);
+        $s->setFetchMode(PDO::FETCH_CLASS, Login::class);
+        $login = $s->fetch();
+        // $login = $this->select($this->columns())->where([$this->primaryKey() => $this->username])->fetch(['mode' => []]);
         if (!$login || $login->LoginIsActive == 0) {
             return false;
         }
