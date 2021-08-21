@@ -38,6 +38,9 @@ class View
             $twig->addFunction(new TwigFunction('toShortFormat', function ($num): string {
                 return toShortFormat($num);
             }));
+            $twig->addFunction(new TwigFunction('toMoneyFormat', function ($num): string {
+                return number_format($num, 2);
+            }));
             $twig->addFunction(new TwigFunction('round', function ($num, int $precision = 2): float {
                 return round($num, $precision);
             }));
