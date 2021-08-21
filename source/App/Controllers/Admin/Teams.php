@@ -9,7 +9,6 @@ use CD\Core\View;
 use CD\Core\ViewControllers\AdminViewOnly;
 use CD\Models\AssetPlatformModel;
 use CD\Models\PlayerModel;
-use CD\Models\TeamModel;
 
 class Teams extends AdminViewOnly
 {
