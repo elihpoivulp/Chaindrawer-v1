@@ -1,0 +1,122 @@
+{% extends 'base-admin.html.twig' %}
+{% block breadcrumb %}
+    {% include 'includes/breadcrumb.html.twig' with {
+        'section': 'Teams',
+        'trails': {
+            0: {
+                'url': site_url('admin'),
+                'name': 'Dashboard'
+            },
+            1: {
+                'url': site_url('admin/teams'),
+                'name': 'Teams'
+            },
+            2: {
+                'url': site_url('admin/teams/manage'),
+                'name': 'Manage Teams'
+            },
+            'active': {
+                'url': null,
+                'name': team.TeamName
+            }
+        }
+    } %}
+{% endblock breadcrumb %}
+{% block content %}
+    <div class="container-fluid page__container">
+        <div class="page-section">
+            <div class="page-separator">
+                <div class="page-separator__text">Manage Team</div>
+            </div>
+{#            <div class="card card--raised mb-lg-32pt">#}
+{#                <div class="card-header">#}
+{#                    <h4>{{ team.AssetTeamName }}</h4>#}
+{#                </div>#}
+{#                <div class="card-body">#}
+{#                </div>#}
+{#            </div>#}
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex align-items-end">
+                                <strong>Team Details</strong>
+                            </div>
+                        </div>
+
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item">
+                                <div class="form-group row mb-0">
+                                    <strong class="col-sm-4">Team Name</strong>
+                                    <div class="col-sm-8 d-flex align-items-center">
+                                        <div class="flex">
+                                            {{ team.TeamName }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="form-group row mb-0">
+                                    <strong class="col-sm-4">Team Status</strong>
+                                    <div class="col-sm-8 d-flex align-items-center">
+                                        <div class="flex">
+                                            {% if team.TeamStatus == 1 %}
+                                                <p class="text-success">Active</p>
+                                                <p><small>This team is already earning.</small></p>
+                                            {% else %}
+                                                <p class="text-warning">Pending</p>
+                                                <p><small>Still collecting fund.</small></p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="form-group row mb-0">
+                                    <strong class="col-sm-4">Team Value</strong>
+                                    <div class="col-sm-8 d-flex align-items-center">
+                                        <div class="flex">
+                                            {{ peso_symbol ~ ' ' ~ toMoneyFormat(team.TeamValue) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="form-group row mb-0">
+                                    <strong class="col-sm-4">Team Amount Collected</strong>
+                                    <div class="col-sm-8 d-flex align-items-center">
+                                        <div class="flex">
+                                            {{ peso_symbol ~ ' ' ~ toMoneyFormat(team.TeamAmountCollected) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="form-group row mb-0">
+                                    <strong class="col-sm-4">Managers</strong>
+                                    <div class="col-sm-8 d-flex align-items-center">
+                                        <div class="flex">
+                                            {{ team.TeamManagerCount }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="form-group row mb-0">
+                                    <strong class="col-sm-4">Team Player</strong>
+                                    <div class="col-sm-8 d-flex align-items-center">
+                                        <div class="flex">
+                                            {{ team.TeamPlayerIGN }} ({{ team.TeamPlayerFullName }})
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-lg-7"></div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

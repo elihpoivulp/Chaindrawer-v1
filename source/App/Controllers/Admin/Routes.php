@@ -11,5 +11,8 @@ class Routes extends AbstractRoute
         '' => [],
         'teams' => ['action' => 'index', 'controller' => 'Teams'],
         'teams/new' => ['action' => 'newTeam', 'controller' => 'Teams'],
+        'teams/manage/' => ['action' => 'manageSelectTeam', 'controller' => 'Teams'],
+        'teams/manage/add' => ['action' => 'manageSelectManagers', 'controller' => 'Teams'],
+        'teams/manage/{slug:[a-z0-9]+(?:-[a-z0-9]+)*}' => ['action' => 'manageAdd', 'controller' => 'Teams'],
     ];
 }

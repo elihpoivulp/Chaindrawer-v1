@@ -24,8 +24,10 @@ class Teams extends AdminViewOnly
 
     public function indexAction()
     {
+        $teams = $this->model->getTeams();
         $this->render('teams/all.html.twig', [
-            'title' => 'Teams'
+            'title' => 'Teams',
+            'teams' => $teams
         ]);
     }
 
@@ -65,5 +67,37 @@ class Teams extends AdminViewOnly
                 'team_types' => $team_types
             ]
         ]);
+    }
+
+    public function manageSelectTeamAction()
+    {
+        $teams = $this->model->getPendingTeams();
+        $this->render('teams/manage_select.html.twig', [
+            'title' => 'Teams | Manage Team',
+            'teams' => $teams
+        ]);
+    }
+
+    public function manageSelectManagersAction()
+    {
+        $teams = $this->model->getPendingTeams();
+        $this->render('teams/manage_select.html.twig', [
+            'title' => 'Teams | Manage Team',
+            'teams' => $teams
+        ]);
+    }
+
+    public function manageAddAction()
+    {
+        if (has_key_presence('slug', $this->params)) {
+            $slug = $this->params['slug'];
+            if (valid_slug($slug)) {
+                $team = $this->model->getTeamBySlug($slug);
+                $this->render('teams/manage_add.html.twig', [
+                    'title' => 'Teams | Manage Team',
+                    'team' => $team
+                ]);
+            }
+        }
     }
 }

@@ -31,6 +31,27 @@ class TeamModel extends DBFormModel
         return 'AssetTeamID';
     }
 
+    public function getTeams()
+    {
+        $s = $this->db->prepare('CALL GetAllTeams();');
+        $s->execute();
+        return $s->fetchAll();
+    }
+
+    public function getTeamByStatus(int $status)
+    {
+        $s = $this->db->prepare('CALL GetTeamByStatus(:status)');
+        $s->execute(['status' => $status]);
+        return $s->fetchAll();
+    }
+
+    public function getTeamBySlug(string $slug): array
+    {
+        $s = $this->db->prepare('CALL GetTeamBySlug(:slug)');
+        $s->execute(['slug' => $slug]);
+        return $s->fetch();
+    }
+
     public function getTeamTypes(): array
     {
         $s = $this->db->prepare('SELECT * FROM TeamTypes');
@@ -50,9 +71,10 @@ class TeamModel extends DBFormModel
 
     public function saveNewTeam(): bool
     {
-        $sql = 'INSERT INTO AssetTeams (AssetTeamName, AssetPlatformID, TeamTypeID, PlayerID, ShareForAssetTeamID) VALUES (:name, :platform_id, :team_type_id, :player_id, :fund_id)';
+        $sql = 'INSERT INTO AssetTeams (AssetTeamName, AssetTeamSlug, AssetPlatformID, TeamTypeID, PlayerID, ShareForAssetTeamID) VALUES (:name, :slug, :platform_id, :team_type_id, :player_id, :fund_id)';
         $s = $this->db->prepare($sql);
         $s->bindValue(':name', $this->AssetTeamName);
+        $s->bindValue(':slug', slugify($this->AssetTeamName));
         $s->bindValue(':platform_id', $this->AssetPlatFormID, PDO::PARAM_INT);
         $s->bindValue(':team_type_id', $this->TeamTypeID, PDO::PARAM_INT);
         $s->bindValue(':player_id', $this->PlayerID, PDO::PARAM_INT);
@@ -61,14 +83,14 @@ class TeamModel extends DBFormModel
 
     }
 
-    public function getInfo()
-    {
-        $s = $this->db->prepare(
-            'SELECT * FROM TeamInfo WHERE TeamID = :id'
-        );
-        $s->execute([':id' => $this->AssetTeamID]);
-        return $s->fetch();
-    }
+    // public function getInfo(int $id)
+    // {
+    //     $s = $this->db->prepare(
+    //         'SELECT * FROM TeamInfo WHERE TeamID = :id'
+    //     );
+    //     $s->execute([':id' => $id]);
+    //     return $s->fetch();
+    // }
 
     public function getTeamManagers()
     {
@@ -84,4 +106,13 @@ class TeamModel extends DBFormModel
         $s->execute([':id' => $this->AssetTeamID]);
         return $s->fetchAll();
     }
+
+    // protected function getSelectSQL(array $where = []): string
+    // {
+    //     $sql = $this->teams_select_sql;
+    //     if (!empty($where)) {
+    //         $sql .= ' WHERE ' . $this->conditionArrayToString($where);
+    //     }
+    //     return $sql . ' GROUP BY AT.AssetTeamID';
+    // }
 }

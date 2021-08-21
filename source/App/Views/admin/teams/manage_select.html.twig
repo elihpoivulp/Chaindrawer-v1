@@ -7,9 +7,13 @@
                 'url': site_url('admin'),
                 'name': 'Dashboard'
             },
+            1: {
+                'url': site_url('admin/teams'),
+                'name': 'Teams'
+            },
             'active': {
                 'url': null,
-                'name': 'Teams'
+                'name': 'Manage Teams'
             }
         }
     } %}
@@ -18,7 +22,7 @@
     <div class="container-fluid page__container">
         <div class="page-section">
             <div class="page-separator">
-                <div class="page-separator__text">All Teams</div>
+                <div class="page-separator__text">Select Team</div>
             </div>
             <div class="card card--raised mb-lg-32pt">
                 <div class="table-responsive"
@@ -37,68 +41,28 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="col-lg d-flex flex-wrap align-items-center">
-                                <div class="ml-lg-auto dropdown">
-                                    <a href="#" class="btn btn-link dropdown-toggle text-70" data-toggle="dropdown">Status</a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a href="#" class="dropdown-item active">All</a>
-                                        <a href="#" class="dropdown-item">Active</a>
-                                        <a href="#" class="dropdown-item">Pending</a>
-                                    </div>
-                                </div>
-                                <div class="dropdown mr-8pt">
-                                    <a href="#" class="btn btn-link dropdown-toggle text-70" data-toggle="dropdown">Types</a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a href="#" class="dropdown-item active">All</a>
-                                        <a href="#" class="dropdown-item">Pioneer</a>
-                                        <a href="#" class="dropdown-item">Regular</a>
-                                    </div>
-                                </div>
-                                <a href="{{ site_url('admin/teams/new') }}" class="btn btn-outline-accent">
-                                    <i class="material-icons icon--left">add</i>
-                                    Add New Team
-                                </a>
-                            </div>
                         </div>
                     </div>
                     <table class="table mb-0 thead-border-top-0 table-nowrap">
                         <thead>
                         <tr>
+                            </th>
                             <th>
                                 <a href="javascript:void(0)"
                                    class="sort"
                                    data-sort="team-name">Team</a>
                             </th>
-
-                            <th class="text-center">
-                                <a href="javascript:void(0)"
-                                   class="sort"
-                                   data-sort="team-player">Player</a>
-                            </th>
-
-                            <th class="text-center">
-                                <a href="javascript:void(0)"
-                                   class="sort"
-                                   data-sort="team-status">Status</a>
-                            </th>
-
                             <th class="text-center">
                                 <a href="javascript:void(0)"
                                    class="sort"
                                    data-sort="team-fund-amount">Fund Amount</a>
                             </th>
-
-                            <th class="text-center">
-                                <a href="javascript:void(0)"
-                                   class="sort"
-                                   data-sort="team-type">Team Type</a>
-                            </th>
-
                             <th>
                                 <a href="javascript:void(0)"
                                    class="sort"
                                    data-sort="team-team-added">Date Added</a>
                             </th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody class="list" id="teams">
@@ -108,62 +72,31 @@
                                     <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
                                         <div class="avatar avatar-32pt mr-8pt">
                                             <img src="{{ load_static('assets/chndrwr/images/axies/axie_avatar_15.png') }}"
-                                                 alt="{{ team.TeamName }}'s Axie"
+                                                 alt="{{ team.AssetTeamName }}'s Axie"
                                                  class="avatar-img rounded-circle">
                                         </div>
                                         <div class="media-body">
                                             <div class="d-flex align-items-center">
                                                 <div class="flex d-flex flex-column">
-                                                    <a href="{{ site_url('admin/teams/manage')}}/{{ team.TeamNameSlug|url_encode }}" class="text-white">
-                                                        <p class="mb-0"><strong
-                                                                    class="team-name">{{ team.TeamName }}</strong>
-                                                        </p>
-                                                        <small class="js-lists-values-email text-50">{{ team.TeamPlatform }}</small>
-                                                    </a>
+                                                    <p class="mb-0"><strong
+                                                                class="team-name">{{ team.AssetTeamName }}</strong></p>
+                                                    <small class="js-lists-values-email text-50">{{ team.AssetPlatformName }}</small>
                                                 </div>
-                                                <a target="_blank" href="{{ team.TeamPlatformWebsite }}" class="d-flex align-items-center ml-12pt">
+                                                <a target="_blank" href="{{ team.AssetPlatformWebsiteLink }}" class="d-flex align-items-center ml-12pt">
                                                     <i class="material-icons text-20 icon-16pt">link</i>
                                                 </a>
                                             </div>
                                         </div>
                                     </div>
                                 </td>
-                                <td>
-                                    <div class="media flex-nowrap align-items-center"
-                                         style="white-space: nowrap;">
-                                        <div class="avatar avatar-32pt mr-8pt">
-                                            <span class="avatar-title rounded-circle">{{ team.TeamPlayerFirstName|first ~ team.TeamPlayerLastName|first }}</span>
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="d-flex align-items-center">
-                                                <div class="flex d-flex flex-column">
-                                                    <p class="mb-0"><strong
-                                                                class="team-player">{{ team.TeamPlayerFullName }}</strong>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <td class="text-center">
+                                    <small class="team-fund-amount"><strong>{{ peso_symbol ~ ' ' ~ toMoneyFormat(team.SharesForAssetTeamGoalAmount) }}</strong></small>
                                 </td>
                                 <td>
-                                    <div class="text-center">
-                                        <small class="team-status text-50 mb-4pt">
-                                            {% if team.TeamStatus == 1 %}
-                                                <span class="text-success">Active</span>
-                                            {% else %}
-                                                <span class="text-warning">Pending</span>
-                                            {% endif %}
-                                        </small>
-                                    </div>
+                                    <small class="team-type"><strong>{{ team.AssetTeamDateAdded|date('M j, o') }}</strong></small>
                                 </td>
                                 <td class="text-center">
-                                    <small class="team-fund-amount"><strong>{{ peso_symbol ~ ' ' ~ toMoneyFormat(team.TeamValue) }}</strong></small>
-                                </td>
-                                <td class="text-center">
-                                    <small class="text-50 team-type">{{ team.TeamType }}</small>
-                                </td>
-                                <td>
-                                    <small class="team-type"><strong>{{ team.TeamDateAdded|date('M j, o') }}</strong></small>
+                                    <a href="#" class="btn btn-link">Add Managers</a>
                                 </td>
                             </tr>
                         {% endfor %}
