@@ -2,12 +2,11 @@
 
 namespace CD\Models;
 
-use CD\Core\Models\DBFormModel;
-use CD\Core\Sessions\Session;
+use CD\Core\DB\BaseDBModel;
 use Exception;
 use PDO;
 
-class AuthenticationModel extends DBFormModel
+class AuthenticationModel extends BaseDBModel
 {
     // static public ?string $table_name = 'AuthenticationModel';
 

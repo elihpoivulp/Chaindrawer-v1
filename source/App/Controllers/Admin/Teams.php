@@ -7,8 +7,8 @@ use CD\Core\Request;
 use CD\Core\Sessions\Session;
 use CD\Core\View;
 use CD\Core\ViewControllers\AdminViewOnly;
-use CD\Models\AssetPlatformModel;
-use CD\Models\PlayerModel;
+use CD\Models\AssetPlatforms;
+use CD\Models\Players;
 use CD\Models\Team;
 
 class Teams extends AdminViewOnly
@@ -44,8 +44,8 @@ class Teams extends AdminViewOnly
                 ]);
             }
         }
-        $player = new PlayerModel();
-        $platform = new AssetPlatformModel();
+        $player = new Players();
+        $platform = new AssetPlatforms();
         $players = [];
         $platforms = [];
         $team_types = [];

@@ -13,78 +13,7 @@
 {% block content %}
     <div class="page-section">
         <div class="row card-group-row mb-lg-8pt">
-            {% for team in my_teams %}
-                <div class="col-md-6 card-group-row__col">
-                    <div class="card card-group-row__card">
-                        <div class="card-header p-0 nav">
-                            <div class="row no-gutters flex"
-                                 role="tablist">
-                                <div class="col-auto">
-                                    <div class="p-card-header d-flex align-items-center">
-                                        <div class="h3 mb-0 mr-3">{{ team.AssetTeamName }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body d-flex flex-column">
-                            <a href="" class="d-block mb-16pt">
-                                <img src="{{ load_static('assets/chndrwr/images/axies/team-a.png') }}" alt="{{ team.AssetTeamName }}'s Axie" class="card-img card-img-cover">
-                            </a>
-{#                            <div class="progress rounded    " style="height: 8px;" data-toggle="tooltip" data-placement="top"#}
-{#                                 title="20%">#}
-{#                                <div class="progress-bar bg-accent text-black-100" role="progressbar"#}
-{#                                     style="width: 20%;"#}
-{#                                     aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">20%#}
-{#                                </div>#}
-{#                            </div>#}
-                            <div class="list-group list-group-flush">
-                                <div class="list-group-item p-16pt">
-                                    <div class="d-flex align-items-center">
-                                        <div class="flex d-flex align-items-center">
-                                            <small class="text-50 mr-16pt">
-                                                <span class="badge badge-pill badge-success">Active</span>
-                                            </small>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <div class="avatar-group flex">
-                                                <div class="avatar avatar-sm"
-                                                     data-toggle="tooltip"
-                                                     data-placement="top"
-                                                     title="boyaxie">
-                                                    <a href="">
-                                                        <img src="{{ load_static('assets/chndrwr/images/axies/axie_avatar_15.png') }}" alt="{{ app }} scholar Axie avatar" class="avatar-img rounded-circle">
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex flex flex-column align-items-center justify-content-center mt-24pt">
-                                <ul class="list-unstyled list-skills w-100">
-                                   {% for manager in team.getTeamManagers %}
-                                       <li class="mb-8pt">
-                                           <div class="text-50 border-right">
-                                               {% if manager.ManagerAccountID == account.manager.ManagerAccountID%}
-                                                   <small>Me</small>
-                                               {% else %}
-                                                   <small># {{ manager.ManagerAccountID }}</small>
-                                               {% endif %}
-                                           </div>
-                                           <div class="flex">
-                                               <div class="progress" style="height: 4px;">
-                                                   <div class="progress-bar bg-primary" role="progressbar" style="width: 40%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                                               </div>
-                                           </div>
-                                           <div class="text-70"><small>{{ manager.OwnershipRate }}</small></div>
-                                       </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
+            Nothing here yet..
         </div>
     </div>
 {% endblock content %}

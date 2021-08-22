@@ -51,6 +51,15 @@ abstract class BaseDBModel extends DB
         return join( " $separator ", $clause);
     }
 
+    public function setPropertyValues(array $data): void
+    {
+        foreach ($data as $key => $value) {
+            if (property_exists($this, $key)) {
+                $this->$key = $value;
+            }
+        }
+    }
+
     abstract public function tableName(): string;
 
     abstract public function columns(): array;

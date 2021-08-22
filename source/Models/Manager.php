@@ -2,14 +2,40 @@
 
 namespace CD\Models;
 
+use PDO;
+
 class Manager extends AccountModel
 {
-    public int $ManagerAccountID;
-    protected int $ManagerAccountRelatedUserID;
-    protected int $ManagerAccountRelatedAccountID;
-    protected int $ManagerAccountAddedByUserID;
-    protected ?int $ManagerAccountUpdatedByUserID;
+    use Person;
+    protected int $ManagerAccountID;
     protected float $ManagerTotalAsset;
+    protected string $ManagerAccountDateAdded;
+    protected string $ManagerAccountDateLastModified;
+
+    public function tableName(): string
+    {
+        return 'ManagerAccounts';
+    }
+
+    public function columns(): array
+    {
+        return ['*'];
+    }
+
+    public function primaryKey(): string
+    {
+        return 'ManagerAccountID';
+    }
+
+    public function getManagerDateAdded(): string
+    {
+        return $this->ManagerAccountDateAdded;
+    }
+
+    public function getManagerDateModified(): string
+    {
+        return $this->ManagerAccountDateLastModified;
+    }
 
     public function getFormattedAsset(): string
     {
@@ -35,6 +61,59 @@ class Manager extends AccountModel
                 GROUP BY MONTH(ManagerPayoutDateReceived)";
         $s = $this->db->prepare($sql);
         $s->execute([':id' => $this->ManagerAccountID, ':year' => $year]);
+        return $s->fetchAll();
+    }
+
+    public function getTeamsAndPayouts(): array
+    {
+        $sql = "SELECT
+                A.AssetTeamName,
+                MS.ManagerShareAmount,
+                SUM(MP.ManagerPayoutAmount) AS TotalReturned
+                FROM ManagerShares MS
+                JOIN SharesForAssetTeams SFAT on SFAT.SharesForAssetTeamID = MS.FundForAssetTeamID
+                JOIN AssetTeams A on SFAT.SharesForAssetTeamID = A.ShareForAssetTeamID
+                JOIN ManagerPayouts MP on SFAT.SharesForAssetTeamID = MP.SharesForAssetTeamID
+                WHERE MS.ManagerAccountID = :id
+                GROUP BY SFAT.SharesForAssetTeamID ASC
+                ";
+        $s = $this->db->prepare($sql);
+        $s->execute([':id' => $this->ManagerAccountID]);
+        return $s->fetchAll();
+    }
+
+    public function getShares(): array
+    {
+        $sql = "SELECT ManagerShareID, ManagerShareAmount, ManagerSharePurchaseDate, ManagerShareDateLastModified FROM ManagerShares
+                WHERE ManagerAccountID = :id";
+        $s = $this->db->prepare($sql);
+        $s->execute([':id' => $this->ManagerAccountID]);
+        return $s->fetchAll(PDO::FETCH_CLASS, ManagerSharesModel::class);
+    }
+
+    public function getTotalIncome(): string
+    {
+        $sql = "SELECT SUM(ManagerPayoutAmount) AS TotalIncome FROM ManagerPayouts
+                WHERE ManagerAccountID = :id";
+        $s = $this->db->prepare($sql);
+        $s->execute([':id' => $this->ManagerAccountID]);
+        return toShortFormat($s->fetchAll()[0]['TotalIncome']);
+    }
+
+    public function getMyTeams(): array
+    {
+        $sql = "SELECT
+                A.AssetTeamID,
+                A.AssetTeamName
+                FROM ManagerShares MS
+                JOIN SharesForAssetTeams SFAT on SFAT.SharesForAssetTeamID = MS.FundForAssetTeamID
+                JOIN AssetTeams A on SFAT.SharesForAssetTeamID = A.ShareForAssetTeamID
+                WHERE MS.ManagerAccountID = :id
+                GROUP BY SFAT.SharesForAssetTeamID ASC
+                ";
+        $s = $this->db->prepare($sql);
+        $s->setFetchMode(PDO::FETCH_CLASS, Team::class);
+        $s->execute([':id' => $this->ManagerAccountID]);
         return $s->fetchAll();
     }
 }

@@ -2,17 +2,16 @@
 
 namespace CD\Models;
 
-use CD\Core\Models\DBFormModel;
+use CD\Core\DB\BaseDBModel;
 
-class AccountModel extends DBFormModel
+class AccountModel extends BaseDBModel
 {
     protected int $AccountID;
     protected string $AccountBalance;
     protected string $AccountDateOpened;
-    protected ?string $AccountDateUpdated;
-    protected int $AccountOpenedByUserID;
-    protected ?int $AccountUpdatedByUserID;
-
+    protected int $AccountIsActive;
+    protected string $AccountDateLastModified;
+    protected ?string $AccountDateClosed;
 
     public function tableName(): string
     {
@@ -27,6 +26,26 @@ class AccountModel extends DBFormModel
     public function primaryKey(): string
     {
         return 'AccountID';
+    }
+
+    public function getStatus(): int
+    {
+        return $this->AccountIsActive;
+    }
+
+    public function getDateModified(): string
+    {
+        return $this->AccountDateLastModified;
+    }
+
+    public function getDateOpened(): string
+    {
+        return $this->AccountDateOpened;
+    }
+
+    public function getDateClosed(): string
+    {
+        return $this->AccountDateClosed;
     }
 
     public function getFormattedBalance(): string

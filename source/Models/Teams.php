@@ -3,7 +3,6 @@
 namespace CD\Models;
 
 use CD\Core\DB\BaseDBModel;
-use CD\Core\Models\DBFormModel;
 use PDO;
 
 class Teams extends BaseDBModel

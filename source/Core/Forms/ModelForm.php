@@ -3,13 +3,13 @@
 
 namespace CD\Core\Forms;
 
-use CD\Core\Models\DBFormModel;
+use CD\Core\DB\BaseDBModel;
 
 abstract class ModelForm extends FormValidations
 {
     protected $model;
 
-    public function __construct(DBFormModel $model)
+    public function __construct(BaseDBModel $model)
     {
         $this->model = $model;
     }

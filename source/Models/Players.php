@@ -4,7 +4,7 @@ namespace CD\Models;
 
 use CD\Core\DB\BaseDBModel;
 
-class PlayerModel extends BaseDBModel
+class Players extends BaseDBModel
 {
     public function tableName(): string
     {

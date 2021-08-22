@@ -4,11 +4,11 @@
 namespace CD\Models;
 
 
-use CD\Core\Models\DBFormModel;
+use CD\Core\DB\BaseDBModel;
 use Exception;
 use PDO;
 
-class Login extends DBFormModel
+class Login extends BaseDBModel
 {
     public int $LoginRelatedUserID;
 

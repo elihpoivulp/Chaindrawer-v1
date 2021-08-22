@@ -25,14 +25,14 @@
                                 <p class="mb-0"><strong>Total Assets</strong></p>
                             </div>
                             <div class="col-auto border-left d-flex flex-column">
-                                <div class="h2 mb-0">{{ peso_symbol ~ ' ' ~ account.getTotalIncome }}</div>
+                                <div class="h2 mb-0">{{ peso_symbol ~ ' ' ~ account.manager.getTotalIncome }}</div>
                                 <p class="mb-0"><strong>Total Income</strong></p>
                             </div>
                         </div>
                         <a href="#"><i class="material-icons text-50">more_horiz</i></a>
                     </div>
                     <div class="card-body d-flex flex-column justify-content-start">
-                        {% for team in account.getTeamsAndPayouts %}
+                        {% for team in account.manager.getTeamsAndPayouts %}
                             {% if team.TotalReturned < team.ManagerShareAmount %}
                                 {% set return_rate = (team.TotalReturned / team.ManagerShareAmount) * 100 %}
                             {% else %}

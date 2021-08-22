@@ -2,10 +2,10 @@
 
 namespace CD\Models;
 
-use CD\Core\Models\DBFormModel;
+use CD\Core\DB\BaseDBModel;
 use PDO;
 
-class Team extends DBFormModel
+class Team extends BaseDBModel
 {
     public ?int $AssetTeamID = null;
     public string $AssetTeamName = '';
