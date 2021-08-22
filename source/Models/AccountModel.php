@@ -2,9 +2,9 @@
 
 namespace CD\Models;
 
-use CD\Core\DB\BaseDBModel;
+use CD\Core\Models\DBFormModel;
 
-class AccountModel extends BaseDBModel
+class AccountModel extends DBFormModel
 {
     protected int $AccountID;
     protected string $AccountBalance;
