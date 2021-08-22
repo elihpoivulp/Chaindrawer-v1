@@ -33,6 +33,12 @@ abstract class BaseDBModel extends DB
         return $s->fetch();
     }
 
+    public function getID()
+    {
+        $pk = $this->primaryKey();
+        return $this->$pk;
+    }
+
     protected function getColumns(): string
     {
         return join(', ', $this->columns());
