@@ -71,7 +71,7 @@ abstract class FormValidations extends Form
                 if ($ruleName === self::RULE_REQUIRED && is_blank($value)) {
                     $this->addError($attribute, self::RULE_REQUIRED);
                 }
-                if ($ruleName === self::RULE_EMAIL && has_valid_email_format($value)) {
+                if ($ruleName === self::RULE_EMAIL && !has_valid_email_format($value)) {
                     $this->addError($attribute, self::RULE_EMAIL);
                 }
                 if ($ruleName === self::RULE_MIN && has_length_less_than($value, $rule['min'])) {
