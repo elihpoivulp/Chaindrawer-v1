@@ -8,18 +8,21 @@ class Field
 {
     public const INPUT_TYPE_TEXT = 'text';
     public const INPUT_TYPE_PASSWORD = 'password';
+    public const INPUT_TYPE_EMAIL = 'email';
     public const INPUT_TYPE_AMOUNT = 'amount';
+    public const INPUT_TYPE_PHONE = 'phone';
     public const INPUT_TYPE_SELECT = 'select';
     public const INPUT_TYPE_SELECT_BASIC = 'basic';
     public const INPUT_REQUIRED = 'required';
     public const DEFAULT_MONEY_MASK = '#,##0.00';
+    public const DEFAULT_PHONE_MASK = '00000000000';
 
     public string $type;
     public string $select_type;
     public array $select_options = [];
-    public string $amount_mask;
-    public int $amount_min_length;
-    public int $amount_max_length;
+    public string $mask;
+    public int $mask_min_length;
+    public int $mask_max_length;
     public string $required_type = '';
     public string $error_message;
     public string $auto_focus = '';
@@ -72,13 +75,16 @@ class Field
             case '':
             case 'text':
             case 'password':
+            case 'email':
                 $html = $this->input_html($id, $this->name, $this->value, $label, $this->type, $classes, $placeholder, $this->required_type, $this->error_message, $this->auto_focus);
                 break;
             case 'select':
                 $html =  $this->select_html($id, $this->name, $label, $classes, $this->required_type, $this->error_message);
                 break;
             case 'amount':
-                $html = $this->amount_html($id, $this->name, $this->value, $label, $classes, $placeholder, $this->required_type, $this->error_message, $this->auto_focus);
+            case 'phone':
+                $html = $this->masked_input($id, $this->name, $this->value, $label, $classes, $placeholder, $this->required_type, $this->error_message, $this->auto_focus);
+                break;
         }
         return $html;
         // PHP 8.0:
@@ -97,10 +103,25 @@ class Field
 
     public function amount(int $max_length = 22, int $min_length = 8, string $mask = self::DEFAULT_MONEY_MASK): self
     {
-        $this->amount_mask = $mask;
-        $this->amount_min_length = $min_length;
-        $this->amount_max_length = $max_length;
+        $this->mask = $mask;
+        $this->mask_min_length = $min_length;
+        $this->mask_max_length = $max_length;
         $this->type = self::INPUT_TYPE_AMOUNT;
+        return $this;
+    }
+
+    public function phone(int $max_length = 11, int $min_length = 11, string $mask = self::DEFAULT_PHONE_MASK): self
+    {
+        $this->mask = $mask;
+        $this->mask_min_length = $min_length;
+        $this->mask_max_length = $max_length;
+        $this->type = self::INPUT_TYPE_PHONE;
+        return $this;
+    }
+
+    public function email(): self
+    {
+        $this->type = self::INPUT_TYPE_EMAIL;
         return $this;
     }
 
@@ -161,11 +182,12 @@ class Field
         return $html;
     }
 
-    private function amount_html($id, $name, $value, $label, $classes, $placeholder, $required, $error_msg, $autofocus): string
+
+    private function masked_input($id, $name, $value, $label, $classes, $placeholder, $required, $error_msg, $autofocus): string
     {
         return "<div class='form-group'>
                     <label class='form-label' for='$id'>$label:</label>
-                    <input id='$id' name='$name' type='text' class='form-control $classes' placeholder='$placeholder' name='$name' value='$value' $required data-mask='$this->amount_mask' minlength='$this->amount_min_length' maxlength='$this->amount_max_length' data-mask-reverse='true' $autofocus>
+                    <input id='$id' name='$name' type='text' class='form-control $classes' placeholder='$placeholder' name='$name' value='$value' $required data-mask='$this->mask' minlength='$this->mask_min_length' maxlength='$this->mask_max_length' data-mask-reverse='true' $autofocus>
                     <div class='invalid-feedback'>
                         $error_msg
                     </div>
