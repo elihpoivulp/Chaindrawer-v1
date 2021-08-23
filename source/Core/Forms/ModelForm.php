@@ -4,6 +4,7 @@
 namespace CD\Core\Forms;
 
 use CD\Core\DB\BaseDBModel;
+use ReflectionProperty;
 
 abstract class ModelForm extends FormValidations
 {
@@ -14,17 +15,25 @@ abstract class ModelForm extends FormValidations
         $this->model = $model;
     }
 
-    public function field(string $attribute, string $id = '', string $label = ''): Field
+    public function field(string $attribute, string $id = '', string $label = '', $placeholder = ''): Field
     {
         if (!property_exists($this->model, $attribute)) {
             // TODO: Throw Exception
             exit("Attribute \"$attribute\" does not exist on Model" . get_class($this->model));
         }
+        $r_model = new ReflectionProperty($this->model, $attribute);
+        if ($r_model->isPrivate() || $r_model->isProtected()) {
+            $method = "get$attribute";
+            $value = $this->model->$method();
+        } else {
+            $value = $this->model->$attribute;
+        }
         $opts = [
-            'value' => $this->model->$attribute,
+            'value' =>  $value,
             'name' => $attribute,
             'id' => $id,
             'label' => $label,
+            'placeholder' => $placeholder,
             'extra_input_class' => $this->hasError($attribute) ? 'is-invalid' : '',
             'error_message' => $this->getFirstError($attribute)
         ];
