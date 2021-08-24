@@ -26,7 +26,7 @@ class Managers extends BaseDBModel
     public function getAllManagers()
     {
         $s = $this->db->prepare("SELECT * FROM ManagersList");
-        $s->setFetchMode(PDO::FETCH_CLASS, Manager::class);
+        $s->setFetchMode(PDO::FETCH_CLASS, User::class);
         $s->execute();
         return $s->fetchAll();
     }

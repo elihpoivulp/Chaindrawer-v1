@@ -105,7 +105,7 @@ class User extends BaseDBModel
                 WHERE M.UserID = :id";
         $s = $this->db->prepare($sql);
         $s->bindValue(':id', $this->UserID, PDO::PARAM_INT);
-        // $s->setFetchMode(PDO::FETCH_CLASS, Manager::class);
+        $s->setFetchMode(PDO::FETCH_CLASS, Manager::class);
         $s->execute();
         return $s->fetch();
     }

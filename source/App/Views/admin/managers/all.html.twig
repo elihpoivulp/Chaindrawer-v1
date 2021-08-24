@@ -88,16 +88,16 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <small class="text-50">{{ peso_symbol ~ ' ' ~ manager.getFormattedBalance }}</small>
+                                    <small class="text-50">{{ peso_symbol ~ ' ' ~ manager.manager.getFormattedBalance }}</small>
                                 </td>
                                 <td>
-                                    <small class="text-50">{{ peso_symbol ~ ' ' ~ manager.getFormattedAsset }}</small>
+                                    <small class="text-50">{{ peso_symbol ~ ' ' ~ manager.manager.getFormattedAsset }}</small>
                                 </td>
                                 <td class="text-center">
                                     <small class="text-50">{{ manager.getUserPhone }}</small>
                                 </td>
                                 <td class="text-center">
-                                    <small class="manager-date-added text-50">{{ manager.getManagerDateAdded|date('M j, o') }}</small>
+                                    <small class="manager-date-added text-50">{{ manager.manager.getManagerDateAdded|date('M j, o') }}</small>
                                 </td>
                             </tr>
                         {% endfor %}

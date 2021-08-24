@@ -6,10 +6,10 @@ use PDO;
 
 class Manager extends AccountModel
 {
-    use Person;
+    // use Person;
     protected int $ManagerAccountID;
     protected float $ManagerTotalAsset;
-    protected string $ManagerAccountDateAdded;
+    protected ?string $ManagerAccountDateAdded = null;
     protected string $ManagerAccountDateLastModified;
 
     public function tableName(): string
@@ -27,7 +27,7 @@ class Manager extends AccountModel
         return 'ManagerAccountID';
     }
 
-    public function getManagerDateAdded(): string
+    public function getManagerDateAdded()
     {
         return $this->ManagerAccountDateAdded;
     }
