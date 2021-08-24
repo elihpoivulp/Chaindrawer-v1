@@ -18,5 +18,7 @@ class Routes extends AbstractRoute
         'managers/new' => ['action' => 'new', 'controller' => 'Managers'],
         'users' => ['controller' => 'Users'],
         'users/new' => ['action' => 'new', 'controller' => 'Users'],
+        'logins' => ['controller' => 'Logins'],
+        'logins/new' => ['action' => 'new', 'controller' => 'Logins'],
     ];
 }

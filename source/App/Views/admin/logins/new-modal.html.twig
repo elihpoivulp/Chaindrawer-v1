@@ -1,0 +1,11 @@
+{% include 'includes/stylesheets-forms.html.twig' %}
+{% include 'includes/scripts-forms.html.twig' %}
+<div class="flex" style="max-width: 100%">
+    {% autoescape false %}
+        {{ form.form.begin('post', site_url('admin/users/new'), ['col-md-12', 'p-0', 'mx-auto']) }}
+        {{ getFlashAlert('msg') }}
+        {{ form.form.field('LoginUsername', 'LoginUsername', 'Username').required.autofocus }}
+        {{ form.form.field('UserID', 'UserID', 'Select User').select(form.users).required }}
+        {{ form.form.end }}
+    {% endautoescape %}
+</div>

@@ -1,0 +1,125 @@
+{% extends 'base-admin.html.twig' %}
+{% block page_specific_styles %}
+    {% include 'includes/stylesheets-forms.html.twig' %}
+{% endblock %}
+{% block page_specific_scripts %}
+    {% include 'includes/scripts-forms.html.twig' %}
+{% endblock %}
+{% block breadcrumb %}
+    {% include 'includes/breadcrumb.html.twig' with {
+        'trails': {
+            0: {
+                'url': site_url('admin'),
+                'name': 'Dashboard'
+            },
+            1: {
+                'url': site_url('admin/users'),
+                'name': 'Users'
+            },
+            'active': {
+                'url': null,
+                'name': 'New'
+            }
+        }
+    } %}
+{% endblock breadcrumb %}
+{% block content %}
+    <div class="container-fluid page__container">
+        <div class="page-section">
+            <h4>New User</h4>
+            {% autoescape false %}
+                {{ form.form.begin('post', site_url('admin/users/new'), [], 'new-user') }}
+                {{ getFlashAlert('msg') }}
+                <div class="card-group">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="list-group list-group-form mb-0 list-group-flush">
+                                <div class="list-group-item pb-0">
+                                    <p class="font-size-16pt">User Details</p>
+                                </div>
+                                <div class="list-group-item">
+                                    <div class="form-group row align-items-center mb-0">
+                                        <div class="col-sm-12">
+                                            {{ form.form.field('UserFirstName', 'UserFirstName', 'First Name').required.autofocus }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group-item">
+                                    <div class="form-group row align-items-center mb-0">
+                                        <div class="col-sm-12">
+                                            {{ form.form.field('UserMiddleName', 'UserMiddleName', 'Middle Name (optional)') }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group-item">
+                                    <div class="form-group row align-items-center mb-0">
+                                        <div class="col-sm-12">
+                                            {{ form.form.field('UserLastName', 'UserLastName', 'Last Name').required }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group-item">
+                                    <div class="form-group row align-items-center mb-0">
+                                        <div class="col-sm-12">
+                                            {{ form.form.field('UserEmail', 'UserEmail', 'Email', 'email@example.com').email.required }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group-item">
+                                    <div class="form-group row align-items-center mb-0">
+                                        <div class="col-sm-12">
+                                            {{ form.form.field('UserPhone', 'UserPhone', 'Phone Number', '09xxxxxxxxx').phone.required }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group-item">
+                                    <div class="form-group row align-items-center mb-0">
+                                        <div class="col-sm-12">
+                                            {{ form.form.field('UserGender', 'UserGender', 'Gender').required.select(form.genders) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group-item">
+                                    <div class="form-group row align-items-center mb-0">
+                                        <div class="col-sm-12">
+                                            {{ form.form.field('UserAddress1', 'UserAddress1', 'Address 1').required }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group-item">
+                                    <div class="form-group row align-items-center mb-0">
+                                        <div class="col-sm-12">
+                                            {{ form.form.field('UserAddress2', 'UserAddress2', 'Address 2 (optional)') }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="list-group list-group-form mb-0 list-group-flush">
+                                <div class="list-group-item pb-0">
+                                    <p class="font-size-16pt">User Details</p>
+                                </div>
+                                <div class="list-group-item">
+                                    <div class="form-group row align-items-center mb-0">
+                                        <div class="col-sm-12">
+                                            {{ form.form.field('UserFirstName', 'UserFirstName', 'Login Username').required }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                {{ form.form.end }}
+            {% endautoescape %}
+
+
+
+        </div>
+    </div>
+{% endblock content %}

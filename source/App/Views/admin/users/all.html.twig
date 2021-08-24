@@ -1,0 +1,214 @@
+{% extends 'base-admin.html.twig' %}
+{% block page_specific_scripts %}
+    {% include 'includes/scripts-tables.html.twig' %}
+    <script>
+        $(document).ready(function () {
+            $('.add-login-modal').on('click', function () {
+                const dataURL = $(this).attr('data-href');
+                $('#modal-body').load(dataURL, function () {
+                    $('#add-login').modal({show: true});
+                });
+            });
+        });
+    </script>
+    <div class="modal fade" id="add-login" tabindex="99999" aria-labelledby="add-login-label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background-color: transparent;">
+                <div class="modal-body p-0">
+                    <div class="card card--raised border-left-4 border-left-accent">
+                        <div class="card-header d-flex align-items-center">
+                            <div class="flex">
+                                <h4 class="card-title" id="add-login-label">Add Login</h4>
+                            </div>
+                        </div>
+                        <div class="card-body" id="modal-body">
+
+                        </div>
+                        <div class="card-footer">
+                            <div class="text-right">
+                                <button class="btn btn-outline-accent btn-rounded">
+                                    <i class="material-icons icon--left">save</i>
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block breadcrumb %}
+    {% include 'includes/breadcrumb.html.twig' with {
+        'section': get_uri(1)|title,
+        'trails': {
+            0: {
+                'url': site_url('admin'),
+                'name': 'Dashboard'
+            },
+            'active': {
+                'url': null,
+                'name': 'Users'
+            }
+        }
+    } %}
+{% endblock breadcrumb %}
+{% block content %}
+    <div class="container-fluid page__container">
+        <div class="page-section">
+            <h4>All Users</h4>
+            <div class="card card--raised">
+                <div class="table-responsive" data-toggle="lists" data-lists-sort-by="user-role"
+                     data-lists-sort-desc="false"
+                     data-lists-values='["user-name", "user-role", "user-date-added"]'>
+                    <div class="card-header">
+                        <div class="row align-items-center" style="white-space: nowrap;">
+                            <div class="col-lg-auto">
+                                <div class="search-form form-control-flush search-form--dark d-lg-inline-flex mb-8pt mb-lg-0">
+                                    <label for="search-table" class="d-none"></label>
+                                    <input type="text" id="search-table" class="form-control search w-lg-auto"
+                                           placeholder="Search Users...">
+                                    <button class="btn" type="button" role="button"><i class="material-icons">search</i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-lg d-flex flex-wrap align-items-center mt-2 mt-lg-0">
+                                <a href="{{ site_url('admin/users/new') }}"
+                                   class="ml-lg-auto btn btn-sm btn-outline-accent-yellow btn-rounded">
+                                    <i class="material-icons mr-2">add</i>
+                                    <span class="mr-2">New User</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table mb-0 thead-border-top-0 table-nowrap">
+                        <thead>
+                        <tr>
+                            <th>
+                                <a href="javascript:void(0)"
+                                   class="sort"
+                                   data-sort="user-name">Name</a>
+                            </th>
+                            <th>Login<br>Username</th>
+                            <th class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="sort"
+                                   data-sort="user-role">Role</a>
+                            </th>
+                            <th class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="sort"
+                                   data-sort="user-date-added">Date Added</a>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody class="list" id="managers">
+                        {% for user in users %}
+                            <tr>
+                                <td>
+                                    <div class="media flex-nowrap align-items-center"
+                                         style="white-space: nowrap;">
+                                        <div class="avatar avatar-32pt mr-8pt">
+
+                                            <span class="avatar-title rounded-circle">{{ user.getUserFirstName|first|upper ~ user.getUserLastName|first|upper }}</span>
+
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="d-flex flex-column">
+                                                <p class="mb-0"><strong
+                                                            class="user-name">{{ user.getUserName }}</strong>
+                                                </p>
+                                                <small class="js-lists-values-email text-50">{{ user.getUserEmail }}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <small class="text-50">
+                                        {% if user.getLogin %}
+                                            {{ user.getLogin.LoginUsername }}
+                                        {% else %}
+                                            <a href="javascript:void(0);" data-href="{{ site_url('admin/logins/new?ref=modal&userid=') ~ user.getUserID }}" class="add-login-modal text-success">Add login</a>
+                                        {% endif %}
+                                    </small>
+                                </td>
+                                <td class="text-center">
+                                    {% if user.getRoles %}
+                                        <span class="user-role d-none">
+                                                {% if user.getRoles|length >= 2 %}
+                                                    0
+                                                {% else %}
+                                                    1
+                                                {% endif %}
+                                            </span>
+                                        {# {{ user.getRoles|map(r => "<span class='badge badge-pill badge-dark'>#{r.RoleName}</span>")|join('/')|raw    }} #}
+                                        {% for role in user.getRoles %}
+                                            {% if role.RoleName|lower == 'admin' %}
+                                                <span class='badge badge-pill badge-primary'>{{ role.RoleName }}</span>
+                                            {% else %}
+                                                <span class='badge badge-pill badge-dark'>{{ role.RoleName }}</span>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        <span class="text-danger user-role">N/A</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-center">
+                                    <small class="user-date-added text-50">
+                                        <time datetime="{{ user.getUserDateAdded|date('c') }}">
+                                            {{ user.getUserDateAdded|date('M j, o h:i a') }}
+                                        </time>
+                                    </small>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card-footer p-8pt">
+
+                    <ul class="pagination justify-content-start pagination-xsm m-0">
+                        <li class="page-item disabled">
+                            <a class="page-link"
+                               href="#"
+                               aria-label="Previous">
+                                        <span aria-hidden="true"
+                                              class="material-icons">chevron_left</span>
+                                <span>Prev</span>
+                            </a>
+                        </li>
+                        <li class="page-item dropdown">
+                            <a class="page-link dropdown-toggle"
+                               data-toggle="dropdown"
+                               href="#"
+                               aria-label="Page">
+                                <span>1</span>
+                            </a>
+                            <div class="dropdown-menu">
+                                <a href=""
+                                   class="dropdown-item active">1</a>
+                                <a href=""
+                                   class="dropdown-item">2</a>
+                                <a href=""
+                                   class="dropdown-item">3</a>
+                                <a href=""
+                                   class="dropdown-item">4</a>
+                                <a href=""
+                                   class="dropdown-item">5</a>
+                            </div>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#"
+                               aria-label="Next">
+                                <span>Next</span>
+                                <span aria-hidden="true"
+                                      class="material-icons">chevron_right</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

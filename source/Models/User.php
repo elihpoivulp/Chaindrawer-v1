@@ -28,8 +28,6 @@ class User extends BaseDBModel
     }
 
     public $manager = false;
-    // public array|bool $shares = false;
-    // public array|bool $AssetTeams = false;
 
     public function __construct()
     {
@@ -49,15 +47,48 @@ class User extends BaseDBModel
         return $s->fetchAll();
     }
 
+    public function getLogin()
+    {
+        $s = $this->db->prepare("SELECT * FROM Logins WHERE UserID = ?");
+        $s->execute([$this->UserID]);
+        return $s->fetch();
+    }
+
     public function __toString(): string
     {
-        return $this->getName();
+        return $this->getUserName();
     }
 
     public function isAdmin(): bool
     {
         $role = Config::ADMIN_TERM;
         return has_inclusion_of($role, array_column($this->getRoles(), 'RoleName'));
+    }
+
+    public function save(): bool
+    {
+        $sql = "INSERT INTO Users (UserFirstName, UserMiddleName, UserLastName, UserEmail, UserPhone, UserAddress1, UserAddress2) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $s = $this->db->prepare($sql);
+        return $s->execute([
+            $this->UserFirstName,
+            $this->UserMiddleName,
+            $this->UserLastName,
+            $this->UserEmail,
+            $this->UserPhone,
+            $this->UserAddress1,
+            $this->UserAddress2,
+        ]);
+    }
+
+    public function unsetProperties()
+    {
+        $this->UserFirstName = '';
+        $this->UserMiddleName = null;
+        $this->UserLastName = '';
+        $this->UserEmail = '';
+        $this->UserPhone = '';
+        $this->UserAddress1 = '';
+        $this->UserAddress2 = null;
     }
 
     private function getManagerAccount()
@@ -74,7 +105,7 @@ class User extends BaseDBModel
                 WHERE M.UserID = :id";
         $s = $this->db->prepare($sql);
         $s->bindValue(':id', $this->UserID, PDO::PARAM_INT);
-        $s->setFetchMode(PDO::FETCH_CLASS, Manager::class);
+        // $s->setFetchMode(PDO::FETCH_CLASS, Manager::class);
         $s->execute();
         return $s->fetch();
     }
@@ -87,5 +118,4 @@ class User extends BaseDBModel
         }
         return false;
     }
-
 }

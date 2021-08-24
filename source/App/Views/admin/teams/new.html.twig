@@ -1,4 +1,10 @@
 {% extends 'base-admin.html.twig' %}
+{% block page_specific_styles %}
+    {% include 'includes/stylesheets-forms.html.twig' %}
+{% endblock %}
+{% block page_specific_scripts %}
+    {% include 'includes/scripts-forms.html.twig' %}
+{% endblock %}
 {% block breadcrumb %}
     {% include 'includes/breadcrumb.html.twig' with {
         'section': 'Teams',
@@ -31,19 +37,25 @@
                         {{ getFlashAlert('msg') }}
                         <div class="form-row mb-3">
                             <div class="col-md-8 mt-24pt">
-                                {{ form.form.field('AssetTeamName', 'AssetTeamName', 'Team Name').required.autofocus }}
+                                <div class="form-group">
+                                    {{ form.form.field('AssetTeamName', 'AssetTeamName', 'Team Name').required.autofocus }}</div>
                             </div>
                             <div class="col-md-4 mt-24pt">
-                                {{ form.form.field('Amount', 'Amount', 'Goal Amount').amount(10).required }}
+                                <div class="form-group">
+                                    {{ form.form.field('Amount', 'Amount', 'Goal Amount').amount(10).required }}</div>
                             </div>
                             <div class="col-md-4 mt-24pt">
-                                {{ form.form.field('TeamTypeID', 'TeamTypeID', 'Team Type').select(form.team_types).required.flush }}
+                                <div class="form-group">
+                                    {{ form.form.field('TeamTypeID', 'TeamTypeID', 'Team Type').select(form.team_types).required }}</div>
                             </div>
                             <div class="col-md-4 mt-24pt">
-                                {{ form.form.field('PlayerID', 'PlayerID', 'Player').select(form.players).required }}
+                                <div class="form-group">
+                                    {{ form.form.field('PlayerID', 'PlayerID', 'Player').select(form.players).required }}</div>
                             </div>
                             <div class="col-md-4 mt-24pt">
-                                {{ form.form.field('AssetPlatFormID', 'AssetPlatformID', 'Platform').select(form.platforms).required }}
+                                <div class="form-group">
+                                    {{ form.form.field('AssetPlatFormID', 'AssetPlatformID', 'Platform').select(form.platforms).required }}
+                                </div>
                             </div>
                         </div>
 

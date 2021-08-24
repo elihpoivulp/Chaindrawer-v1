@@ -24,6 +24,7 @@ class Field
     public int $mask_min_length;
     public int $mask_max_length;
     public string $required_type = '';
+    public bool $no_label = false;
     public string $error_message;
     public string $auto_focus = '';
     public string $flush_class = '';
@@ -66,7 +67,7 @@ class Field
     {
         $id = !empty($this->id) ? $this->id : $this->name;
         $label = !empty($this->label) ? $this->label : $this->name;
-        $placeholder = !empty($this->placeholder) ? $this->placeholder : $label;
+        $placeholder = !empty($this->placeholder) ? $this->placeholder : (!empty($this->label) ? $this->label : $this->name);
         $label = ucfirst($label);
         $classes = is_array($this->extra_input_class) ? join(', ', $this->extra_input_class) : $this->extra_input_class;
         $classes .= " $this->flush_class";
@@ -76,14 +77,14 @@ class Field
             case 'text':
             case 'password':
             case 'email':
-                $html = $this->input_html($id, $this->name, $this->value, $label, $this->type, $classes, $placeholder, $this->required_type, $this->error_message, $this->auto_focus);
+                $html = $this->input_html($id, $this->name, $this->value, $this->type, $classes, $placeholder, $this->required_type, $this->error_message, $this->auto_focus);
                 break;
             case 'select':
-                $html =  $this->select_html($id, $this->name, $label, $classes, $this->required_type, $this->error_message);
+                $html =  $this->select_html($id, $this->name, $classes, $this->required_type, $this->error_message);
                 break;
             case 'amount':
             case 'phone':
-                $html = $this->masked_input($id, $this->name, $this->value, $label, $classes, $placeholder, $this->required_type, $this->error_message, $this->auto_focus);
+                $html = $this->masked_input($id, $this->name, $this->value, $classes, $placeholder, $this->required_type, $this->error_message, $this->auto_focus);
                 break;
         }
         return $html;
@@ -125,6 +126,12 @@ class Field
         return $this;
     }
 
+    public function noLabel(): self
+    {
+        $this->no_label = true;
+        return $this;
+    }
+
     public function select(array $options, string $select_type = self::INPUT_TYPE_SELECT_BASIC): self
     {
         $this->type = self::INPUT_TYPE_SELECT;
@@ -151,21 +158,34 @@ class Field
         return $this;
     }
 
-    private function input_html($id, $name, $value, $label, $type, $classes, $placeholder, $required, $error_msg, $autofocus): string
+    public function getLabel(): string
     {
-        return "<div class='form-group'>
-                    <label class='form-label' for='$id'>$label:</label>
+        $id = !empty($this->id) ? $this->id : $this->name;
+        $label = !empty($this->label) ? $this->label : $this->name;
+        return "<label class='form-label' for='$id'>$label:</label>";
+    }
+
+    protected function input_html($id, $name, $value, $type, $classes, $placeholder, $required, $error_msg, $autofocus): string
+    {
+        $lbl = '';
+        if (!$this->no_label) {
+            $lbl = $this->getLabel();
+        }
+        return $lbl . "
                     <input id='$id' type='$type' class='form-control $classes' placeholder='$placeholder' name='$name' value='$value' $required $autofocus>
                     <div class='invalid-feedback'>
                         $error_msg
                     </div>
-                </div>";
+                ";
     }
 
-    private function select_html($id, $name, $label, $classes, $required, $error_msg): string
+    protected function select_html($id, $name, $classes, $required, $error_msg): string
     {
-        $html = "<div class='form-group'>
-                   <label class='form-label' for='$id'>$label:</label>
+        $lbl = '';
+        if (!$this->no_label) {
+            $lbl = $this->getLabel();
+        }
+        $html = $lbl . "
                    <select id='$id' name='$name' data-toggle='select' class='form-control $classes' $required>";
         foreach ($this->select_options as $id => $v) {
             $selected = '';
@@ -177,20 +197,21 @@ class Field
         $html .= "</select>
                    <div class='invalid-feedback'>
                        $error_msg
-                   </div>
-               </div>";
+                   </div>";
         return $html;
     }
 
-
-    private function masked_input($id, $name, $value, $label, $classes, $placeholder, $required, $error_msg, $autofocus): string
+    protected function masked_input($id, $name, $value, $classes, $placeholder, $required, $error_msg, $autofocus): string
     {
-        return "<div class='form-group'>
-                    <label class='form-label' for='$id'>$label:</label>
+        $lbl = '';
+        if (!$this->no_label) {
+            $lbl = $this->getLabel();
+        }
+        return  $lbl . "
                     <input id='$id' name='$name' type='text' class='form-control $classes' placeholder='$placeholder' name='$name' value='$value' $required data-mask='$this->mask' minlength='$this->mask_min_length' maxlength='$this->mask_max_length' data-mask-reverse='true' $autofocus>
                     <div class='invalid-feedback'>
                         $error_msg
                     </div>
-                </div>";
+                ";
     }
 }

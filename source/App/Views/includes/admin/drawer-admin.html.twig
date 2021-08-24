@@ -170,7 +170,7 @@
                         Users
                         <span class="ml-auto sidebar-menu-toggle-icon"></span>
                     </a>
-                    <ul class="sidebar-submenu collapse sm-indent" id="users_menu">
+                    <ul class="sidebar-submenu collapse sm-indent {% if get_uri(1) == 'users' %}show{% endif %}" id="users_menu">
                         <li class="sidebar-menu-item {% if get_uri(1) == 'users' and get_uri(2) == null %}active{% endif %}">
                             <a class="sidebar-menu-button"
                                href="{{ site_url('admin/users') }}">

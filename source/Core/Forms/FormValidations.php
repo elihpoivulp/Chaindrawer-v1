@@ -6,7 +6,7 @@ namespace CD\Core\Forms;
 
 use CD\Core\CSRFToken;
 
-abstract class FormValidations extends Form
+abstract class FormValidations extends BaseForm
 {
     public const RULE_REQUIRED = 'required';
     public const RULE_EMAIL = 'email';

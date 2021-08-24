@@ -1,4 +1,7 @@
 {% extends 'base-admin.html.twig' %}
+{% block page_specific_scripts %}
+    {% include 'includes/scripts-tables.html.twig' %}
+{% endblock %}
 {% block breadcrumb %}
     {% include 'includes/breadcrumb.html.twig' with {
         'section': 'Teams',
