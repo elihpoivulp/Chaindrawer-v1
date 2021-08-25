@@ -30,9 +30,4 @@ class Token
     {
         return hash_hmac('sha256', $this->getValue(), Config::SECRET_KEY);
     }
-
-    public function test()
-    {
-
-    }
 }
