@@ -8,7 +8,7 @@ use ReflectionProperty;
 
 abstract class ModelForm extends FormValidations
 {
-    protected $model;
+    protected BaseDBModel $model;
 
     public function __construct(BaseDBModel $model)
     {
