@@ -7,11 +7,12 @@ use CD\Core\Sessions\Session;
 use CD\Core\Sessions\SessionsUserAuth;
 use CD\Models\ActiveAccount;
 use Twig\Environment;
-use Twig\TwigFunction;
-use Twig\Error\SyntaxError;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
+use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
+use Twig\TwigFunction;
 
 class View
 {
@@ -22,7 +23,11 @@ class View
     {
         if (is_null(self::$twig)) {
             self::$loader = new FilesystemLoader(VIEWS_PATH);
-            $twig = new Environment(self::$loader, ['strict_variables' => true]);
+            $twig = new Environment(self::$loader, [
+                'debug' => true,
+                'strict_variables' => true
+            ]);
+            $twig->addExtension(new DebugExtension());
 
             $_url_func = function (string $uri = ''): string {
                 return $this->siteURL(trim_slashes($uri));
@@ -38,8 +43,8 @@ class View
             $twig->addFunction(new TwigFunction('toShortFormat', function ($num): string {
                 return toShortFormat($num);
             }));
-            $twig->addFunction(new TwigFunction('toMoneyFormat', function ($num): string {
-                return number_format($num, 2);
+            $twig->addFunction(new TwigFunction('toMoneyFormat', function ($num, bool $with_decimal = true): string {
+                return number_format($num, $with_decimal ? 2 : 0);
             }));
             $twig->addFunction(new TwigFunction('round', function ($num, int $precision = 2): float {
                 return round($num, $precision);
@@ -58,11 +63,54 @@ class View
                     $role = array_column($user->getRoles(), 'RoleName');
                 }
             }
-            get_uri();
             $twig->addGlobal('app', Config::WEBSITE_NAME);
             $twig->addGlobal('user', $user);
             $twig->addGlobal('user_type', $role);
             $twig->addGlobal('peso_symbol', '₱');
+            $twig->addGlobal('colors', [
+                'avatar' => [
+                    'bg-primary',
+                    'bg-secondary',
+                    'bg-success',
+                    'bg-info',
+                    'bg-warning',
+                    'bg-danger',
+                    'bg-light',
+                    'bg-dark',
+                    'bg-black',
+                    'bg-accent',
+                    'bg-accent-red',
+                    'bg-accent-yellow',
+                    'bg-accent-dodger-blue',
+                    'bg-accent-pickled-bluewood',
+                    'bg-accent-electric-violet',
+                    'bg-primary-purple',
+                    'bg-primary-red',
+                    'bg-primary-yellow',
+                    'bg-primary-light',
+                    'bg-primary-dodger-blue',
+                    'bg-primary-pickled-bluewood',
+                    'bg-transparent',
+                    'bg-white',
+                    'bg-alt',
+                    'bg-body',
+                    'bg-darker',
+                    'bg-gradient-purple',
+                    'bg-gradient-primary',
+                    'bg-dark-blue',
+                    'bg-dark-purple',
+                    'bg-purple-gradient',
+                    'bg-black-100',
+                    'bg-black-50',
+                    'bg-black-20',
+                    'bg-white-25',
+                    'bg-white-35',
+                    'bg-white-45',
+                    'bg-white-90',
+                    'bg-white-95',
+                ]
+
+            ]);
 
             self::$twig = $twig;
         }
