@@ -33,6 +33,7 @@ abstract class BaseRestrictedViewController extends LoginRequiredController
             }
             return true;
         }
+        return false;
 
         // $user = parent::before();
         // $roles = $user->getRoles();
