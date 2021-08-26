@@ -22,13 +22,7 @@ class Manager extends ManagerViewOnly
 
     public function indexAction()
     {
-        if ($this->user->manager) {
-            $account = $this->user;
-        } else {
-            // TODO: Show error instead of exit
-            exit('This user has a Manager role but has no Manager Account');
-        }
-        $monthly = $account->manager->getPayouts();
+        $monthly = $this->account->manager->getPayouts();
         $monthly_payouts = [];
         $labels = '';
         foreach ($monthly as $payout) {
@@ -72,7 +66,7 @@ class Manager extends ManagerViewOnly
         $this->render('index.html.twig', [
             'title' => 'Dashboard',
             'data' => $data,
-            'account' => $account,
+            'account' => $this->account,
             'monthly_payouts' => $monthly,
             'menu' => [
                 'menu_page' => $this->getURIOnPos(1),
