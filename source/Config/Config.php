@@ -42,5 +42,48 @@ class Config
     public const MAX_LOGIN_AGE = 60 * 60 * 24; // 1 day
 
     public const MANAGER_TERM = 'Manager';
+
     public const ADMIN_TERM = 'Admin';
+
+    public const CHART_COLORS = [
+        "#E3EBF6",
+        "#2196F3",
+        "#ed0b4b",
+        "#00BCC2",
+        "#E4A93C",
+        "#66BB6A",
+        "#824EE1",
+        "#5567FF",
+        "#19191A",
+        "#95AAC9",
+        "#B1BBC9",
+        "#152E4D",
+        "#e3f2fd",
+        "#bbdefb",
+        "#90c9f9",
+        "#63b4f6",
+        "#42a4f5",
+        "#1f87e5",
+        "#1a75d2",
+        "#1764c0",
+        "#fee3e9",
+        "#fdb9c8",
+        "#fa8ca3",
+        "#f75c7f",
+        "#f23764",
+        "#dd024a",
+        "#c80047",
+        "#b40045",
+        "#e8f5e9",
+        "#c8e6c9",
+        "#a5d6a7",
+        "#81c784",
+        "#4caf50",
+        "#43a047",
+        "#388e3c",
+        "#2e7d32",
+        "#383B3D",
+        "#FFFFFF",
+    ];
+
 }
