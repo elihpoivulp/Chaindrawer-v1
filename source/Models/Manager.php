@@ -27,7 +27,7 @@ class Manager extends AccountModel
         return 'ManagerAccountID';
     }
 
-    public function getManagerDateAdded()
+    public function getManagerDateAdded(): ?string
     {
         return $this->ManagerAccountDateAdded;
     }
@@ -35,6 +35,11 @@ class Manager extends AccountModel
     public function getManagerDateModified(): string
     {
         return $this->ManagerAccountDateLastModified;
+    }
+
+    public function getManagerAccountID(): int
+    {
+        return $this->ManagerAccountID;
     }
 
     public function getFormattedAsset(): string
@@ -66,30 +71,30 @@ class Manager extends AccountModel
 
     public function getTeamsAndPayouts(): array
     {
+        // TODO: fix
         $sql = "SELECT
                 A.AssetTeamName,
                 MS.ManagerShareAmount,
                 SUM(MP.ManagerPayoutAmount) AS TotalReturned
                 FROM ManagerShares MS
-                JOIN SharesForAssetTeams SFAT on SFAT.SharesForAssetTeamID = MS.FundForAssetTeamID
-                JOIN AssetTeams A on SFAT.SharesForAssetTeamID = A.ShareForAssetTeamID
-                JOIN ManagerPayouts MP on SFAT.SharesForAssetTeamID = MP.SharesForAssetTeamID
+                JOIN AssetTeams A on MS.AssetTeamID = A.AssetTeamID
+                JOIN ManagerPayouts MP on A.AssetTeamID = MP.SharesForAssetTeamID
                 WHERE MS.ManagerAccountID = :id
-                GROUP BY SFAT.SharesForAssetTeamID ASC
+                GROUP BY A.AssetTeamID ASC
                 ";
         $s = $this->db->prepare($sql);
         $s->execute([':id' => $this->ManagerAccountID]);
         return $s->fetchAll();
     }
 
-    public function getShares(): array
-    {
-        $sql = "SELECT ManagerShareID, ManagerShareAmount, ManagerSharePurchaseDate, ManagerShareDateLastModified FROM ManagerShares
-                WHERE ManagerAccountID = :id";
-        $s = $this->db->prepare($sql);
-        $s->execute([':id' => $this->ManagerAccountID]);
-        return $s->fetchAll(PDO::FETCH_CLASS, ManagerSharesModel::class);
-    }
+    // public function getShares(): array
+    // {
+    //     $sql = "SELECT ManagerShareID, ManagerShareAmount, ManagerSharePurchaseDate, ManagerShareDateLastModified FROM ManagerShares
+    //             WHERE ManagerAccountID = :id";
+    //     $s = $this->db->prepare($sql);
+    //     $s->execute([':id' => $this->ManagerAccountID]);
+    //     return $s->fetchAll(PDO::FETCH_CLASS, ManagerSharesModel::class);
+    // }
 
     public function getTotalIncome(): string
     {
@@ -103,13 +108,16 @@ class Manager extends AccountModel
     public function getMyTeams(): array
     {
         $sql = "SELECT
-                A.AssetTeamID,
-                A.AssetTeamName
+                A.*,
+                TT.TeamProfitShare,
+                ROUND((MS.ManagerShareAmount / A.AssetTeamValue) * 100, 2) AS OwnershipRate,
+                AP.AssetPlatformName, AP.AssetPlatformWebsiteLink
                 FROM ManagerShares MS
-                JOIN SharesForAssetTeams SFAT on SFAT.SharesForAssetTeamID = MS.FundForAssetTeamID
-                JOIN AssetTeams A on SFAT.SharesForAssetTeamID = A.ShareForAssetTeamID
+                INNER JOIN AssetTeams A on MS.AssetTeamID = A.AssetTeamID
+                INNER JOIN TeamTypes TT on A.TeamTypeID = TT.TeamTypeID
+                INNER JOIN AssetPlatforms AP on A.AssetPlatformID = AP.AssetPlatformID
                 WHERE MS.ManagerAccountID = :id
-                GROUP BY SFAT.SharesForAssetTeamID ASC
+                GROUP BY A.AssetTeamID ASC
                 ";
         $s = $this->db->prepare($sql);
         $s->setFetchMode(PDO::FETCH_CLASS, Team::class);
