@@ -67,7 +67,7 @@ class User extends BaseDBModel
 
     public function save(): bool
     {
-        $sql = "INSERT INTO Users (UserFirstName, UserMiddleName, UserLastName, UserEmail, UserPhone, UserAddress1, UserAddress2) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO Users (UserFirstName, UserMiddleName, UserLastName, UserEmail, UserPhone, UserAddress) VALUES (?, ?, ?, ?, ?, ?)";
         $s = $this->db->prepare($sql);
         return $s->execute([
             $this->UserFirstName,
@@ -75,8 +75,7 @@ class User extends BaseDBModel
             $this->UserLastName,
             $this->UserEmail,
             $this->UserPhone,
-            $this->UserAddress1,
-            $this->UserAddress2,
+            $this->UserAddress
         ]);
     }
 
@@ -87,8 +86,7 @@ class User extends BaseDBModel
         $this->UserLastName = '';
         $this->UserEmail = '';
         $this->UserPhone = '';
-        $this->UserAddress1 = '';
-        $this->UserAddress2 = null;
+        $this->UserAddress = '';
     }
 
     private function getManagerAccount()

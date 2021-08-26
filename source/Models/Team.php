@@ -7,14 +7,29 @@ use PDO;
 
 class Team extends BaseDBModel
 {
-    public ?int $AssetTeamID = null;
+    public int $AssetTeamID;
     public string $AssetTeamName = '';
+    public float $AssetTeamValue;
+    public float $AssetTeamAmountCollected;
+    public int $AssetTeamStatus;
+    public string $AssetTeamDateAdded;
+    public string $AssetTeamDateLastModified;
+    public string $TeamPlatform;
+    public string $TeamPlatformWebsite;
+    public int $TeamManagerCount;
+    public int $TotalManagerShares;
+    public string $TeamType;
     public ?int $AssetPlatFormID = null;
     public ?int $TeamTypeID = null;
-    public ?int $PlayerID = null;
+    public ?int $TeamPlayerID = null;
+    public ?int $PlatformID = null;
+    public ?string $TeamPlayerIGN = null;
     public ?int $ShareForAssetTeamID = null;
-    public string $Amount = '';
 
+
+    // non-db fields
+    public string $Amount = '';
+    public AxieTeam $Axie;
 
     public function tableName(): string
     {
@@ -33,39 +48,61 @@ class Team extends BaseDBModel
 
     public function saveNewTeam(): bool
     {
-        $sql = 'INSERT INTO AssetTeams (AssetTeamName, AssetTeamSlug, AssetPlatformID, TeamTypeID, PlayerID, ShareForAssetTeamID) VALUES (:name, :slug, :platform_id, :team_type_id, :player_id, :fund_id)';
+        $sql = 'INSERT INTO AssetTeams (AssetTeamName, AssetTeamSlug, AssetPlatformID, TeamTypeID, PlayerID, AssetTeamValue) VALUES (:name, :slug, :platform_id, :team_type_id, :player_id, :value)';
         $s = $this->db->prepare($sql);
         $s->bindValue(':name', $this->AssetTeamName);
         $s->bindValue(':slug', slugify($this->AssetTeamName));
-        $s->bindValue(':platform_id', $this->AssetPlatFormID, PDO::PARAM_INT);
+        $s->bindValue(':platform_id', $this->PlatformID, PDO::PARAM_INT);
         $s->bindValue(':team_type_id', $this->TeamTypeID, PDO::PARAM_INT);
-        $s->bindValue(':player_id', $this->PlayerID, PDO::PARAM_INT);
-        $s->bindValue(':fund_id', $this->ShareForAssetTeamID, PDO::PARAM_INT);
+        $s->bindValue(':player_id', $this->TeamPlayerID, PDO::PARAM_INT);
+        $s->bindValue(':value', $this->Amount);
         return $s->execute();
     }
 
-    public function insertAmount()
+    public function AxieTeam()
     {
-        $sql = "INSERT INTO SharesForAssetTeams (SharesForAssetTeamGoalAmount) VALUES (:amt)";
-        $s = $this->db->prepare($sql);
-        if ($s->execute(['amt' => str_replace(',', '', $this->Amount)])) {
-            return $this->db->lastInsertId();
+        if ($this->isAxieTeam()) {
+            return $this->Axie;
         }
-        return false;
+        // TODO: Throw Exception
+        exit('This is not an axie team');
     }
+
+    // public function insertAmount()
+    // {
+    //     $sql = "INSERT INTO SharesForAssetTeams (SharesForAssetTeamGoalAmount) VALUES (:amt)";
+    //     $s = $this->db->prepare($sql);
+    //     if ($s->execute(['amt' => str_replace(',', '', $this->Amount)])) {
+    //         return $this->db->lastInsertId();
+    //     }
+    //     return false;
+    // }
 
     public function getTeamManagers()
     {
         $s = $this->db->prepare(
-            '
+            "
                 SELECT
-                MS.ManagerAccountID,
-                ROUND((MS.ManagerShareAmount / SFAT.SharesForAssetTeamGoalAmount) * 100, 2) AS OwnershipRate
+                MA.*,
+                ROUND((MS.ManagerShareAmount / $this->AssetTeamValue) * 100, 2) AS OwnershipRate
                 FROM ManagerShares MS
-                JOIN SharesForAssetTeams SFAT ON SFAT.SharesForAssetTeamID = MS.FundForAssetTeamID
-                WHERE SharesForAssetTeamID = :id'
+                JOIN ManagerAccounts MA on MS.ManagerAccountID = MA.ManagerAccountID
+                WHERE MS.AssetTeamID = :id"
         );
+        $s->setFetchMode(PDO::FETCH_CLASS, Manager::class);
         $s->execute([':id' => $this->AssetTeamID]);
         return $s->fetchAll();
+    }
+
+    protected function isAxieTeam(): bool
+    {
+        $sql = "SELECT * FROM AxieTeams WHERE AssetTeamID = :id";
+        $s = $this->db->prepare($sql);
+        $s->setFetchMode(PDO::FETCH_CLASS, AxieTeam::class);
+        $result = $s->execute([':id' => $this->AssetTeamID]);
+        if ($result) {
+            $this->Axie = $s->fetch();
+        }
+        return $result;
     }
 }

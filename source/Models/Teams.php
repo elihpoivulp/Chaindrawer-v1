@@ -40,6 +40,7 @@ class Teams extends BaseDBModel
     public function getTeamBySlug(string $slug)
     {
         $s = $this->db->prepare('CALL GetTeamBySlug(:slug)');
+        $s->setFetchMode(PDO::FETCH_CLASS, Team::class);
         $s->execute(['slug' => $slug]);
         return $s->fetch();
     }
