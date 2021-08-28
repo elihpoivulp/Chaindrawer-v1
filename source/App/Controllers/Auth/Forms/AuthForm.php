@@ -47,7 +47,7 @@ class AuthForm extends ModelForm
                     $s->execute();
                     return SessionsUserAuth::login($token);
                 }
-                // return true;
+                return true;
             } else {
                 $this->model->password = '';
                 return false;
