@@ -92,8 +92,9 @@ class User extends BaseDBModel
     private function getManagerAccount()
     {
         $sql = "SELECT
-                M.ManagerAccountID,
+                CONVERT(M.ManagerAccountID, CHAR) AS ManagerAccountID,
                 M.ManagerTotalAsset,
+                M.ManagerAccountCurrentSLPBalance,
                 A.AccountID,
                 A.AccountBalance,
                 A.AccountDateOpened,
