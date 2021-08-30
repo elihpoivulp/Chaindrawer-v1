@@ -23,12 +23,14 @@ class Manager extends ManagerViewOnly
     public function indexAction()
     {
         $monthly = $this->account->manager->getPayouts();
+        $has_monthly_data = $monthly ?? false;
+        $return_summary = $this->account->manager->getReturnSummary();
         $monthly_payouts = [];
         $labels = '';
         foreach ($monthly as $payout) {
-            $y = $payout['ManagerPayoutAmount'];
-            $labels .= date_format(date_create($payout['ManagerPayoutDateReceived']), 'M') . ', ';
-            $x = date_format(date_create($payout['ManagerPayoutDateReceived']), 'Y-m-d');
+            $y = $payout['ManagerPayoutTotalPHP'];
+            $labels .= date_format(date_create($payout['ManagerPayoutDate']), 'M') . ', ';
+            $x = date_format(date_create($payout['ManagerPayoutDate']), 'Y-m-d');
             $monthly_payouts['data'][] = ['y' => $y, 'x' => $x];
         }
         $monthly_payouts[] = 23;
@@ -67,11 +69,9 @@ class Manager extends ManagerViewOnly
             'title' => 'Dashboard',
             'data' => $data,
             'account' => $this->account,
+            'has_monthly_data' => $has_monthly_data,
             'monthly_payouts' => $monthly,
-            'menu' => [
-                'menu_page' => $this->getURIOnPos(1),
-                'menu_active' => ''
-            ]
+            'return_summary' => $return_summary,
         ]);
     }
 }

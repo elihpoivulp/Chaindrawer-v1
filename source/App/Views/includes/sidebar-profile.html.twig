@@ -11,7 +11,11 @@
 {% endif %}
 
 <a href="#" class="nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown" {{ data_caret }}>
-    <img width="32" height="32" class="rounded-circle mr-8pt" src="{{ load_static('assets/chndrwr/images/users/elliot.jpg') }}" alt="account" />
+    <div class="avatar avatar-32pt mr-8pt">
+        <span class="bg-accent avatar-title rounded-circle">
+            {{ user.getAvatarInitials }}
+        </span>
+    </div>
     <span class="flex d-flex flex-column mr-8pt">
                         <span class="{{ name_class }}">{{ user.getUserName }}</span>
                         <small class="{{ role_class }}">{{ user_type|join('/') }}</small>

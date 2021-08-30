@@ -1,0 +1,110 @@
+{% extends 'base-manager.html.twig' %}
+{% block page_specific_scripts %}
+    {% include 'includes/scripts-tables.html.twig' %}
+{% endblock %}
+{% block breadcrumb %}
+    {% include 'includes/breadcrumb.html.twig' with {
+        'trails': {
+            0: {
+                'url':  site_url('manager/dashboard'),
+                'name': 'Dashboard'
+            },
+            'active': {
+                'url': null,
+                'name': 'My Teams'
+            }
+        }
+    } %}
+{% endblock breadcrumb %}
+{% block content %}
+    <div class="page-section">
+        <h4>My Teams</h4>
+        <div class="card">
+            <div class="table-responsive"
+                 data-toggle="lists"
+                 data-lists-sort-by="team-manager-ownership"
+                 data-lists-sort-desc="true"
+                 data-lists-values='["team-name", "team-manager-ownership", "team-income-rate"]'>
+
+                <table class="table mb-0 thead-border-top-0 table-nowrap">
+                    <thead>
+                    <tr>
+                        <th style="width: 150px;">
+                            <a href="javascript:void(0)"
+                               class="sort"
+                               data-sort="team-name">Team Name</a>
+                        </th>
+                        <th class="text-center" data-toggle="tooltip" title="Small Love Potion">Team Current<br>SLP Balance</th>
+                        <th class="text-center">
+                            <a href="javascript:void(0)"
+                               class="sort"
+                               data-sort="team-income-rate">Team<br>Income Rate</a>
+                        </th>
+                        <th class="text-center">
+                            <a href="javascript:void(0)"
+                               class="sort"
+                               data-sort="team-manager-ownership">Ownership Rate</a>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody class="list" id="my-teams">
+                    {% if my_teams %}
+                        {% for team in my_teams %}
+                            <tr>
+                                <td>
+                                    <div class="media flex-nowrap align-items-center"
+                                         style="white-space: nowrap;">
+                                        <div class="avatar avatar-sm mr-8pt">
+                                        <span class="avatar-title rounded {{ random(colors['avatar']) }} text-white">
+                                            {{ team.AssetTeamName|split(' ')|map(p => "#{p}"|first)|join('') }}
+                                        </span>
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="d-flex flex-column">
+                                                <small class="team-name">
+                                                    <strong>
+                                                        <a href="{{ site_url('manager/teams') ~ '/' ~ team.AssetTeamSlug|url_encode }}">{{ team.AssetTeamName }}</a>
+                                                    </strong>
+                                                </small>
+                                                <small class="text-50">
+                                                    <a href="{{ team.AssetPlatformWebsiteLink }}"
+                                                       target="_blank">{{ team.AssetPlatformName }}</a>
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    {{ toMoneyFormat(team.AxieTeam.AxieTeamCurrentSLPBalance) }}
+                                </td>
+                                <td class="text-center">
+                                <span class="team-income-rate">
+                                {{ team.TeamProfitShare }}%
+                                </span>
+                                </td>
+                                <td class="text-center">
+                                <span class="team-manager-ownership">
+                                    {{ team.OwnershipRate }}%
+                                </span>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td>
+                                <strong>No data yet.</strong>
+                            </td>
+                        </tr>
+                    {% endif %}
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer text-right">
+                {# 15 <span class="text-50">of 1,430</span> <a href="#" class="text-50"><i class="material-icons ml-1">arrow_forward</i></a> #}
+                1 <span class="text-50">of 1</span>
+            </div>
+        </div>
+
+    </div>
+{% endblock content %}

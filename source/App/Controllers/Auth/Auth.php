@@ -87,7 +87,7 @@ class Auth extends FormController
             $login = new ActiveAccount();
             $user = $login->getRelatedUser($token);
             $role = $user->getRoles()[0] ?? null;
-            if (!is_null($role)) {
+            if (!is_null($role) && has_key_presence(strtolower($role['RoleName']), self::ROLE_ROUTES)) {
                 $role = strtolower($role['RoleName']);
                 Response::redirect(self::ROLE_ROUTES[strtolower($role)]);
             } else {

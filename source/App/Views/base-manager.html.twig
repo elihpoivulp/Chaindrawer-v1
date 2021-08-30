@@ -11,14 +11,20 @@
                     {% endblock %}
                     <div class="row" role="tablist">
                         <div class="col-auto border-left">
-                            <h6 class="m-0">&#8369; {{ account.manager.getFormattedBalance }}</h6>
+                            <strong class="m-0">{{ toMoneyFormat(account.manager.ManagerAccountCurrentSLPBalance) }}</strong>
                             <p class="text-50 mb-0 d-flex align-items-center">
-                                Balance
+                                <em data-toggle="tooltip" title="Small Love Potion">SLP</em>&nbsp;Balance
                             </p>
                         </div>
                         <div class="col-auto border-left">
-                            <a href="#" class="btn btn-accent disabled">Cash Out</a>
+                            <strong class="m-0">&#8369; {{ account.manager.getFormattedBalance }}</strong>
+                            <p class="text-50 mb-0 d-flex align-items-center">
+                                PHP Balance
+                            </p>
                         </div>
+{#                        <div class="col-auto border-left">#}
+{#                            <a href="#" class="btn btn-accent disabled">Cash Out</a>#}
+{#                        </div>#}
                     </div>
                 </div>
             </div>

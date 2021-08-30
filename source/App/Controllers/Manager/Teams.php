@@ -2,9 +2,11 @@
 
 namespace CD\App\Controllers\Manager;
 
+use CD\Config\Config;
 use CD\Core\Request;
 use CD\Core\View;
 use CD\Core\ViewControllers\ManagerViewOnly;
+use CD\Models\Teams as TeamsModel;
 
 class Teams extends ManagerViewOnly
 {
@@ -18,16 +20,15 @@ class Teams extends ManagerViewOnly
 
     public function indexAction()
     {
-        if ($this->user->manager) {
-            $account = $this->user;
-        } else {
-            // TODO: Show error instead of exit
-            exit('This user has a Manager role but has no Manager Account');
-        }
-        $my_teams = $account->manager->getMyTeams();
-        $this->render('teams/my_teams.html.twig', [
+
+        $my_teams = $this->account->manager->getMyTeams();
+        // echo '<pre>';
+        // print_r($my_teams[0]->AxieTeam());
+        // echo '</pre>';
+        // exit;
+        $this->render('teams/index.html.twig', [
             'title' => 'My Teams',
-            'account' => $account,
+            'account' => $this->account,
             'my_teams' => $my_teams,
             'menu' => [
                 'menu_page' => $this->getURIOnPos(1),
@@ -36,4 +37,64 @@ class Teams extends ManagerViewOnly
         ]);
     }
 
+    public function viewAction()
+    {
+        if (has_key_presence('slug', $this->params)) {
+            $slug = $this->params['slug'];
+            if (valid_slug($slug)) {
+                $teams = new TeamsModel();
+                $team = $teams->getTeamBySlug($slug);
+                if ($team) {
+                    $labels = [];
+                    $rates = [];
+                    $colors = [];
+                    foreach ($managers = $team->getTeamManagers() as $manager) {
+                        // $labels[] = 'INV-' . strtoupper(substr(md5($manager->getManagerAccountID()), 0, 5));
+                        $label = 'INV-' . $manager->getManagerAccountID();
+                        if ($this->account->getUserID() == intval($manager->UserID)) {
+                            $label = 'Me';
+                        }
+                        $labels[] = $label;
+                        $rates[] = $manager->OwnershipRate;
+                        while (true) {
+                            $color = array_rand(array_flip(Config::CHART_COLORS), 1);
+                            if (!in_array($color, $colors)) {
+                                $colors[] = $color;
+                                break;
+                            }
+                        }
+                    }
+                    $slp_grind = [
+                        'labels' => [],
+                        'data' => []
+                    ];
+                    foreach ($daily_grind = $team->AxieTeam()->getDailySLPGrinds() as $grind) {
+                        $slp_grind['labels'][] = date_format(date_create($grind['DailySLPGrindDateAdded']), 'D');
+                        $slp_grind['data'][] = $grind['DailySLPGrindAmount'];
+                    }
+                    $this->render('teams/view.html.twig', [
+                        'title' => $team->AssetTeamName,
+                        'account' => $this->account,
+                        'team' => $team,
+                        'charts' => [
+                            'doughnut' => [
+                                'has_data' => $managers,
+                                'labels' => implode(', ', $labels),
+                                'rates' => implode(', ', $rates),
+                                'colors' => implode(', ', $colors)
+                            ],
+                            'line' => [
+                                'has_data' => $daily_grind,
+                                'labels' => implode(', ', $slp_grind['labels']),
+                                'data' => implode(', ', $slp_grind['data']),
+                            ]
+                        ]
+                    ]);
+                } else {
+                    // TODO: 404
+                    exit('Page not found');
+                }
+            }
+        }
+    }
 }

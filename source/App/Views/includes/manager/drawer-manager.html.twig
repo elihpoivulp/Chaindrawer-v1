@@ -1,14 +1,23 @@
+{% block page_specific_styles %}
+    <style>
+        .sidebar-brand-icon {
+            width: unset !important;
+            margin: 0 auto !important;
+            height: 48px;
+        }
+    </style>
+{% endblock %}
 <div class="mdk-drawer js-mdk-drawer" id="default-drawer">
     <div class="mdk-drawer__content">
         <div class="sidebar sidebar-dark sidebar-left" data-perfect-scrollbar>
-            <a href="" class="sidebar-brand sidebar-brand-dark bg-dark">
-                <img class="sidebar-brand-icon" src="{{ load_static('assets/chndrwr/images/cd-logo-only.png') }}"
+            <a href="{{ site_url('manager') }}" class="sidebar-brand sidebar-brand-dark bg-dark">
+                <img class="sidebar-brand-icon" src="{{ load_static('assets/chndrwr/images/cd-landscape-logo-cropped.png') }}"
                      alt="{{ app }} logo">
-                {{ app }}
+{#                {{ app }}#}
             </a>
             <div class="sidebar-heading">Account</div>
             <ul class="sidebar-menu">
-                <li class="sidebar-menu-item {% if menu.menu_page == 'dashboard' %}active{% endif %}">
+                <li class="sidebar-menu-item {% if get_uri(1) == 'dashboard' %}active{% endif %}">
                     <a class="sidebar-menu-button"
                        href="{{ site_url('manager/dashboard') }}">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">insert_chart_outlined</span>
@@ -18,44 +27,27 @@
             </ul>
             <div class="sidebar-heading">Axie</div>
             <ul class="sidebar-menu">
-                <li class="sidebar-menu-item {% if menu.menu_page == 'teams' %}active open{% endif %}">
+                <li class="sidebar-menu-item {% if get_uri(1) == 'teams' %}active{% endif %}">
+                    <a class="sidebar-menu-button"
+                       href="{{ site_url('manager/teams') }}">
+                        <span class="sidebar-menu-icon sidebar-menu-icon--left fa fa-rocket"></span>
+                        <span class="sidebar-menu-text">My Teams</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item {% if get_uri(1) == 'payouts' %}active open{% endif %}">
                     <a class="sidebar-menu-button"
                        data-toggle="collapse"
                        href="#components_menu">
-                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left fa fa-rocket"></span>
-                        Teams
+                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">monetization_on</span>
+                        Payouts
                         <span class="ml-auto sidebar-menu-toggle-icon"></span>
                     </a>
-                    <ul class="sidebar-submenu collapse sm-indent"
+                    <ul class="sidebar-submenu collapse sm-indent {% if get_uri(1) == 'payouts' %}show{% endif %}"
                         id="components_menu">
-                        <li class="sidebar-menu-item {% if menu.menu_active == 'my_teams' %}active{% endif %}">
+                        <li class="sidebar-menu-item {% if get_uri(1) == 'payouts' and (get_uri(2) matches '/^\\d+$/' or get_uri(2) == null) %}active{% endif %}">
                             <a class="sidebar-menu-button"
-                               href="{{ site_url('manager/teams') }}">
-                                <span class="sidebar-menu-text">My Teams</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button"
-                               href="#">
-                                <span class="sidebar-menu-text">All Teams</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="sidebar-menu-item">
-                    <a class="sidebar-menu-button"
-                       data-toggle="collapse"
-                       href="#plugins_menu">
-                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">videogame_asset</span>
-                        Players
-                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
-                    </a>
-                    <ul class="sidebar-submenu collapse sm-indent"
-                        id="plugins_menu">
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button"
-                               href="#">
-                                <span class="sidebar-menu-text">In My Team</span>
+                               href="{{ site_url('manager/payouts') }}">
+                                <span class="sidebar-menu-text">All</span>
                             </a>
                         </li>
                     </ul>

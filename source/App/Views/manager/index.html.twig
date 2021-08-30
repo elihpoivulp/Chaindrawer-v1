@@ -32,26 +32,32 @@
                         <a href="#"><i class="material-icons text-50">more_horiz</i></a>
                     </div>
                     <div class="card-body d-flex flex-column justify-content-start">
-                        {% for team in account.manager.getTeamsAndPayouts %}
-                            {% if team.TotalReturned < team.ManagerShareAmount %}
-                                {% set return_rate = (team.TotalReturned / team.ManagerShareAmount) * 100 %}
-                            {% else %}
-                                {% set return_rate = 100 %}
-                            {% endif %}
-                            <div class="mb-8pt">
-                                <p class="d-flex align-items-center mb-4pt">
-                                    <small class="flex lh-24pt"><strong>{{ team.AssetTeamName }}</strong></small>
-                                    <small class="text-50 lh-24pt">{{ peso_symbol }} {{ toShortFormat(team.ManagerShareAmount) }}</small>
-                                </p>
-                                <div class="progress" style="height: 12px;" data-toggle="tooltip" data-placement="top"
-                                     title="{{ round(return_rate) }}%">
-                                    <div class="progress-bar bg-accent text-black-100" role="progressbar"
-                                         style="width: {{ round(return_rate) }}%;"
-                                         aria-valuenow="{{ round(return_rate) }}" aria-valuemin="0" aria-valuemax="100">{{ round(return_rate) }}%
+                        {% if return_summary %}
+                            {% for team in return_summary %}
+                                {% if team.TotalReturned < team.ManagerShareAmount %}
+                                    {% set return_rate = ((team.TotalReturned / team.ManagerShareAmount) * 100)|round(2, 'floor') %}
+                                {% else %}
+                                    {% set return_rate = 100 %}
+                                {% endif %}
+                                <div class="mb-8pt">
+                                    <p class="d-flex align-items-center mb-4pt">
+                                        <small class="flex lh-24pt"><strong>{{ team.AssetTeamName }}</strong></small>
+                                        <small class="text-50 lh-24pt">{{ peso_symbol }} {{ toShortFormat(team.ManagerShareAmount) }}</small>
+                                    </p>
+                                    <div class="progress" style="height: 12px;" data-toggle="tooltip" data-placement="top"
+                                         title="{{ return_rate }}%">
+                                        <div class="progress-bar bg-accent text-black-100" role="progressbar"
+                                             style="width: {{ return_rate }}%;"
+                                             aria-valuenow="{{ return_rate }}" aria-valuemin="0" aria-valuemax="100">{{ return_rate }}%
+                                        </div>
                                     </div>
                                 </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="d-flex align-items-center">
+                                <strong>No data yet.</strong>
                             </div>
-                        {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -61,14 +67,20 @@
                         <strong>Monthly Income Chart</strong>
                     </div>
                     <div class="card-body">
-                        <div class="chart">
-                            <canvas id="monthy_income"
-                                    class="chart-canvas js-update-chart-bar"
-                                    data-chart-prefix="{{ peso_symbol }} "
-                                    data-chart-line-background-color="gradient:primary"
-                                    data-chart-dark-mode="1">
-                            </canvas>
-                        </div>
+                        {% if has_monthly_data %}
+                            <div class="chart">
+                                <canvas id="monthy_income"
+                                        class="chart-canvas js-update-chart-bar"
+                                        data-chart-prefix="{{ peso_symbol }} "
+                                        data-chart-line-background-color="gradient:primary"
+                                        data-chart-dark-mode="1">
+                                </canvas>
+                            </div>
+                        {% else %}
+                            <div class="d-flex align-items-center">
+                                <strong>No data yet.</strong>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

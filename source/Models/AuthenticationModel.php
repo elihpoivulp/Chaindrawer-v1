@@ -34,8 +34,10 @@ class AuthenticationModel extends BaseDBModel
      */
     public function authenticate()
     {
-        $s = $this->db->prepare('SELECT * FROM Logins WHERE LoginUsername = :username');
-        $s->execute(['username' => $this->username]);
+        $s = $this->db->prepare('SELECT * FROM Logins WHERE (LoginUsername = ? OR LoginEmail = ?)');
+        $s->bindValue(1, $this->username);
+        $s->bindValue(2, $this->username);
+        $s->execute();
         $s->setFetchMode(PDO::FETCH_CLASS, Login::class);
         $login = $s->fetch();
         // $login = $this->select($this->columns())->where([$this->primaryKey() => $this->username])->fetch(['mode' => []]);

@@ -46,9 +46,9 @@ class View
             $twig->addFunction(new TwigFunction('toMoneyFormat', function ($num, bool $with_decimal = true): string {
                 return number_format($num, $with_decimal ? 2 : 0);
             }));
-            $twig->addFunction(new TwigFunction('round', function ($num, int $precision = 2): float {
-                return round($num, $precision);
-            }));
+            // $twig->addFunction(new TwigFunction('round', function ($num, int $precision = 2): float {
+            //     return round($num, $precision);
+            // }));
             $twig->addFunction(new TwigFunction('get_uri', function ($pos = null) {
                 return get_uri($pos);
             }));

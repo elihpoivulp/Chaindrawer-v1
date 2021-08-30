@@ -84,6 +84,7 @@ class Team extends BaseDBModel
             "
                 SELECT
                 MA.*,
+                CONVERT(MA.ManagerAccountID, CHAR) AS ManagerAccountID,
                 ROUND((MS.ManagerShareAmount / $this->AssetTeamValue) * 100, 2) AS OwnershipRate
                 FROM ManagerShares MS
                 JOIN ManagerAccounts MA on MS.ManagerAccountID = MA.ManagerAccountID

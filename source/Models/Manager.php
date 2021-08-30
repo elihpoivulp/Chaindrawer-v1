@@ -7,7 +7,7 @@ use PDO;
 class Manager extends AccountModel
 {
     // use Person;
-    protected int $ManagerAccountID;
+    protected string $ManagerAccountID;
     protected float $ManagerTotalAsset;
     protected ?string $ManagerAccountDateAdded = null;
     protected string $ManagerAccountDateLastModified;
@@ -37,7 +37,7 @@ class Manager extends AccountModel
         return $this->ManagerAccountDateLastModified;
     }
 
-    public function getManagerAccountID(): int
+    public function getManagerAccountID(): string
     {
         return $this->ManagerAccountID;
     }
@@ -62,23 +62,68 @@ class Manager extends AccountModel
         $year = date('Y');
         $sql = "SELECT * FROM ManagerPayouts
                 INNER JOIN ManagerAccounts MA on ManagerPayouts.ManagerAccountID = MA.ManagerAccountID
-                WHERE MA.ManagerAccountID = :id AND YEAR(ManagerPayoutDateReceived) = :year
-                GROUP BY MONTH(ManagerPayoutDateReceived)";
+                WHERE MA.ManagerAccountID = :id AND YEAR(ManagerPayoutDate) = :year
+                GROUP BY MONTH(ManagerPayoutDate)
+                ORDER BY ManagerPayoutSeen, ManagerPayoutDate DESC 
+                ";
         $s = $this->db->prepare($sql);
         $s->execute([':id' => $this->ManagerAccountID, ':year' => $year]);
         return $s->fetchAll();
     }
 
-    public function getTeamsAndPayouts(): array
+    public function getPayout(int $payout_id): array
+    {
+        $sql = "SELECT
+                AxieTeamPayoutShareRate, AxieTeamPayoutTotalAXS, AxieTeamPayoutTotalSLP,
+                AssetTeamName, AssetTeamSlug,
+                CONVERT(ManagerPayoutID, CHAR) AS ManagerPayoutID, ManagerPayoutShareRate, ManagerPayoutDate, ManagerPayoutTotalAXS, ManagerPayoutTotalSLP,
+                FortnightAxieWithdrawalTotalAXS, FortnightAxieWithdrawalTotalSLP,
+                AxieScholarPayoutShareRate, AxieScholarPayoutTotalAXS, AxieScholarPayoutTotalSLP,
+                ChainDrawerAxiePayoutShareRate, ChainDrawerAxiePayoutTotalAXS, ChainDrawerAxiePayoutTotalSLP
+                FROM
+                ManagerPayouts MP
+                INNER JOIN AxieTeamPayouts ATP on MP.AxieTeamPayoutID = ATP.AxieTeamPayoutID
+                INNER JOIN AxieTeams A on ATP.AxieTeamID = A.AssetTeamID
+                INNER JOIN AssetTeams T on A.AssetTeamID = T.AssetTeamID
+                INNER JOIN FortnightAxieWithdrawals FAW on ATP.FortnightAxieWithdrawalID = FAW.FortnightAxieWithdrawalID
+                INNER JOIN AxieScholarPayouts ASP on ATP.AxieTeamPayoutID = ASP.AxieTeamPayoutID
+                INNER JOIN ChainDrawerAxiePayouts CDAP on ATP.AxieTeamPayoutID = CDAP.AxieTeamPayoutID
+                WHERE MP.ManagerPayoutID = :id";
+        // $year = date('Y');
+        // $sql = "SELECT * FROM ManagerPayouts
+        //         INNER JOIN ManagerAccounts MA on ManagerPayouts.ManagerAccountID = MA.ManagerAccountID
+        //         WHERE MA.ManagerAccountID = :id AND YEAR(ManagerPayoutDate) = :year
+        //         GROUP BY MONTH(ManagerPayoutDate)
+        //         ORDER BY ManagerPayoutSeen, ManagerPayoutDate DESC
+        //         ";
+        $s = $this->db->prepare($sql);
+        $s->bindValue(':id', $payout_id, PDO::PARAM_INT);
+        $s->execute();
+        return $s->fetch();
+    }
+
+    public function getReturnSummary(): array
     {
         // TODO: fix
+        // this sql is slow
+        // $sql = "SELECT
+        //         @tr :=SUM(IFNULL(MP.ManagerPayoutAmount, 0)) AS TotalReturned,
+        //         A.AssetTeamName,
+        //         MS.ManagerShareAmount,
+        //         IF (@tr <= MS.ManagerShareAmount, FLOOR((@tr / MS.ManagerShareAmount) * 100), 100) AS ReturnRate
+        //         FROM ManagerShares MS
+        //         INNER JOIN AssetTeams A on MS.AssetTeamID = A.AssetTeamID
+        //         LEFT JOIN ManagerPayouts MP on A.AssetTeamID = MP.SharesForAssetTeamID
+        //         WHERE MS.ManagerAccountID = :id
+        //         GROUP BY A.AssetTeamID ASC
+        //         ";
         $sql = "SELECT
                 A.AssetTeamName,
                 MS.ManagerShareAmount,
-                SUM(MP.ManagerPayoutAmount) AS TotalReturned
+                SUM(MP.ManagerPayoutTotalPHP) AS TotalReturned
                 FROM ManagerShares MS
-                JOIN AssetTeams A on MS.AssetTeamID = A.AssetTeamID
-                JOIN ManagerPayouts MP on A.AssetTeamID = MP.SharesForAssetTeamID
+                INNER JOIN AssetTeams A on MS.AssetTeamID = A.AssetTeamID
+                LEFT JOIN ManagerPayouts MP on MS.ManagerAccountID = MP.ManagerAccountID
                 WHERE MS.ManagerAccountID = :id
                 GROUP BY A.AssetTeamID ASC
                 ";
@@ -98,7 +143,7 @@ class Manager extends AccountModel
 
     public function getTotalIncome(): string
     {
-        $sql = "SELECT SUM(ManagerPayoutAmount) AS TotalIncome FROM ManagerPayouts
+        $sql = "SELECT SUM(ManagerPayoutTotalPHP) AS TotalIncome FROM ManagerPayouts
                 WHERE ManagerAccountID = :id";
         $s = $this->db->prepare($sql);
         $s->execute([':id' => $this->ManagerAccountID]);

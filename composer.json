@@ -18,6 +18,7 @@
     "codenix-sv/coingecko-api": "^1.0",
     "ext-pdo": "*",
     "ext-json": "*",
-    "ext-iconv": "*"
+    "ext-iconv": "*",
+    "ext-ssh2": "*"
   }
 }
