@@ -256,11 +256,11 @@
                                         id</small>
                                     {% for i in 0..team.TeamManagerCount - 1 %}
                                         <small class="d-flex align-items-center font-weight-bold text-muted mb-1 {% if labels[i]  == 'Me' %}bg-dark{% endif %}">
-                                        <span class="flex text-body">
+                                        <span class="flex text-body ml-2">
                                             <i class="fa fa-chart-pie" style="color: {{ colors[i] }}"></i>
                                             {{ labels[i] }}
                                         </span>
-                                            <span class="mx-3">{{ rates[i] }}%</span>
+                                            <span class="mx-2">{{ rates[i] }}%</span>
                                         </small>
                                     {% endfor %}
                                 </div>

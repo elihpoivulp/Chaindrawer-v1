@@ -50,7 +50,7 @@ class Teams extends ManagerViewOnly
                     $colors = [];
                     foreach ($managers = $team->getTeamManagers() as $manager) {
                         // $labels[] = 'INV-' . strtoupper(substr(md5($manager->getManagerAccountID()), 0, 5));
-                        $label = 'INV-' . $manager->getManagerAccountID();
+                        $label = $manager->getManagerAccountID();
                         if ($this->account->getUserID() == intval($manager->UserID)) {
                             $label = 'Me';
                         }
