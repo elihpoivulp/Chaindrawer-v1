@@ -26,6 +26,7 @@ class LoginRequiredController extends Controller
                     'timeout' => '5000',
                 ]
             );
+            SessionsUserAuth::logout();
             Response::redirect('auth/login');
         }
         $login = new ActiveAccount();
