@@ -20,7 +20,7 @@ class SessionsUserAuth
 
     static public function isLoggedIn(): bool
     {
-        return !is_null(self::getToken()) && Session::exists('active_user_token') && Session::get('active_user_token') === self::getToken() && self::lastLoginIsRecent();
+        return !is_null(self::getToken()) && Session::exists('active_user_token') && self::lastLoginIsRecent();
     }
 
     static private function lastLoginIsRecent(): bool
