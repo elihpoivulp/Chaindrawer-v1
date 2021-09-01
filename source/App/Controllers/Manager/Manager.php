@@ -2,12 +2,11 @@
 
 namespace CD\App\Controllers\Manager;
 
-use Codenixsv\CoinGeckoApi\CoinGeckoClient;
-use CD\Config\Config;
 use CD\Core\Request;
 use CD\Core\Sessions\Session;
 use CD\Core\View;
 use CD\Core\ViewControllers\ManagerViewOnly;
+use CD\Models\SLP;
 use Exception;
 
 class Manager extends ManagerViewOnly
@@ -22,56 +21,47 @@ class Manager extends ManagerViewOnly
 
     public function indexAction()
     {
-        $monthly = $this->account->manager->getPayouts();
-        $has_monthly_data = $monthly ?? false;
-        $return_summary = $this->account->manager->getReturnSummary();
-        $monthly_payouts = [];
-        $labels = '';
-        foreach ($monthly as $payout) {
-            $y = $payout['ManagerPayoutTotalPHP'];
-            $labels .= date_format(date_create($payout['ManagerPayoutDate']), 'M') . ', ';
-            $x = date_format(date_create($payout['ManagerPayoutDate']), 'Y-m-d');
-            $monthly_payouts['data'][] = ['y' => $y, 'x' => $x];
-        }
-        $monthly_payouts[] = 23;
-        $monthly_payouts[] = .5;
-        $monthly = [
-            'payouts' => str_replace(['"0"', '"1"'], ['"barThickness"', '"barPercentage"'], json_encode($monthly_payouts)),
-            'labels' => rtrim($labels, ', ')
-        ];
-        $contract = strtolower(Config::SLP_CONTRACT_ADDRESS);
-        $data['today'] = date('F j, o');
         $api = [];
-        $data['current_rate'] = 0.00;
-        try {
-            // TODO: Add table for caching previous results
-            // $client = new CoinGeckoClient();
-            // $data['current_rate'] = $client->simple()->getTokenPrice('ethereum', $contract, 'php')[$contract]['php'];
-            // $prices = $client->contract()->getMarketChart('ethereum', $contract, 'php', '3')['prices'];
-            // foreach ($prices as $arr) {
-            //     // ManagerPayoutAmount
-            //     $date = date_format(date_create('@'. $arr[0] / 1000), 'c');
-            //     $rate = round($arr[1], 2);
-            //     $api['data'][] = ['y' => $rate, 'x' => "$date"];
-            // }
-        } catch (Exception $e) {
-            // TODO: show cached data
-            Session::setFlash('toastr', 'We\'ve encountered a minor problem, but do not fret, this is not your fault.', [
-                'type' => Session::FLASH_TYPE_WARNING,
-                'title' => 'Error',
-                'dismissable' => true
-            ]);
+        $slp = new SLP();
+        $slp_data = $slp->getData();
+        // $prices = $this->makeInterval(array_slice($slp_data['data'], round(count($slp_data['data']) / 2)));
+        $prices = array_slice($slp_data['data'], round(count($slp_data['data']) / 2));
+        $last_row = $prices[count($prices) - 1];
+        $last_known_rate = round($last_row[1], 2);
+        $cache_date = date('h:i A', ($last_row[0] / 1000));
+        foreach ($prices as $arr) {
+            // $date = date_format(date_create('@' . $arr[0] / 1000), 'c');
+            // $api['data'][] = ['y' => $rate, 'x' => "$date"];
+            $api['labels'][] = date('h:i A', $arr[0] / 1000);
+            $api['data'][] = round($arr[1], 2);
         }
-
-        $api['data'][] = ['y' => $data['current_rate'], 'x' => date_format(date_create('@'. strtotime('now')), 'c')];
-        $data['api'] = json_encode($api);
-        $this->render('index.html.twig', [
+        $this->render('index.html.twig.draft', [
             'title' => 'Dashboard',
-            'data' => $data,
-            'account' => $this->account,
-            'has_monthly_data' => $has_monthly_data,
-            'monthly_payouts' => $monthly,
-            'return_summary' => $return_summary,
+            'api' => [
+                'has_data' => isset($api['labels']),
+                'labels' => implode(', ', $api['labels']),
+                'dataset' => implode(', ', $api['data']),
+                'last_known_rate' => $last_known_rate,
+                'cache_date' => $cache_date
+            ],
+            'account' => $this->account
         ]);
     }
+
+    // private function makeInterval(array $data): array
+    // {
+    //     $prev = 0;
+    //     $i = 0;
+    //     $x = [];
+    //     $now = date('Y-m-d');
+    //     while (isset($data[$i])) {
+    //         $curr = $data[$i][0] / 1000;
+    //         if ($now === date('Y-m-d', $curr) && $curr - $prev > (60 * 5)) {
+    //             $x[] = $data[$i];
+    //             $prev = $curr;
+    //         }
+    //         $i++;
+    //     }
+    //     return $x;
+    // }
 }

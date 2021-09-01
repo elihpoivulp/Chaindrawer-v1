@@ -6,9 +6,11 @@ use CD\Core\AbstractRoute;
 
 class Routes extends AbstractRoute
 {
-    public ?string $controller = 'Manager';
+    // public ?string $controller = 'Manager';
+    public ?string $controller = 'Teams';
     public ?array $routes = [
-        'dashboard' => ['action' => 'index'],
+        // 'dashboard' => ['action' => 'index'],
+        '' => ['controller' => 'Teams'],
         'teams' => ['controller' => 'Teams'],
         'teams/{slug:[a-z0-9]+(?:-[a-z0-9]+)*}' => ['action' => 'view', 'controller' => 'Teams'],
         'payouts' => ['controller' => 'Payouts'],

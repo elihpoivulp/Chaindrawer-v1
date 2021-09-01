@@ -63,7 +63,6 @@ class Manager extends AccountModel
         $sql = "SELECT * FROM ManagerPayouts
                 INNER JOIN ManagerAccounts MA on ManagerPayouts.ManagerAccountID = MA.ManagerAccountID
                 WHERE MA.ManagerAccountID = :id AND YEAR(ManagerPayoutDate) = :year
-                GROUP BY MONTH(ManagerPayoutDate)
                 ORDER BY ManagerPayoutSeen, ManagerPayoutDate DESC 
                 ";
         $s = $this->db->prepare($sql);
@@ -88,7 +87,7 @@ class Manager extends AccountModel
                 INNER JOIN FortnightAxieWithdrawals FAW on ATP.FortnightAxieWithdrawalID = FAW.FortnightAxieWithdrawalID
                 INNER JOIN AxieScholarPayouts ASP on ATP.AxieTeamPayoutID = ASP.AxieTeamPayoutID
                 INNER JOIN ChainDrawerAxiePayouts CDAP on ATP.AxieTeamPayoutID = CDAP.AxieTeamPayoutID
-                WHERE MP.ManagerPayoutID = :id";
+                WHERE MP.ManagerPayoutID = :id GROUP BY ManagerPayoutSeen ASC, ManagerPayoutID DESC";
         // $year = date('Y');
         // $sql = "SELECT * FROM ManagerPayouts
         //         INNER JOIN ManagerAccounts MA on ManagerPayouts.ManagerAccountID = MA.ManagerAccountID

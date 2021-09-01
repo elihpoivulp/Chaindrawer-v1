@@ -15,19 +15,19 @@
                      alt="{{ app }} logo">
 {#                {{ app }}#}
             </a>
-            <div class="sidebar-heading">Account</div>
-            <ul class="sidebar-menu">
-                <li class="sidebar-menu-item {% if get_uri(1) == 'dashboard' %}active{% endif %}">
-                    <a class="sidebar-menu-button"
-                       href="{{ site_url('manager/dashboard') }}">
-                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">insert_chart_outlined</span>
-                        <span class="sidebar-menu-text">Dashboard</span>
-                    </a>
-                </li>
-            </ul>
+{#            <div class="sidebar-heading">Account</div>#}
+{#            <ul class="sidebar-menu">#}
+{#                <li class="sidebar-menu-item {% if get_uri(1) == 'dashboard' %}active{% endif %}">#}
+{#                    <a class="sidebar-menu-button"#}
+{#                       href="{{ site_url('manager/dashboard') }}">#}
+{#                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">insert_chart_outlined</span>#}
+{#                        <span class="sidebar-menu-text">Dashboard</span>#}
+{#                    </a>#}
+{#                </li>#}
+{#            </ul>#}
             <div class="sidebar-heading">Axie</div>
             <ul class="sidebar-menu">
-                <li class="sidebar-menu-item {% if get_uri(1) == 'teams' %}active{% endif %}">
+                <li class="sidebar-menu-item {% if get_uri(1) == null or get_uri(1) == 'teams' %}active{% endif %}">
                     <a class="sidebar-menu-button"
                        href="{{ site_url('manager/teams') }}">
                         <span class="sidebar-menu-icon sidebar-menu-icon--left fa fa-rocket"></span>

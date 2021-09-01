@@ -1,0 +1,205 @@
+{% extends 'base-manager.html.twig' %}
+{% block page_specific_scripts %}
+    {% include 'includes/scripts-charts.js.html.twig' %}
+    <script>
+        Charts.create('#slp_watch', 'line', {
+            tooltips: {
+                callbacks: {
+                    label: function (tooltipItem) {
+                        return '{{ peso_symbol }} ' + tooltipItem.yLabel;
+                    }
+                }
+            }
+        }, {
+            labels: '{{ api.labels }}'.split(', '),
+            datasets: [
+                {
+                    data: '{{ api.dataset }}'.split(', ')
+                }
+            ],
+        });
+    </script>
+{% endblock page_specific_scripts %}
+{% block breadcrumb %}
+    {% include 'includes/breadcrumb.html.twig' with {
+        'section': 'Account',
+        'trails': {
+            'active': {
+                'url': null,
+                'name': 'Dashboard'
+            }
+        }
+    } %}
+{% endblock breadcrumb %}
+{% block content %}
+    <div class="page-section">
+        <div class="row mb-lg-8pt">
+            <div class="col-lg-8">
+                <div class="page-separator">
+                    <div class="page-separator__text">Account Overview</div>
+                </div>
+
+                <div class="row card-group-row">
+                    <div class="col-12 col-md-6 card-group-row__col">
+                        <div class="card card-group-row__card">
+                            <div class="card-body d-flex flex-row align-items-center">
+                                <div class="flex">
+                                    <p class="d-flex align-items-center mb-0">
+                                        <strong>Total Return on Asset</strong>
+                                    </p>
+                                    <span class="h2 m-0">
+                                            {{ peso_symbol }} 24,000 <small class="text-muted"> / {{ peso_symbol }} 50,000</small>
+                                        </span>
+                                </div>
+                                <i class="material-icons icon-32pt text-20 ml-8pt">account_balance_wallet</i>
+                            </div>
+                            <div class="progress"
+                                 style="height: 3px;">
+                                <div class="progress-bar bg-accent"
+                                     role="progressbar"
+                                     style="width: 25%;"
+                                     aria-valuenow="25"
+                                     aria-valuemin="0"
+                                     aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3 card-group-row__col">
+                        <div class="card card-group-row__card">
+                            <div class="card-body d-flex flex-column align-items-center pb-2">
+                                <i class="material-icons icon-32pt text-20 mb-4pt">gamepad</i>
+                                <div class="d-flex align-items-center ml-3">
+                                    <div class="h2 mb-0 mr-3">2</div>
+                                    <div class="flex">
+                                        <p class="mb-0"><strong>Axie Teams</strong></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row card-group-row">
+                    <div class="col-lg-7 card-group-row__col">
+                        <div class="card card-group-row__card">
+                            <div class="card-header d-flex">
+                                <div class="flex d-flex align-items-center">
+                                    <div class="h2 mb-0 mr-3">2</div>
+                                    <div class="d-flex flex-column">
+                                        <p class="mb-0"><strong>Axie Teams</strong></p>
+                                        <small class="text-50"><a href="#">See all</a></small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group list-group-flush">
+                                <div class="list-group-item p-16pt">
+                                    <div class="d-flex align-items-center"
+                                         style="white-space: nowrap;">
+                                        <div class="avatar avatar-32pt mr-8pt">
+
+                                            <img src="{{ load_static('assets/chndrwr/images/axies/axie-cropped.png') }}"
+                                                 alt="Axie Team Avatar"
+                                                 class="avatar-img rounded-circle">
+                                        </div>
+                                        <div class="flex ml-4pt">
+                                            <div class="d-flex flex-column">
+                                                <p class="mb-0"><strong>Conqueror's Haki</strong></p>
+                                                <small class="text-50">9000 SLP</small>
+                                            </div>
+                                        </div>
+                                        <a href=""><i class="material-icons text-20 icon-16pt">remove_red_eye</i></a>
+                                    </div>
+                                </div>
+                                <div class="list-group-item p-16pt">
+                                    <div class="d-flex align-items-center"
+                                         style="white-space: nowrap;">
+                                        <div class="avatar avatar-32pt mr-8pt">
+                                            <img src="{{ load_static('assets/chndrwr/images/axies/axie_avatar_15.png') }}"
+                                                 alt="Axie Team Avatar"
+                                                 class="avatar-img rounded-circle">
+                                        </div>
+                                        <div class="flex ml-4pt">
+                                            <div class="d-flex flex-column">
+                                                <p class="mb-0"><strong>Conqueror's MVP</strong></p>
+                                                <small class="text-50">5622 SLP</small>
+                                            </div>
+                                        </div>
+                                        <a href=""><i class="material-icons text-20 icon-16pt">remove_red_eye</i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="page-separator">
+                    <div class="page-separator__text">Updates</div>
+                </div>
+                <div class="card card-body"
+                     style="position: relative; padding-bottom: calc(80px - 1.25rem); overflow: hidden; z-index: 0;">
+                    <div class="d-flex align-items-center mb-24pt">
+                        <div class="h2 mb-0 mr-3">{{ peso_symbol }} {{ api.last_known_rate }}</div>
+                        <div class="flex">
+                            <p class="mb-1"><strong>PHP Rate Per SLP</strong></p>
+                            <p class="text-50 mb-0 mt-n1 d-flex align-items-center">
+                                {% if (api.cache_date) %}
+                                    As of {{ api.cache_date }}
+                                {% else %}
+                                    Not available
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    {% if (api.has_data) %}
+                        <div class="chart"
+                             style="height: 80px; position: absolute; left: 0; right: 0; bottom: 0;">
+                            <canvas class="chart-canvas js-update-chart-line-accent"
+                                    id="slp_watch"
+                                    data-chart-hide-axes="true"
+                                    data-chart-line-border-color="accent.300"
+                                    data-chart-line-background-opacity="0.1"
+                                    data-chart-line-background-color="gradient:yellow"></canvas>
+                        </div>
+                    {% else %}
+                        <strong>Not available</strong>
+                    {% endif %}
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex align-items-center">
+                            <div class="flex">
+                                <strong>Latest Announcements</strong>
+                                <span class="text-20">(1)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item d-flex align-items-start p-16pt bg-dark">
+                                <div class="d-flex flex-column mr-16pt">
+                                    <small class="text-uppercase text-50">FEB</small>
+                                    <strong class="border-bottom-2 border-bottom-accent">18</strong>
+                                </div>
+                                <div class="flex">
+                                    <div>
+                                        <strong>
+                                            Welcome!
+                                            <span class="badge badge-pill badge-accent"
+                                                  style="font-size: 4px; position: absolute; margin-left: 2px;">&nbsp;</span>
+                                        </strong>
+                                    </div>
+                                    <div class="lh-1 mb-16pt"><small class="text-50">Tuesday 17:30 - 18:30</small></div>
+                                    <p class="mb-0 text-50">Welcome to Chaindrawer..</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer pb-0">
+                        <p><a href="#">Show all</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
