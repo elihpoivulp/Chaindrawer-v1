@@ -88,7 +88,9 @@ class Team extends BaseDBModel
                 ROUND((MS.ManagerShareAmount / $this->AssetTeamValue) * 100, 2) AS OwnershipRate
                 FROM ManagerShares MS
                 JOIN ManagerAccounts MA on MS.ManagerAccountID = MA.ManagerAccountID
-                WHERE MS.AssetTeamID = :id"
+                WHERE MS.AssetTeamID = :id
+                ORDER BY OwnershipRate DESC, MA.ManagerAccountID 
+                "
         );
         $s->setFetchMode(PDO::FETCH_CLASS, Manager::class);
         $s->execute([':id' => $this->AssetTeamID]);
