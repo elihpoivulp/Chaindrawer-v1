@@ -1,41 +1,82 @@
-<div class="js-fix-footer footer border-top-2">
-    <div class="container-fluid page__container page-section d-flex flex-column">
-        <img class="brand-icon mb-24pt"
-             src="{{ load_static('assets/chndrwr/images/cd-landscape-logo.png') }}" width="200"
-             alt="{{ app }} logo">
-        <p class="measure-lead-max text-muted mb-0 small"><strong>{{ app }}</strong> is an investment management company that utilizes on the Manager-Scholar business model of Axie Infinity. We manage capital to acquire skilled Axie Scholars</p>
-    </div>
-    <div class="pb-16pt pb-lg-24pt">
-        <div class="container-fluid page__container">
+{# <div class="js-fix-footer footer border-top-2"> #}
+{# <div class="container-fluid page__container page-section d-flex flex-column"> #}
+{# <img class="brand-icon" #}
+{# src="{{ load_static('assets/chndrwr/images/cd-landscape-logo.png') }}" width="200" #}
+{# alt="{{ app }} logo"> #}
+{# <p class="measure-lead-max text-muted mb-0 small"><strong>{{ app }}</strong> is an investment management company that utilizes on the Manager-Scholar business model of Axie Infinity. We manage capital to acquire skilled Axie Scholars</p> #}
+{# </div> #}
+{# <div class="pb-16pt pb-lg-24pt"> #}
+{# <div class="container-fluid page__container"> #}
+{# <div class="bg-dark rounded page-section py-lg-32pt px-16pt px-lg-24pt"> #}
+{# <div class="row"> #}
+{# <div class="col-md-2 col-sm-4 mb-24pt mb-md-0"> #}
+{# <p class="text-white-70 mb-8pt"><strong>Follow us</strong></p> #}
+{# <nav class="nav nav-links nav--flush"> #}
+{# <a href="https://web.facebook.com/chaindrawer" target="_blank" class="nav-link mr-8pt"> #}
+{# <img src="{{ load_static('assets/chndrwr/images/social_icons/facebook-square@2x.png') }}" width="24" height="24" alt="Facebook"> #}
+{# </a> #}
+{# <a href="#" class="nav-link mr-8pt"> #}
+{# <img src="{{  load_static('assets/chndrwr/images/social_icons/twitter-square@2x.png') }}" width="24" height="24" alt="Twitter"> #}
+{# </a> #}
+{# </nav> #}
+{# </div> #}
+{# <div class="col-md-10 text-md-right"> #}
+{# <p class="mb-8pt d-flex align-items-md-center justify-content-md-end"> #}
+{# <a href="" #}
+{# class="text-white-70 text-underline mr-16pt">Terms</a> #}
+{# <a href="" #}
+{# class="text-white-70 text-underline">Privacy policy</a> #}
+{# {{ app }} is <strong>&nbsp;NOT&nbsp;</strong> affiliated with Axie Infinity. #}
+{# </p> #}
+{# <p class="text-white-50 small mb-0"> #}
+{# &copy; #}
+{# <script> #}
+{# let date = new Date(); #}
+{# document.write(date.getFullYear().toString()); #}
+{# </script> #}
+{# {{ app }} #}
+{# All rights reserved. #}
+{# </p> #}
+{# </div> #}
+{# </div> #}
+{# </div> #}
+{# </div> #}
+{# </div> #}
+{# </div> #}
+
+
+<div class="js-fix-footer footer border-top-2" id="app-footer">
+    <div class="pb-16pt pb-lg-24pt mt-24pt">
+        <div class="container page__container">
             <div class="bg-dark rounded page-section py-lg-32pt px-16pt px-lg-24pt">
                 <div class="row">
-                    <div class="col-md-2 col-sm-4 mb-24pt mb-md-0">
-                        <p class="text-white-70 mb-8pt"><strong>Follow us</strong></p>
-                        <nav class="nav nav-links nav--flush">
-                            <a href="https://web.facebook.com/chaindrawer" target="_blank" class="nav-link mr-8pt">
-                                <img src="{{ load_static('assets/chndrwr/images/social_icons/facebook-square@2x.png') }}" width="24" height="24" alt="Facebook">
-                            </a>
-{#                            <a href="#" class="nav-link mr-8pt">#}
-{#                                <img src="{{  load_static('assets/chndrwr/images/social_icons/twitter-square@2x.png') }}" width="24" height="24" alt="Twitter">#}
-{#                            </a>#}
-                        </nav>
+                    <div class="col-md-7 col-sm-4 mb-24pt mb-md-0 text-white flex d-flex align-items-center m-0">
+                        <img class="brand-icon m-0"
+                             src="{{ load_static('assets/chndrwr/images/cd-landscape-logo.png') }}" width="200"
+                             alt="{{ app }} logo">
+{#                        <p class="measure-lead-max mb-0 small">#}
+{#                            {{ app }} is <strong>NOT</strong> affiliated with Axie Infinity.#}
+{#                        </p>#}
                     </div>
-                    <div class="col-md-10 text-md-right">
-                        <p class="mb-8pt d-flex align-items-md-center justify-content-md-end">
+                    <div class="col-md-5 text-md-right">
+{#                        <p class="mb-8pt d-flex align-items-md-center justify-content-md-end mb-12pt">#}
 {#                            <a href=""#}
 {#                               class="text-white-70 text-underline mr-16pt">Terms</a>#}
 {#                            <a href=""#}
 {#                               class="text-white-70 text-underline">Privacy policy</a>#}
-                            {{ app }} is <strong>&nbsp;NOT&nbsp;</strong> affiliated with Axie Infinity.
-                        </p>
-                        <p class="text-white-50 small mb-0">
+{#                        </p>#}
+                        <div class="text-white-50 small mb-12pt">
                             &copy;
                             <script>
                                 let date = new Date();
                                 document.write(date.getFullYear().toString());
                             </script>
                             {{ app }}
+                            <br>
                             All rights reserved.
+                        </div>
+                        <p class="measure-lead-max mb-0 small">
+                            {{ app }} is <strong>NOT</strong> affiliated with Axie Infinity.
                         </p>
                     </div>
                 </div>
@@ -43,45 +84,6 @@
         </div>
     </div>
 </div>
-
-
-{#<div class="js-fix-footer footer border-top-2" id="app-footer">#}
-{#    <div class="pb-16pt pb-lg-24pt mt-24pt">#}
-{#        <div class="container page__container">#}
-{#            <div class="bg-dark rounded page-section py-lg-32pt px-16pt px-lg-24pt">#}
-{#                <div class="row">#}
-{#                    <div class="col-md-8 col-sm-4 mb-24pt mb-md-0 text-white">#}
-{#                        <img class="brand-icon mb-12pt"#}
-{#                             src="{{ load_static('assets/chndrwr/images/cd-landscape-logo.png') }}" width="200"#}
-{#                             alt="{{ app }} logo">#}
-{#                        <p class="measure-lead-max mb-0 small">#}
-{#                            <strong>{{ app }}</strong> is an investment management company that utilizes on the#}
-{#                            Manager-Scholar business model of Axie Infinity. We manage capital to acquire skilled Axie#}
-{#                            Scholars.#}
-{#                        </p>#}
-{#                    </div>#}
-{#                    <div class="col-md-4 text-md-right">#}
-{#                        <p class="mb-8pt d-flex align-items-md-center justify-content-md-end mb-12pt">#}
-{#                            <a href=""#}
-{#                               class="text-white-70 text-underline mr-16pt">Terms</a>#}
-{#                            <a href=""#}
-{#                               class="text-white-70 text-underline">Privacy policy</a>#}
-{#                        </p>#}
-{#                        <div class="text-white-50 small mb-0">&copy;#}
-{#                            <script>#}
-{#                                let date = new Date();#}
-{#                                document.write(date.getFullYear().toString());#}
-{#                            </script>#}
-{#                            {{ app }}#}
-{#                            <p>All rights reserved.</p>#}
-{#                        </div>#}
-{#                        <p>{{ app }} is <strong>NOT</strong> affiliated with Axie Infinity.</p>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-{#</div> #}
 
 
 {# <div class="js-fix-footer footer border-top-2"> #}
