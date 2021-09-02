@@ -4,6 +4,7 @@ namespace CD\App\Controllers\Manager;
 
 use CD\Config\Config;
 use CD\Core\Request;
+use CD\Core\Response;
 use CD\Core\View;
 use CD\Core\ViewControllers\ManagerViewOnly;
 use CD\Models\Teams as TeamsModel;
@@ -91,8 +92,7 @@ class Teams extends ManagerViewOnly
                         ]
                     ]);
                 } else {
-                    // TODO: 404
-                    exit('Page not found');
+                    Response::errorPage(404);
                 }
             }
         }

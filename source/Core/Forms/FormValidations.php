@@ -38,7 +38,6 @@ abstract class FormValidations extends BaseForm
     // {
     //     $this->setTableName();
     //     if (is_null(static::$table_name)) {
-    //         // TODO: Throw Exception
     //         exit('Table name missing in ' . get_called_class());
     //     }
     //     // $this->query = new QueryLib();

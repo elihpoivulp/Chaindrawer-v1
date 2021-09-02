@@ -4,20 +4,23 @@
 namespace CD\Core;
 
 
+use Exception;
+
 abstract class AbstractRoute
 {
     public ?string $controller = null;
     public ?array $routes = null;
 
+    /**
+     * @throws Exception
+     */
     final public function __construct()
     {
         if (is_null($this->controller)) {
-            // TODO: Throw Exception
-            exit('Route controller must be defined.');
+            throw new Exception('Route controller must be defined.');
         }
         if (is_null($this->routes)) {
-            // TODO: Throw Exception
-            exit('Route paths must be defined.');
+            throw new Exception('Route paths must be defined.');
         }
     }
 

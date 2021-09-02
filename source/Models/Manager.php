@@ -103,7 +103,6 @@ class Manager extends AccountModel
 
     public function getReturnSummary(): array
     {
-        // TODO: fix
         // this sql is slow
         // $sql = "SELECT
         //         @tr :=SUM(IFNULL(MP.ManagerPayoutAmount, 0)) AS TotalReturned,

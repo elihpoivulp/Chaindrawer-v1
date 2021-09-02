@@ -12,6 +12,10 @@ use CD\Core\Request;
 use CD\Core\Router;
 use CD\Core\View;
 
+error_reporting(E_ALL);
+set_error_handler('\CD\Core\Error::errorHandler');
+set_exception_handler('\CD\Core\Error::exceptionHandler');
+
 $request = new Request();
 $view = new View();
 

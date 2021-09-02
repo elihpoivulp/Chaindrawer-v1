@@ -3,6 +3,7 @@
 namespace CD\Models;
 
 use CD\Core\DB\BaseDBModel;
+use Exception;
 use PDO;
 
 class Team extends BaseDBModel
@@ -59,13 +60,15 @@ class Team extends BaseDBModel
         return $s->execute();
     }
 
+    /**
+     * @throws Exception
+     */
     public function AxieTeam()
     {
         if ($this->isAxieTeam()) {
             return $this->Axie;
         }
-        // TODO: Throw Exception
-        exit('This is not an axie team');
+        throw new Exception('This is not an Axie team.');
     }
 
     // public function insertAmount()

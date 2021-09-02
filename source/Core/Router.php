@@ -13,6 +13,9 @@ class Router
     protected string $default_action = 'index';
     protected string $controllers_namespace = 'CD\\App\\Controllers\\';
 
+    /**
+     * @throws Exception
+     */
     public function dispatch(Request $request, View $view): void
     {
         $this->current_path = $this->removeSlashes($request->getPath());
@@ -32,23 +35,24 @@ class Router
                     $action = empty($action) ? $this->default_action : $action;
                     $controller_obj->$action();
                 } else {
-                    // TODO: Throw Exception
-                    exit("Method '$action' in class '$controller_name' not found.");
+                    throw new Exception("Method '$action' in class '$controller_name' not found.");
                 }
             } else {
-                exit("Controller class '$controller_name' not found.");
+                throw new Exception("Controller class '$controller_name' not found.");
             }
         } else {
-            exit('No routes matched.');
+            throw new Exception("No routes matched.", 404);
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function addRoute(string $route, array $params = [], ?string $routes_file = null): void
     {
         if (!is_null($routes_file)) {
             if (!str_starts_with($routes_file, '@')) {
-                // TODO: Throw Exception
-                exit('$route_file namespace must be indicated with "@". Missing "@" character.');
+                throw new Exception('$route_file namespace must be indicated with "@". Missing "@" character.');
             }
             $parts = explode('/', str_replace('@', '', $routes_file));
             $location = array_map(function (string $dirname) {
@@ -144,11 +148,13 @@ class Router
         return '/^' . $url_path . '$/';
     }
 
+    /**
+     * @throws Exception
+     */
     private function isPathConfigComplete(string $url_path, array $params): void
     {
         if (!str_contains($url_path, 'controller') && !array_key_exists('controller', $params)) {
-            // TODO: Throw Exception
-            exit('No valid controller was configured for this route.');
+            throw new Exception('No valid controller was configured for this route.');
         }
     }
     

@@ -4,6 +4,7 @@
 namespace CD\Core\Forms;
 
 use CD\Core\DB\BaseDBModel;
+use Exception;
 use ReflectionProperty;
 
 abstract class ModelForm extends FormValidations
@@ -15,11 +16,13 @@ abstract class ModelForm extends FormValidations
         $this->model = $model;
     }
 
+    /**
+     * @throws Exception
+     */
     public function field(string $attribute, string $id = '', string $label = '', $placeholder = ''): Field
     {
         if (!property_exists($this->model, $attribute)) {
-            // TODO: Throw Exception
-            exit("Attribute \"$attribute\" does not exist on Model" . get_class($this->model));
+            throw new Exception("Attribute \"$attribute\" does not exist on Model" . get_class($this->model));
         }
         $r_model = new ReflectionProperty($this->model, $attribute);
         if ($r_model->isPrivate() || $r_model->isProtected()) {

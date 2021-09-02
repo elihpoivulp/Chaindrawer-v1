@@ -54,8 +54,7 @@ abstract class QueryLib extends DB
     public function where(array $clause): self
     {
         if (empty($this->sql)) {
-            // TODO: Throw Error
-            exit('SQL is not set');
+            throw new Exception('SQL is not set');
         }
         $where = $this->joinClause($clause, 'AND');
         $this->sql .= " WHERE $where";

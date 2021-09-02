@@ -63,6 +63,9 @@ class Auth extends FormController
         ]);
     }
 
+    /**
+     * @throws Exception
+     */
     public function logoutAction()
     {
         if (SessionsUserAuth::isLoggedIn()) {
@@ -74,8 +77,7 @@ class Auth extends FormController
             SessionsUserAuth::logout();
             Response::redirect('auth/login');
         }
-        // TODO: Throw a page not found or something
-        exit('Page not found');
+        Response::errorPage(404);
     }
 
     /**

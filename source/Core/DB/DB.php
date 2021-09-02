@@ -3,6 +3,7 @@
 namespace CD\Core\DB;
 
 use CD\Config\Config;
+use Exception;
 use PDO;
 use PDOException;
 
@@ -11,6 +12,9 @@ class DB
 {
     static private ?PDO $connection = null;
 
+    /**
+     * @throws Exception
+     */
     public function db(): PDO
     {
         if (is_null(self::$connection)) {
@@ -24,9 +28,7 @@ class DB
                 );
                 self::$connection = new PDO(Config::DB_DSN(), Config::DB_USER(), Config::DB_PASS(), $options);
             } catch (PDOException $e) {
-                // TODO: Throw Exception
-                // throw new Exception($e->getMessage());
-                exit('DB ERROR: ' . $e->getMessage() . PHP_EOL);
+                throw new Exception('DB ERROR: ' . $e->getMessage() . PHP_EOL);
             }
         }
         return self::$connection;

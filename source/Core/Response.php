@@ -11,4 +11,33 @@ class Response
         header('Location: ' . URL_ROOT . trim_slashes($location), true, $code);
         exit;
     }
+
+    static public function errorPage($code)
+    {
+        http_response_code($code);
+        $error = '';
+        $error_context = '';
+        $icon = '';
+        switch ($code) {
+            case 404:
+                $error = 'Bad Request';
+                $error_context = 'Page does not exist.';
+                $icon = 'error';
+                break;
+            case 500:
+                $error = 'Internal server error';
+                $error_context = 'You do not have permission to view this resource.';
+                $icon = 'block';
+                break;
+        }
+        $context = [
+            '_error' => [
+                'code' => $code,
+                'message' => $error,
+                'context' => $error_context,
+                'icon' => $icon
+            ]
+        ];
+        View::renderTemplate("page_error.html.twig", $context);
+    }
 }

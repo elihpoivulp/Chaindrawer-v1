@@ -3,7 +3,7 @@
 namespace CD\Core;
 
 use CD\Core\Forms\ModelForm;
-use CD\Core\Models\Model;
+use Exception;
 
 class Controller
 {
@@ -38,6 +38,9 @@ class Controller
        return $this->getURIAsArray()[$index] ?? null;
     }
 
+    /**
+     * @throws Exception
+     */
     public function __call(string $name, array $arguments)
     {
         $method = "{$name}Action";
@@ -47,10 +50,8 @@ class Controller
                 $this->after();
             }
         } else {
-            // TODO: Throw Exception
-            // TODO: Replace with 404
             $controller_name = get_called_class();
-            exit("Method '$method' in class '$controller_name' not found.");
+            throw new Exception("Method '$method' in class '$controller_name' not found.", 404);
         }
     }
 

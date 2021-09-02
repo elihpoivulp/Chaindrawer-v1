@@ -6,6 +6,7 @@ use CD\Config\Config;
 use CD\Core\Sessions\Session;
 use CD\Core\Sessions\SessionsUserAuth;
 use CD\Models\ActiveAccount;
+use Exception;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -121,23 +122,27 @@ class View
         return Request::getSiteURL() . $append_uri;
     }
 
+    /**
+     * @throws Exception
+     */
     static public function addPath(string $directory, string $namespace = ''): void
     {
         try {
             self::$loader->addPath($directory, $namespace);
         } catch (LoaderError $e) {
-            // TODO: Throw Exception
-            exit($e->getMessage());
+            throw new Exception($e->getMessage());
         }
     }
 
+    /**
+     * @throws Exception
+     */
     static public function renderTemplate(string $template, array $context = []): void
     {
         try {
             echo self::$twig->render($template, $context);
         } catch (LoaderError | RuntimeError | SyntaxError $e) {
-            // TODO: Throw Exception
-            exit($e->getMessage());
+            throw new Exception($e->getMessage());
         }
     }
 }
