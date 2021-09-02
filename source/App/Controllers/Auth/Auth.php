@@ -18,7 +18,7 @@ class Auth extends FormController
 {
     static protected string $template_namespace = 'home';
     public const ROLE_ROUTES = [
-        'manager' => 'manager/dashboard',
+        'manager' => 'manager',
         'admin' => 'admin'
     ];
 
