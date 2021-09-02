@@ -15,9 +15,13 @@ class Error extends Controller
     {
         $code = 404;
         $message = 'Page does not exist.';
-        if (isset($_GET['c'])|| (isset($_GET['c']) && intval($_GET['c']) === 403) && isset($_GET['r'])) {
+        if (isset($_GET['c'])|| (isset($_GET['c']) && intval($_GET['c']) === 403)) {
             $code = 403;
-            $message = Request::getIPAddress() . ' is trying to access resource folder: ' . $_GET['r'];
+            if (isset($_GET['r'])) {
+                $message = Request::getIPAddress() . ' is trying to access resource folder: ' . $_GET['r'];
+            } else {
+                $message = 'An error has occurred. Please try again later';
+            }
         }
         throw new Exception($message, $code);
     }
