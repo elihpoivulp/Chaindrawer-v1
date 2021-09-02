@@ -60,7 +60,7 @@ class Manager extends AccountModel
     public function getPayouts(): array
     {
         $year = date('Y');
-        $sql = "SELECT * FROM ManagerPayouts
+        $sql = "SELECT *, CONVERT(ManagerPayoutID, CHAR) AS ManagerPayoutID FROM ManagerPayouts
                 INNER JOIN ManagerAccounts MA on ManagerPayouts.ManagerAccountID = MA.ManagerAccountID
                 WHERE MA.ManagerAccountID = :id AND YEAR(ManagerPayoutDate) = :year
                 ORDER BY ManagerPayoutSeen, ManagerPayoutDate DESC 
