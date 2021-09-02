@@ -23,7 +23,7 @@ class Error
     /**
      * @throws Exception
      */
-    static public function exceptionHandler(Exception $exception)
+    static public function exceptionHandler($exception)
     {
         $code = $exception->getCode();
         if ($code != 404) {
