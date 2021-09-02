@@ -9,7 +9,7 @@ class SessionsUserAuth
 {
     static public function login(string $token): bool
     {
-        if (!Session::exists('active_user_token')) {
+        if (!self::isLoggedIn()) {
             session_regenerate_id();
             Session::set('active_user_token', $token);
             Session::set('last_login', time());
@@ -20,12 +20,12 @@ class SessionsUserAuth
 
     static public function isLoggedIn(): bool
     {
-        return !is_null(self::getToken()) && Session::exists('active_user_token') && self::lastLoginIsRecent();
+        return !is_null(self::getToken()) && Session::exists('active_user_token') && self::getToken() === Session::get('active_user_token') && self::lastLoginIsRecent();
     }
 
     static private function lastLoginIsRecent(): bool
     {
-        if (Session::exists('last_login') && Session::get('last_login') + Config::MAX_LOGIN_AGE < time()) {
+        if (!Session::exists('last_login') || Session::get('last_login') + Config::MAX_LOGIN_AGE < time()) {
             return false;
         }
         return true;
