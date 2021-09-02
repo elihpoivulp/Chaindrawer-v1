@@ -26,7 +26,7 @@ class Response
                 break;
             case 500:
                 $error = 'Internal server error';
-                $error_context = 'You do not have permission to view this resource.';
+                $error_context = 'Server is temporarily down.';
                 $icon = 'block';
                 break;
         }
