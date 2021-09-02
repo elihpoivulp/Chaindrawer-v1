@@ -1,6 +1,8 @@
 #Options -Multiviews
 RewriteEngine On
-RewriteBase /projects/canlibo/chaindrawer
+#RewriteBase /projects/canlibo/chaindrawer
+ErrorDocument 403 http://localhost/projects/canlibo/chaindrawer/error/?c=403&r=%{REQUEST_URI}
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ index.php?_url=$1 [L,QSA]
+
