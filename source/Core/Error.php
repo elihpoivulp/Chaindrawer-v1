@@ -27,7 +27,9 @@ class Error
     {
         $code = $exception->getCode();
         if ($code != 404) {
-            $code = 500;
+            if ($code != 403) {
+                $code = 500;
+            }
         }
         if (Config::DEBUG()) {
             http_response_code($code);
@@ -46,7 +48,7 @@ class Error
             $msg .= "\nThrown in: {$exception->getFile()} on line {$exception->getLine()}";
             $msg .= "\n";
             error_log($msg);
-            Response::errorPage(404);
+            Response::errorPage($code == 403 ? 404 : $code);
         }
     }
 }
