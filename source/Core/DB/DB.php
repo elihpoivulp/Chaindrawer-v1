@@ -27,8 +27,8 @@ class DB
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
                 );
                 self::$connection = new PDO(Config::DB_DSN(), Config::DB_USER(), Config::DB_PASS(), $options);
-            } catch (PDOException $e) {
-                throw new Exception('DB ERROR: ' . $e->getMessage() . PHP_EOL);
+            } catch (Exception | PDOException $e) {
+                throw new Exception('DB ERROR: ' . $e->getMessage() . PHP_EOL, 500);
             }
         }
         return self::$connection;
