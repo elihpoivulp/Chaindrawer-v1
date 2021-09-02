@@ -131,7 +131,7 @@ class View
         }
     }
 
-    static public function renderTemplate(string $template, array $context): void
+    static public function renderTemplate(string $template, array $context = []): void
     {
         try {
             echo self::$twig->render($template, $context);
