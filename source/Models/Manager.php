@@ -70,12 +70,12 @@ class Manager extends AccountModel
         return $s->fetchAll();
     }
 
-    public function getPayout(int $payout_id): array
+    public function getPayout(int $payout_id)
     {
         $sql = "SELECT
                 AxieTeamPayoutShareRate, AxieTeamPayoutTotalAXS, AxieTeamPayoutTotalSLP,
                 AssetTeamName, AssetTeamSlug,
-                CONVERT(ManagerPayoutID, CHAR) AS ManagerPayoutID, ManagerPayoutShareRate, ManagerPayoutDate, ManagerPayoutTotalAXS, ManagerPayoutTotalSLP,
+                CONVERT(ManagerPayoutID, CHAR) AS ManagerPayoutID, ManagerPayoutShareRate, ManagerPayoutDate, ManagerPayoutTotalAXS, ManagerPayoutTotalSLP, ManagerPayoutLastAXSBalance, ManagerPayoutLastSLPBalance,
                 FortnightAxieWithdrawalTotalAXS, FortnightAxieWithdrawalTotalSLP,
                 AxieScholarPayoutShareRate, AxieScholarPayoutTotalAXS, AxieScholarPayoutTotalSLP,
                 ChainDrawerAxiePayoutShareRate, ChainDrawerAxiePayoutTotalAXS, ChainDrawerAxiePayoutTotalSLP

@@ -10,10 +10,12 @@ class Routes extends AbstractRoute
     public ?string $controller = 'Teams';
     public ?array $routes = [
         // 'dashboard' => ['action' => 'index'],
-        '' => ['controller' => 'Teams'],
+        '' => ['action' => 'redirect'],
         'teams' => ['controller' => 'Teams'],
-        'teams/{slug:[a-z0-9]+(?:-[a-z0-9]+)*}' => ['action' => 'view', 'controller' => 'Teams'],
-        'payouts' => ['controller' => 'Payouts'],
-        'payouts/{id:\d+}' => ['action' => 'details', 'controller' => 'Payouts'],
+        'teams/earnings' => ['action' => 'earnings'],
+        'teams/earnings/{id:\d+}' => ['action' => 'earningsDetails'],
+        'teams/{slug:[a-z0-9]+(?:-[a-z0-9]+)*}' => ['action' => 'view'],
+        'transactions' => ['controller' => 'Transactions'],
+        'transactions/{id:\d+}' => ['action' => 'details', 'controller' => 'Transactions'],
     ];
 }

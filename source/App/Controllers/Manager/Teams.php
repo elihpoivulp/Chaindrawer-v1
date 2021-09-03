@@ -97,4 +97,35 @@ class Teams extends ManagerViewOnly
             }
         }
     }
+
+    public function earningsAction()
+    {
+        $this->render('teams/earnings.html.twig', [
+            'title' => 'Team Earnings',
+            'account' => $this->account,
+            'payouts' => $this->account->manager->getPayouts()
+        ]);
+    }
+
+    public function earningsDetailsAction()
+    {
+        $team_payout_details = $this->account->manager->getPayout($this->params['id']);
+        if ($team_payout_details) {
+            $teams = new TeamsModel();
+            $team = $teams->getTeamBySlug($team_payout_details['AssetTeamSlug'])->getTeamManagers();
+            $this->render('teams/details.html.twig', [
+                'title' => 'Earnings Details',
+                'account' => $this->account,
+                'p' => $team_payout_details,
+                'm' => $team
+            ]);
+        } else {
+            Response::errorPage(404);
+        }
+    }
+
+    public function redirect()
+    {
+        Response::redirect('manager/teams');
+    }
 }

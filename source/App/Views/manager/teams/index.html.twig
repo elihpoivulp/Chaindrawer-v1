@@ -5,10 +5,6 @@
 {% block breadcrumb %}
     {% include 'includes/breadcrumb.html.twig' with {
         'trails': {
-            0: {
-                'url':  site_url('manager/dashboard'),
-                'name': 'Dashboard'
-            },
             'active': {
                 'url': null,
                 'name': 'My Teams'
@@ -24,7 +20,7 @@
             <div class="table-responsive"
                  data-toggle="lists"
                  data-lists-sort-by="team-manager-ownership"
-                 data-lists-sort-desc="true"
+                 data-lists-sort-desc="false"
                  data-lists-values='["team-name", "team-manager-ownership", "team-income-rate"]'>
 
                 <table class="table mb-0 thead-border-top-0 table-nowrap">
@@ -35,17 +31,23 @@
                                class="sort"
                                data-sort="team-name">Team Name</a>
                         </th>
-                        <th class="text-center" data-toggle="tooltip" title="Small Love Potion">Team Current<br>SLP Balance</th>
-                        <th class="text-center">
-                            <a href="javascript:void(0)"
-                               class="sort"
-                               data-sort="team-income-rate">Team<br>Income Rate</a>
+                        <th class="text-center" data-toggle="tooltip" title="Small Love Potion">Team Current<br>SLP
+                            Balance
+                        </th>
+                        <th class="text-center" data-toggle="tooltip" title="Axie Infinity Shards">Team Current<br>AXS
+                            Balance
                         </th>
                         <th class="text-center">
                             <a href="javascript:void(0)"
                                class="sort"
-                               data-sort="team-manager-ownership">Ownership Rate</a>
+                               data-sort="team-income-rate">Team<br>Earnings Rate</a>
                         </th>
+                        <th class="text-center">
+                            <a href="javascript:void(0)"
+                               class="sort"
+                               data-sort="team-manager-ownership">Ownership<br>Rate</a>
+                        </th>
+                        <th style="width: 120px"></th>
                     </tr>
                     </thead>
                     <tbody class="list" id="my-teams">
@@ -76,17 +78,23 @@
                                     </div>
                                 </td>
                                 <td class="text-center">
-                                    {{ toMoneyFormat(team.AxieTeam.AxieTeamCurrentSLPBalance) }}
+                                    {{ toMoneyFormat(team.AxieTeam.AxieTeamCurrentSLPBalance) }} SLP
                                 </td>
                                 <td class="text-center">
-                                <span class="team-income-rate">
-                                {{ team.TeamProfitShare }}%
-                                </span>
+                                    {{ toMoneyFormat(team.AxieTeam.AxieTeamCurrentAXSBalance) }} AXS
                                 </td>
                                 <td class="text-center">
-                                <span class="team-manager-ownership">
-                                    {{ team.OwnershipRate }}%
-                                </span>
+                                    <span class="team-income-rate {% if team.TeamProfitShare == 60.00 %}text-success{% endif %}">
+                                        {{ team.TeamProfitShare }}%
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <span class="team-manager-ownership">
+                                        {{ team.OwnershipRate }}%
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <a class="text-50" href="{{ site_url('manager/teams') ~ '/' ~ team.AssetTeamSlug|url_encode }}">Details</a>
                                 </td>
                             </tr>
                         {% endfor %}
