@@ -23,6 +23,7 @@ class ActiveAccount extends DB
                 U.UserLastName,
                 U.UserGender,
                 U.UserAddress,
+                U.UserPhone,
                 U.UserEmail,
                 U.UserDateAdded,
                 U.UserDateLastModified,
