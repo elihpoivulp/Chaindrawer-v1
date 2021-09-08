@@ -1,0 +1,54 @@
+{% extends 'base-manager.html.twig' %}
+{% block breadcrumb %}
+    {% include 'includes/breadcrumb.html.twig' with {
+        'trails': {
+            'active': {
+                'url': null,
+                'name': 'Widthdraw'
+            }
+        },
+        'section': 'Widthdraw'
+    } %}
+{% endblock breadcrumb %}
+{% block content %}
+    <div class="page-section">
+        <h4>Request Pending</h4>
+        {% if message %}
+            {% set class = 'warning' %}
+            {% set string = 'Failed.' %}
+            {% set icon = 'close' %}
+            {% set msg = 'Cannot process request at this moment. Please try again later.' %}
+            {% if status %}
+                {% set class = 'success' %}
+                {% set string = 'Success!' %}
+                {% set icon = 'check' %}
+                {% set msg = 'Your request for withdrawal is pending. We will notify you once it\'s processed. Thank you!' %}
+            {% endif %}
+            <div class="alert alert-{{ class }}" role="alert">
+                <div class="d-flex flex-wrap align-items-start">
+                    <div class="mr-8pt">
+                        <i class="material-icons">{{ icon }}</i>
+                    </div>
+                    <div class="flex" style="min-width: 180px; padding-top: 3px">
+                        <small>
+                            <strong>Success!</strong> Your request for withdrawal is pending. We will notify you once it's processed. Thank you!
+                        </small>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="alert alert-soft-warning">
+                <div class="d-flex flex-wrap align-items-center">
+                    <div class="mr-8pt">
+                        <i class="material-icons">access_time</i>
+                    </div>
+                    <div class="flex" style="min-width: 180px">
+                        <small class="text-100">
+                            You still have a <strong>pending</strong> withdrawal request.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock content %}

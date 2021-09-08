@@ -4,13 +4,13 @@
     {% include 'includes/preloader.html.twig' %}
     <div class="mdk-drawer-layout js-mdk-drawer-layout" data-push data-responsive-width="992px">
         <div class="mdk-drawer-layout__content page-content" style="min-height: unset;">
-            <div class="container-fluid page__container flex d-flex align-items-center justify-content-center" id="app-body">
+            <div class="container-fluid page__container flex d-flex align-items-center justify-content-center py-128pt" id="app-body">
                 <section class="page-section text-center">
                     <h1 class="font-weight-bolder mb-0" style="font-size: 128pt; line-height: 180px">{{ _error.code }}</h1>
                     <h4 class="font-size-32pt mb-2"><i class="text-danger material-icons icon-32pt" style="position: relative; top: -4px">{{ _error.icon }}</i>&nbsp;<em>{{ _error.message }}</em></h4>
                     <strong class="text-50 font-size-16pt">{{ _error.context }}</strong>
                     <div class="mt-24pt">
-                        <a href="{{ site_url() }}" class="text-70"><i class="material-icons icon--left">keyboard_backspace</i>Back to Home</a>
+                        <a href="{{ return_url != '' ? return_url : site_url() }}" class="text-70"><i class="material-icons icon--left">keyboard_backspace</i>Back</a>
                     </div>
                 </section>
             </div>

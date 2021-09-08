@@ -26,11 +26,6 @@ class Error
     static public function exceptionHandler($exception)
     {
         $code = $exception->getCode();
-        if ($code != 404) {
-            if ($code != 403) {
-                $code = 500;
-            }
-        }
         if (Config::DEBUG()) {
             http_response_code($code);
             $msg = "<h1>Fatal error</h1>";

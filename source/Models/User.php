@@ -95,6 +95,7 @@ class User extends BaseDBModel
                 CONVERT(M.ManagerAccountID, CHAR) AS ManagerAccountID,
                 M.ManagerTotalAsset,
                 M.ManagerAccountCurrentSLPBalance,
+                M.ManagerAccountCurrentAXSBalance,
                 A.AccountID,
                 A.AccountBalance,
                 A.AccountDateOpened,

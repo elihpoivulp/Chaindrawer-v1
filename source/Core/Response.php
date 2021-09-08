@@ -12,12 +12,10 @@ class Response
         exit;
     }
 
-    static public function errorPage($code)
+    static public function errorPage($code, $return_url = '')
     {
-        http_response_code($code);
         $error = '';
-        $error_context = '';
-        $icon = '';
+        $return_url = '';
         switch ($code) {
             case 404:
                 $error = 'Bad Request';
@@ -29,15 +27,24 @@ class Response
                 $error_context = 'Server is temporarily down.';
                 $icon = 'block';
                 break;
+            default:
+                $code = 500;
+                $error = 'An error has occurred.';
+                $error_context = 'Error processing request. Please try again later.';
+                $icon = 'error';
+                break;
         }
+        http_response_code($code);
         $context = [
             '_error' => [
                 'code' => $code,
                 'message' => $error,
                 'context' => $error_context,
                 'icon' => $icon
-            ]
+            ],
+            'return_url' => $return_url
         ];
         View::renderTemplate("page_error.html.twig", $context);
+        exit;
     }
 }

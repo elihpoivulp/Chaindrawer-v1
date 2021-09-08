@@ -11,6 +11,8 @@ class Routes extends AbstractRoute
     public ?array $routes = [
         // 'dashboard' => ['action' => 'index'],
         '' => ['action' => 'redirect'],
+        'withdraw' => ['controller' => 'Withdrawals'],
+        'withdraw/process' => ['controller' => 'Withdrawals', 'action' => 'process'],
         'teams' => ['controller' => 'Teams'],
         'teams/earnings' => ['action' => 'earnings'],
         'teams/earnings/{id:\d+}' => ['action' => 'earningsDetails'],

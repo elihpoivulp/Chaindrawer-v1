@@ -167,4 +167,13 @@ class Manager extends AccountModel
         $s->execute([':id' => $this->ManagerAccountID]);
         return $s->fetchAll();
     }
+
+    public function hasPendingWithdrawal()
+    {
+        $s = $this->db->prepare('SELECT * FROM WithdrawalRequests WHERE ManagerAccountID = :id AND WithdrawalRequests.WithdrawalRequestStatus = :status ORDER BY WithdrawalRequestID DESC LIMIT 1');
+        $s->bindValue(':id', $this->getManagerAccountID());
+        $s->bindValue(':status', 'pending');
+        $s->execute();
+        return $s->fetch();
+    }
 }

@@ -23,7 +23,7 @@
                             </p>
                         </div>
                         <div class="col-auto border-left">
-                            <a href="#" class="btn btn-accent {% if account.manager.ManagerAccountCurrentSLPBalance == 0 %}disabled{% endif %}">Withdraw</a>
+                            <a href="{{ site_url('manager/withdraw') }}" class="btn btn-accent {% if account.manager.ManagerAccountCurrentSLPBalance == 0 %}disabled{% endif %}">Withdraw</a>
                         </div>
                     </div>
                 </div>

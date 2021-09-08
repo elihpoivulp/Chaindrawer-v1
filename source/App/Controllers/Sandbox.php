@@ -10,17 +10,18 @@ class Sandbox extends Controller
 {
     public function index()
     {
-        echo '<h1>Sandbox</h1><br>';
-        echo '<pre>';
-        // $cols = ['id' => 2, 'name' => 'wow'];
-        //
-        // $result = '';
-        // foreach ($cols as $key => $value) {
-        //     $result .= "$key = :$key AND ";
-        // }
-        // print_r($result);
-        $money = '1000000.0';
-        echo preg_match('/^\d+\.\d{2}/', $money);
-        echo '</pre>';
+        // echo '<h1>Sandbox</h1><br>';
+        // echo '<pre>';
+        // // $cols = ['id' => 2, 'name' => 'wow'];
+        // //
+        // // $result = '';
+        // // foreach ($cols as $key => $value) {
+        // //     $result .= "$key = :$key AND ";
+        // // }
+        // // print_r($result);
+        // $money = '1000000.0';
+        // echo preg_match('/^\d+\.\d{2}/', $money);
+        // echo '</pre>';
+        $this->render('withdraw_request_email_template.html.twig');
     }
 }

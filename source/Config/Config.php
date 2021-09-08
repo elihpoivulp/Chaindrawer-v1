@@ -33,6 +33,16 @@ class Config
         return $_ENV['DB_PASS'];
     }
 
+    public static function EMAIL_NO_REPLY(): array
+    {
+        return [$_ENV['EMAIL_NOREPLY'], $_ENV['EMAIL_NOREPLY_PASS']];
+    }
+
+    public static function EMAIL_SMTP_HOST()
+    {
+        return $_ENV['EMAIL_SMTP_HOST'];
+    }
+
     public const SLP_CONTRACT_ADDRESS = '0xCC8Fa225D80b9c7D42F96e9570156c65D6cAAa25';
 
     /**

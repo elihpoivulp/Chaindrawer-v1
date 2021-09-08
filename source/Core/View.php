@@ -139,8 +139,18 @@ class View
      */
     static public function renderTemplate(string $template, array $context = []): void
     {
+        echo self::_getTemplate($template, $context);
+    }
+
+    static public function getTemplate(string $template, array $context = [])
+    {
+        return self::_getTemplate($template, $context);
+    }
+
+    static private function _getTemplate(string $template, array $context)
+    {
         try {
-            echo self::$twig->render($template, $context);
+            return self::$twig->render($template, $context);
         } catch (LoaderError | RuntimeError | SyntaxError $e) {
             throw new Exception($e->getMessage());
         }

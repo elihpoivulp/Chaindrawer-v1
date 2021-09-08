@@ -66,6 +66,17 @@ class Controller
 
     protected function render(string $template_name, array $context = [], ?string $namespace = null): void
     {
+        $template_name = $this->getTemplate($template_name, $namespace);
+        $this->view::renderTemplate($template_name, $context);
+    }
+
+    protected function getRender(string $template_name, array $context = [], ?string $namespace = null) {
+        $template_name = $this->getTemplate($template_name, $namespace);
+        return $this->view::getTemplate($template_name, $context);
+    }
+
+    private function getTemplate(string $template_name, ?string $namespace = null): string
+    {
         $namespace = $namespace ?? static::$template_namespace;
         if (!empty($namespace)) {
             if (str_starts_with($template_name, '@')) {
@@ -76,7 +87,7 @@ class Controller
                 $template_name = sprintf('@%s/%s', $namespace, $template_name);
             }
         }
-        $this->view::renderTemplate($template_name, $context);
+        return $template_name;
     }
 
     protected function registerPath(string $directory = '', string $namespace = ''): void

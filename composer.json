@@ -19,6 +19,6 @@
     "ext-pdo": "*",
     "ext-json": "*",
     "ext-iconv": "*",
-    "ext-ssh2": "*"
+    "phpmailer/phpmailer": "^6.5"
   }
 }

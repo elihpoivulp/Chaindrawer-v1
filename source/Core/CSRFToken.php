@@ -21,7 +21,7 @@ class CSRFToken
         return Session::get('CDProtectionToken');
     }
 
-    static public function verifyCSRFToken(string $request_token)
+    static public function verifyCSRFToken(string $request_token): bool
     {
         if (Session::exists('CDProtectionToken') && Session::get('CDProtectionToken') === $request_token) {
             unset($_SESSION['CDProtectionToken']);

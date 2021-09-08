@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="x-apple-disable-message-reformatting" content=""/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="color-scheme" content="light dark"/>
+    <meta name="supported-color-schemes" content="light dark"/>
+    <title></title>
+    <style media="all">
+        /* Base ------------------------------ */
+
+        @import url("https://fonts.googleapis.com/css?family=Nunito+Sans:400,700&display=swap");
+
+        body {
+            width: 100% !important;
+            height: 100%;
+            margin: 0;
+            -webkit-text-size-adjust: none;
+        }
+
+        a {
+            color: #3869D4;
+        }
+
+        a img {
+            border: none;
+        }
+
+        td {
+            word-break: break-word;
+        }
+
+        /* Type ------------------------------ */
+
+        body,
+        td,
+        th {
+            font-family: "Nunito Sans", Helvetica, Arial, sans-serif;
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #333333;
+            font-size: 22px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #333333;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        h3 {
+            margin-top: 0;
+            color: #333333;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        td,
+        th {
+            font-size: 16px;
+        }
+
+        p,
+        ul,
+        ol,
+        blockquote {
+            margin: .4em 0 1.1875em;
+            font-size: 16px;
+            line-height: 1.625;
+        }
+
+        /* Utilities ------------------------------ */
+
+        .align-right {
+            text-align: right;
+        }
+
+        /* Attribute list ------------------------------ */
+
+        .attributes {
+            margin: 0 0 21px;
+        }
+
+        .attributes_content {
+            background-color: #F4F4F7;
+            padding: 16px;
+        }
+
+        .attributes_item {
+            padding: 0;
+        }
+
+        /* Social Icons ------------------------------ */
+
+        .social td {
+            padding: 0;
+            width: auto;
+        }
+
+        /* Data table ------------------------------ */
+
+        .purchase {
+            width: 100%;
+            margin: 0;
+            padding: 35px 0;
+        }
+
+        .withdraw_content {
+            width: 100%;
+            margin: 0;
+            padding: 25px 0 0 0;
+        }
+
+        .withdraw_item {
+            padding: 10px 0;
+            color: #51545E;
+            font-size: 15px;
+            line-height: 18px;
+        }
+
+        .withdraw_heading {
+            padding-bottom: 8px;
+            border-bottom: 1px solid #EAEAEC;
+        }
+
+        .withdraw_heading p {
+            margin: 0;
+            color: #85878E;
+            font-size: 12px;
+        }
+
+        .withdraw_footer {
+            padding-top: 15px;
+            border-top: 1px solid #EAEAEC;
+        }
+
+        .withdraw_total {
+            margin: 0;
+            text-align: right;
+            font-weight: bold;
+            color: #333333;
+        }
+
+        .withdraw_total--label {
+            padding: 0 15px 0 0;
+        }
+
+        body {
+            background-color: #F4F4F7;
+            color: #51545E;
+        }
+
+        p {
+            color: #51545E;
+        }
+
+        .email-wrapper {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #F4F4F7;
+        }
+
+        .email-content {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Body ------------------------------ */
+
+        .email-body {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #FFFFFF;
+        }
+
+        .email-body_inner {
+            width: 570px;
+            margin: 0 auto;
+            padding: 0;
+            background-color: #FFFFFF;
+        }
+
+        .email-footer p {
+            color: #6B6E76;
+        }
+
+        .content-cell {
+            padding: 18px;
+        }
+
+        /*Media Queries ------------------------------ */
+
+        @media only screen and (max-width: 600px) {
+            .email-body_inner {
+                width: 100% !important;
+            }
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body,
+            .email-body,
+            .email-body_inner,
+            .email-content,
+            .email-wrapper {
+                background-color: #333333 !important;
+                color: #FFF !important;
+            }
+
+            p,
+            ul,
+            ol,
+            blockquote,
+            h1,
+            h2,
+            h3,
+            span,
+            .withdraw_item {
+                color: #FFF !important;
+            }
+
+        }
+    </style>
+</head>
+<body style="padding-top: 80px;">
+<table class="email-wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="width: 100%">
+    <tr>
+        <td align="center">
+            <table class="email-content" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+                <tr>
+                    <td class="email-body" width="100%">
+                        <table class="email-body_inner" align="center" width="570" cellpadding="0" cellspacing="0"
+                               role="presentation">
+                            <!-- Body content -->
+                            <tr>
+                                <td class="content-cell">
+                                    <div class="f-fallback">
+                                        <h1>Withdrawal Request</h1>
+                                        <h3>Account Details</h3>
+                                        <table class="attributes" width="100%" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td class="attributes_content">
+                                                    <table width="100%" cellpadding="0" cellspacing="0">
+                                                        <tr>
+                                                            <td class="attributes_item">
+                                                                <div class="f-fallback">
+                                                                    <strong>Name:</strong>
+                                                                    {{ name }}
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="attributes_item">
+                                                                <div class="f-fallback">
+                                                                    <strong>SLP Balance:</strong>
+                                                                    {{ toMoneyFormat(slp_balance) }} SLP
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="attributes_item">
+                                                                <div class="f-fallback">
+                                                                    <strong>AXS Balance:</strong>
+                                                                    {{ toMoneyFormat(axs_balance) }} AXS
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <table class="purchase" style="width: 100%">
+                                            <tr>
+                                                <td>
+                                                    <h3 style="margin-bottom: 0">Method</h3>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    {{ method }}
+                                                    {% if _type == 'bank' %}
+                                                        <table class="withdraw_content" width="100%" cellpadding="0"
+                                                           cellspacing="0" style="margin-top: 0; padding-top: 10px;">
+                                                        <tr>
+                                                            <th class="withdraw_heading" align="left">
+                                                                <p class="f-fallback">Bank Details</p>
+                                                            </th>
+                                                            <th class="withdraw_heading"></th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="50%" class="withdraw_item">
+                                                                <div class="f-fallback">Account Name</div>
+                                                            </td>
+                                                            <td class="align-right" width="50%">
+                                                                <div class="f-fallback">{{ account_name }}</div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="50%" class="withdraw_item">
+                                                                <div class="f-fallback">Account Number</div>
+                                                            </td>
+                                                            <td class="align-right" width="50%">
+                                                                <div class="f-fallback">#{{ account_number }}</div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="50%" class="withdraw_item">
+                                                                <div class="f-fallback">Phone Number</div>
+                                                            </td>
+                                                            <td class="align-right" width="50%">
+                                                                <div class="f-fallback">{{ phone_number }}</div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    {% elseif _type == 'binance' %}
+                                                        <table class="withdraw_content" width="100%" cellpadding="0"
+                                                               cellspacing="0" style="margin-top: 0; padding-top: 10px;">
+                                                            <tr>
+                                                                <th class="withdraw_heading" align="left">
+                                                                    <p class="f-fallback">Binance Account Details</p>
+                                                                </th>
+                                                                <th class="withdraw_heading"></th>
+                                                            </tr>
+                                                            <tr>
+                                                                <td width="50%" class="withdraw_item">
+                                                                    <div class="f-fallback">Email</div>
+                                                                </td>
+                                                                <td class="align-right" width="50%">
+                                                                    <div class="f-fallback">{{ email }}</div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    {% elseif _type == 'emoney' %}
+                                                        <table class="withdraw_content" width="100%" cellpadding="0"
+                                                               cellspacing="0" style="margin-top: 0; padding-top: 10px;">
+                                                            <tr>
+                                                                <th class="withdraw_heading" align="left">
+                                                                    <p class="f-fallback">Recipient Details</p>
+                                                                </th>
+                                                                <th class="withdraw_heading"></th>
+                                                            </tr>
+                                                            <tr>
+                                                                <td width="50%" class="withdraw_item">
+                                                                    <div class="f-fallback">Recipient Name</div>
+                                                                </td>
+                                                                <td class="align-right" width="50%">
+                                                                    <div class="f-fallback">{{ name }}</div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td width="50%" class="withdraw_item">
+                                                                    <div class="f-fallback">Phone Number</div>
+                                                                </td>
+                                                                <td class="align-right" width="50%">
+                                                                    <div class="f-fallback">{{ phone_number }}</div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <table class="withdraw_content">
+                                                        <tr>
+                                                            <th class="withdraw_heading" align="left">
+                                                                <p class="f-fallback">Withdrawal Details</p>
+                                                            </th>
+                                                            <th class="withdraw_heading"></th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="50%" class="withdraw_item">
+                                                                <div class="f-fallback">SLP</div>
+                                                            </td>
+                                                            <td class="align-right" width="50%">
+                                                                <div class="f-fallback">{{ toMoneyFormat(slp_amt) }} SLP</div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="50%" class="withdraw_item">
+                                                                <div class="f-fallback">AXS</div>
+                                                            </td>
+                                                            <td class="align-right" width="50%">
+                                                                <div class="f-fallback">{{ toMoneyFormat(axs_amt)}} AXS</div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="80%" class="withdraw_footer" valign="middle">
+                                                                <p class="f-fallback withdraw_total withdraw_total--label">
+                                                                    SLP Total</p>
+                                                            </td>
+                                                            <td width="20%" class="withdraw_footer" valign="middle">
+                                                                <p class="f-fallback withdraw_total">{{ toMoneyFormat(slp_amt) }} SLP</p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="80%" class="withdraw_footer" valign="middle">
+                                                                <p class="f-fallback withdraw_total withdraw_total--label">
+                                                                    AXS Total</p>
+                                                            </td>
+                                                            <td width="20%" class="withdraw_footer" valign="middle">
+                                                                <p class="f-fallback withdraw_total">{{ toMoneyFormat(axs_amt) }} AXS</p>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
