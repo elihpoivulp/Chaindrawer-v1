@@ -72,6 +72,19 @@ class Request
         return $body;
     }
 
+    public function requestIsSameDomain(): bool
+    {
+        // prevent request forgery
+        if (!isset($_SERVER['HTTP_REFERER'])) {
+            return false;
+        } else {
+            $referrer_host = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST);
+            $host = $_SERVER['HTTP_HOST'];
+
+            return $referrer_host === $host;
+        }
+    }
+
     private function filterInput(int $type, string $key): string
     {
         return filter_input($type, $key, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
