@@ -122,7 +122,7 @@ class Withdrawals extends ManagerViewOnly
 
     public function processAction()
     {
-        if ($this->request->isPost()) {
+        if ($this->request->isPost() && !$this->account->manager->hasPendingWithdrawal()) {
             $p = $_POST;
             $message = [];
             $keys = [];
