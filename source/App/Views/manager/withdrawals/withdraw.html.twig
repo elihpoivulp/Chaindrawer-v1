@@ -164,6 +164,7 @@
                                                class="form-control {% if err.s %}is-invalid{% endif %} {% if account.manager.ManagerAccountCurrentSLPBalance == 0 %}disabled{% endif %}"
                                                placeholder="SLP Amount"
                                                data-mask="0,###,000"
+                                               required
                                                data-mask-reverse="true"
                                                value="{% if slp_amt %}{{ slp_amt }}{% endif %}"
                                         >
