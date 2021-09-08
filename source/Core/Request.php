@@ -2,6 +2,8 @@
 
 namespace CD\Core;
 
+use CD\Core\Sessions\Session;
+
 class Request
 {
     protected string $current_path;
@@ -57,7 +59,7 @@ class Request
 
     public function isPost(): bool
     {
-        return !$this->isGet();
+        return (!$this->isGet() && $this->requestIsSameDomain());
     }
 
     public function getBody(): array
