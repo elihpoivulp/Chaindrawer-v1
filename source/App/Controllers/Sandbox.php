@@ -22,6 +22,16 @@ class Sandbox extends Controller
         // $money = '1000000.0';
         // echo preg_match('/^\d+\.\d{2}/', $money);
         // echo '</pre>';
-        $this->render('withdraw_request_email_template.html.twig');
+        $this->render('withdraw_request_email_template.html.twig', [
+            'name' => 'Nicko Gamba',
+            'slp_balance' => 100,
+            'axs_balance' => 100,
+            'method' => 'emoney',
+            '_type' => 'emoney',
+            'phone_number' => 1,
+            'slp_amt' => 1,
+            'axs_amt' => 1,
+            'request' => 1
+        ]);
     }
 }
