@@ -5,14 +5,6 @@
 {% block breadcrumb %}
     {% include 'includes/breadcrumb.html.twig' with {
         'trails': {
-            0: {
-                'url':  site_url('manager/dashboard'),
-                'name': 'Dashboard'
-            },
-            1: {
-                'url': site_url('manager/transactions/deposits'),
-                'name': 'Transactions'
-            },
             'active' : {
                 'url' : null,
                 'name': 'Deposits'
