@@ -86,6 +86,22 @@ class Manager extends AccountModel
         return $s->fetchAll();
     }
 
+    public function getWithdrawals()
+    {
+        $sql = "SELECT 
+                WR.*,
+                CONVERT(WR.WithdrawalRequestID, CHAR) AS WithdrawalRequestID,
+                WithdrawalAXSinPHP, WithdrawalSLPinPHP, WithdrawalSLPRate, WithdrawalAXSRate
+                FROM WithdrawalRequests WR
+                LEFT JOIN Withdrawals W on WR.WithdrawalRequestID = W.WithdrawalRequestID
+                WHERE ManagerAccountID = :id
+                ORDER BY WithdrawalRequestStatus DESC, WithdrawalRequestDate DESC, WithdrawalRequestDateCompleted DESC
+                ";
+        $s = $this->db->prepare($sql);
+        $s->execute([':id' => $this->getManagerAccountID()]);
+        return $s->fetchAll();
+    }
+
     public function getPayout(int $payout_id)
     {
         $sql = "SELECT
