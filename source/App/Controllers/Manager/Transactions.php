@@ -19,7 +19,7 @@ class Transactions extends ManagerViewOnly
         $this->loadModel('AxiePayouts');
     }
 
-    public function indexAction()
+    public function depositsAction()
     {
         $this->render('transactions/deposits.html.twig', [
             'title' => 'Transactions | Deposits',
