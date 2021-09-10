@@ -21,10 +21,10 @@ class Transactions extends ManagerViewOnly
 
     public function indexAction()
     {
-        $this->render('transactions/index.html.twig', [
-            'title' => 'Transactions',
+        $this->render('transactions/deposits.html.twig', [
+            'title' => 'Transactions | Deposits',
             'account' => $this->account,
-            'payouts' => $this->account->manager->getPayouts()
+            'deposits' => $this->account->manager->getDeposits()
         ]);
     }
 }

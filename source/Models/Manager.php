@@ -70,6 +70,22 @@ class Manager extends AccountModel
         return $s->fetchAll();
     }
 
+    public function getDeposits()
+    {
+        $sql = "SELECT 
+                MS.*,
+                CONVERT(MS.ManagerShareID, CHAR) AS ManagerShareID,
+                AssetTeamSlug, AssetTeamValue, AssetTeamStatus, AssetTeamName
+                FROM ManagerShares MS
+                INNER JOIN AssetTeams A on MS.AssetTeamID = A.AssetTeamID
+                WHERE ManagerAccountID = :id
+                ORDER BY ManagerSharePurchaseDate, AssetTeamStatus
+                ";
+        $s = $this->db->prepare($sql);
+        $s->execute([':id' => $this->getManagerAccountID()]);
+        return $s->fetchAll();
+    }
+
     public function getPayout(int $payout_id)
     {
         $sql = "SELECT
