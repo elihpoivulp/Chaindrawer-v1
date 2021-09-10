@@ -1,0 +1,139 @@
+{% extends 'base-manager.html.twig' %}
+{% block page_specific_scripts %}
+    {% include 'includes/scripts-tables.html.twig' %}
+{% endblock %}
+{% block breadcrumb %}
+    {% include 'includes/breadcrumb.html.twig' with {
+        'trails': {
+            'active' : {
+                'url' : null,
+                'name': 'Withdrawals'
+            }
+        }
+    } %}
+{% endblock breadcrumb %}
+{% block content %}
+    <div class="page-section">
+        <h4>Withdrawal History</h4>
+        <div class="card">
+            <div class="table-responsive"
+                 data-toggle="lists"
+                 data-lists-sort-by="w-date-request"
+                 data-lists-sort-desc="true"
+                 data-lists-values='["w-no", "w-method", "w-date-request", "w-date-complete", "team-status"]'>
+                <table class="table mb-0 thead-border-top-0 table-nowrap">
+                    <thead>
+                    <tr>
+                        <th style="width: 150px;">
+                            <a href="javascript:void(0)"
+                               class="sort"
+                               data-sort="w-no">Withdrawal<br>ID</a>
+                        </th>
+                        <th class="text-center">
+                            <a href="javascript:void(0)"
+                               class="sort"
+                               data-sort="w-method">Method</a>
+                        </th>
+                        <th class="text-center">
+                            Withdrawn<br>SLP/AXS
+                        </th>
+                        <th class="text-center">
+                            Converted<br>in PHP
+                        </th>
+                        <th class="text-center">
+                            SLP/AXS<br>Rate
+                        </th>
+                        <th class="text-center">
+                            <a href="javascript:void(0)"
+                               class="sort"
+                               data-sort="team-status">Status</a>
+                        </th>
+                        <th class="text-center">
+                            <a href="javascript:void(0)"
+                               class="sort"
+                               data-sort="w-date-request">Request Date</a>
+                        </th>
+                        <th class="text-center">
+                            <a href="javascript:void(0)"
+                               class="sort"
+                               data-sort="w-date-complete">Date Completed</a>
+                        </th>
+                        <th class="text-center">
+                            Current SLP/AXS<br>Balance
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody class="list" id="my-teams">
+                    {% if withdrawals %}
+                        {% for w in withdrawals %}
+                            <tr>
+                                <td>
+                                    <div class="d-flex flex-column">
+                                        <small class="w-no">
+                                            <strong>
+                                                # {{ w.WithdrawalRequestID }}
+                                            </strong>
+                                        </small>
+
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <span class="chip chip-outline-secondary w-method">{{ w.WithdrawalRequestMethod|upper }}</span>
+                                </td>
+                                <td class="text-center">
+                                    <div class="col-auto d-flex flex-column align-items-center justify-content-center">
+                                        <strong>{{ toMoneyFormat(w.WithdrawalRequestSLPAmount) }} SLP</strong>
+                                        <strong>{{ toMoneyFormat(w.WithdrawalRequestAXSAmount) }} AXS</strong>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div class="col-auto d-flex flex-column align-items-center justify-content-center">
+                                        <strong>{{ peso_symbol ~ ' ' ~ toMoneyFormat(w.WithdrawalSLPinPHP) }} (SLP)</strong>
+                                        <strong>{{ peso_symbol ~ ' ' ~ toMoneyFormat(w.WithdrawalAXSinPHP) }} (AXS)</strong>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div class="col-auto d-flex flex-column align-items-center justify-content-center">
+                                        <strong class="text-50">{{ toMoneyFormat(w.WithdrawalSLPRate) }} per SLP</strong>
+                                        <strong class="text-50">{{ toMoneyFormat(w.WithdrawalAXSRate) }} per AXS</strong>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    {% if w.WithdrawalRequestStatus == 'pending' %}
+                                        <strong class="text-warning team-status">Pending</strong>
+                                    {% else %}
+                                        <strong class="text-success team-status">Completed</strong>
+                                    {% endif %}
+                                </td>
+                                <td class="text-center">
+                                    <span class="w-date-request">
+                                       {{ w.WithdrawalRequestDate|date('M j, o H:i') }}
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <span class="w-date-complete">
+                                       {{ w.WithdrawalRequestDateCompleted ?  w.WithdrawalRequestDateCompleted|date('M j, o H:i') : '' }}
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <div class="col-auto d-flex flex-column align-items-center justify-content-center">
+                                        <strong>{{ toMoneyFormat(w.WithdrawalRequestRemSLPBalance) }} SLP</strong>
+                                        <strong>{{ toMoneyFormat(w.WithdrawalRequestRemAXSBalance) }} AXS</strong>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td>
+                                <strong>No data yet.</strong>
+                            </td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
