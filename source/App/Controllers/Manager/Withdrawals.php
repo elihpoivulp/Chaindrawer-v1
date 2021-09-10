@@ -28,27 +28,6 @@ class Withdrawals extends ManagerViewOnly
 
     public function indexAction()
     {
-
-        // $file = fopen(BASE_PATH . '/source/withdrawal.csv', 'r');
-        // $header = null;
-        // $data = [];
-        // while (!feof($file)) {
-        //     $row = fgetcsv($file);
-        //     array_splice($row, 6);
-        //     if ($row == [null] || $row === false) continue;
-        //     if (!$header) {
-        //         $header = $row;
-        //     } else {
-        //         $data[] = array_combine($header, $row);
-        //     }
-        // }
-        // fclose($file);
-        //
-        // echo '<pre>';
-        // print_r($data);
-        // echo '</pre>';
-        // exit;
-
         $slp_bal = Session::get('_w_s') ?? 0;
         $axs_bal = Session::get('_w_a') ?? 0;
         $banks = [];
