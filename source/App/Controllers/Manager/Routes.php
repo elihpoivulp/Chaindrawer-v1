@@ -18,6 +18,7 @@ class Routes extends AbstractRoute
         'teams/earnings/{id:\d+}' => ['action' => 'earningsDetails'],
         'teams/{slug:[a-z0-9]+(?:-[a-z0-9]+)*}' => ['action' => 'view'],
         'transactions' => ['controller' => 'Transactions'],
+        'transactions/deposits' => ['controller' => 'Transactions'],
         'transactions/{id:\d+}' => ['action' => 'details', 'controller' => 'Transactions'],
     ];
 }

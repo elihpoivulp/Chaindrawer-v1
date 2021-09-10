@@ -68,7 +68,7 @@
                     </a>
                     <ul class="sidebar-submenu collapse sm-indent {% if get_uri(1) == 'transactions' %}show{% endif %}"
                         id="components_menu">
-                        <li class="sidebar-menu-item {% if get_uri(1) == 'transactions' and get_uri(2) == 'deposits' %}active{% endif %}">
+                        <li class="sidebar-menu-item {% if get_uri(1) == 'transactions' and get_uri(2) == 'deposits' or get_uri(2) == null %}active{% endif %}">
                             <a class="sidebar-menu-button"
                                href="{{ site_url('manager/transactions/deposits') }}">
                                 <span class="sidebar-menu-text">Deposits</span>
