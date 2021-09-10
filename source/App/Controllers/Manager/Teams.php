@@ -109,7 +109,7 @@ class Teams extends ManagerViewOnly
 
     public function earningsDetailsAction()
     {
-        $team_payout_details = $this->account->manager->getPayout($this->params['id']);
+        $team_payout_details = $this->account->manager->getPayout($this->params['id'], true);
         if ($team_payout_details) {
             $teams = new TeamsModel();
             $team = $teams->getTeamBySlug($team_payout_details['AssetTeamSlug'])->getTeamManagers();

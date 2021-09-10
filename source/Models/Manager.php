@@ -102,7 +102,7 @@ class Manager extends AccountModel
         return $s->fetchAll();
     }
 
-    public function getPayout(int $payout_id)
+    public function getPayout(int $payout_id, bool $update_seen = false)
     {
         $sql = "SELECT
                 AxieTeamPayoutShareRate, AxieTeamPayoutTotalAXS, AxieTeamPayoutTotalSLP,
@@ -130,7 +130,17 @@ class Manager extends AccountModel
         $s = $this->db->prepare($sql);
         $s->bindValue(':id', $payout_id, PDO::PARAM_INT);
         $s->execute();
-        return $s->fetch();
+        $res = $s->fetch();
+        if ($update_seen) {
+            $this->updateSeen($payout_id);
+        }
+        return $res;
+    }
+
+    private function updateSeen($id) {
+        $sql = "UPDATE ManagerPayouts SET ManagerPayoutSeen = 1 WHERE ManagerPayoutID = :id";
+        $s = $this->db->prepare($sql);
+        return $s->execute([':id' => $id]);
     }
 
     public function getReturnSummary(): array
