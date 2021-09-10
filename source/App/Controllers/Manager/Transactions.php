@@ -27,4 +27,17 @@ class Transactions extends ManagerViewOnly
             'deposits' => $this->account->manager->getDeposits()
         ]);
     }
+
+    public function withdrawalsAction()
+    {
+        // echo '<pre>';
+        // print_r($this->account->manager->getWithdrawals());
+        // echo '</pre>';
+        // exit;
+        $this->render('transactions/withdrawals.html.twig', [
+            'title' => 'Transactions | Withdrawals',
+            'account' => $this->account,
+            'withdrawals' => $this->account->manager->getWithdrawals()
+        ]);
+    }
 }
