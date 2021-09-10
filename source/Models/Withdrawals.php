@@ -51,7 +51,7 @@ class Withdrawals extends BaseDBModel
         return $s->fetch();
     }
 
-    public function addToWithdrawHistory(array $data): bool
+    public function addToWithdrawHistory(array $data): int
     {
         $s = $this->db->prepare("INSERT INTO WithdrawalRequests (WithdrawalRequestSLPAmount, WithdrawalRequestAXSAmount, WithdrawalRequestMethod, WithdrawalRequestRemSLPBalance, WithdrawalRequestRemAXSBalance, ManagerAccountID) VALUES (:slp_amt, :axs_amt, :method, :rem_slp_bal, :rem_axs_bal, :manager)");
         $s->bindValue(':slp_amt', $data['slp_amt']);
@@ -60,6 +60,7 @@ class Withdrawals extends BaseDBModel
         $s->bindValue(':rem_slp_bal', $data['rem_slp_bal']);
         $s->bindValue(':rem_axs_bal', $data['rem_axs_bal']);
         $s->bindValue(':manager', $data['manager']);
-        return $s->execute();
+        $s->execute();
+        return $this->db->lastInsertId();
     }
 }

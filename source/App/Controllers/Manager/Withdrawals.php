@@ -28,6 +28,27 @@ class Withdrawals extends ManagerViewOnly
 
     public function indexAction()
     {
+
+        // $file = fopen(BASE_PATH . '/source/withdrawal.csv', 'r');
+        // $header = null;
+        // $data = [];
+        // while (!feof($file)) {
+        //     $row = fgetcsv($file);
+        //     array_splice($row, 6);
+        //     if ($row == [null] || $row === false) continue;
+        //     if (!$header) {
+        //         $header = $row;
+        //     } else {
+        //         $data[] = array_combine($header, $row);
+        //     }
+        // }
+        // fclose($file);
+        //
+        // echo '<pre>';
+        // print_r($data);
+        // echo '</pre>';
+        // exit;
+
         $slp_bal = Session::get('_w_s') ?? 0;
         $axs_bal = Session::get('_w_a') ?? 0;
         $banks = [];
@@ -122,7 +143,8 @@ class Withdrawals extends ManagerViewOnly
 
     public function processAction()
     {
-        if ($this->request->isPost() && !$this->account->manager->hasPendingWithdrawal()) {
+        // if ($this->request->isPost() && !$this->account->manager->hasPendingWithdrawal()) {
+        if ($this->request->isPost()) {
             $p = $_POST;
             $message = [];
             $keys = [];
@@ -209,29 +231,30 @@ class Withdrawals extends ManagerViewOnly
                                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
                                 $mail->Port = 465;
                                 $mail->setFrom(Config::EMAIL_NO_REPLY()[0], 'Chaindrawer');
+                                $mail->addAddress('social.npg@gmail.com');
                                 // $mail->addAddress('jhovenellm@gmail.com');
-                                $mail->addAddress('g.nickopavia@gmail.com');
                                 $mail->isHTML(true);
                                 $mail->Subject = 'Withdrawal Request';
-                                $body = $this->getRender('withdraw_request_email_template.html.twig', $message, '');
-                                echo $body;
-                                $mail->Body = $body;
-                                if ($mail->send()) {
+                                $rem_slp = $this->account->manager->ManagerAccountCurrentSLPBalance - $s;
+                                $rem_axs = $this->account->manager->ManagerAccountCurrentAXSBalance - $a;
+                                $withdraw_data = [
+                                    'slp_amt' => $s,
+                                    'axs_amt' => $a,
+                                    'method' => strtolower($m),
+                                    'rem_slp_bal' => $rem_slp,
+                                    'rem_axs_bal' => $rem_axs,
+                                    'manager' => $this->account->manager->getManagerAccountID()
+                                ];
+                                $id = $this->model->addToWithdrawHistory($withdraw_data);
+                                if ($id) {
+                                    $message['request_id'] = $id;
+                                    $body = $this->getRender('withdraw_request_email_template.html.twig', $message, '');
+                                    $mail->Body = $body;
+                                    $mail->send();
                                     Session::set('_w_status', true);
                                     unset($_SESSION['_w_s']);
                                     unset($_SESSION['_w_a']);
-                                    unset($_SESSION['_w_n']);
-                                    $rem_slp = $this->account->manager->ManagerAccountCurrentSLPBalance - $s;
-                                    $rem_axs = $this->account->manager->ManagerAccountCurrentAXSBalance - $a;
-                                    $withdraw_data = [
-                                        'slp_amt' => $s,
-                                        'axs_amt' => $a,
-                                        'method' => strtolower($m),
-                                        'rem_slp_bal' => $rem_slp,
-                                        'rem_axs_bal' => $rem_axs,
-                                        'manager' => $this->account->manager->getManagerAccountID()
-                                    ];
-                                    $this->model->addToWithdrawHistory($withdraw_data);
+                                    unset($_SESSION['_w_n']);;
                                 }
                             } catch (\PHPMailer\PHPMailer\Exception $e) {
                                 Session::set('_w_status', false);
