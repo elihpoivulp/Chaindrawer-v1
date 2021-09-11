@@ -26,8 +26,12 @@ class LoginRequiredController extends Controller
                     'timeout' => '5000',
                 ]
             );
+            $next = '';
+            if ($uri = $this->params['requested_uri']) {
+                $next = '?next=' . urlencode($uri);
+            }
             SessionsUserAuth::logout();
-            Response::redirect('auth/login');
+            Response::redirect('auth/login' . $next);
         }
         $login = new ActiveAccount();
         $user = $login->getRelatedUser(SessionsUserAuth::getToken());

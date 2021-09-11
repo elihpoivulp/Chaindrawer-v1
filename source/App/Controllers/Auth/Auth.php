@@ -57,9 +57,11 @@ class Auth extends FormController
                 ]);
             }
         }
+        $next = isset($_GET['next']) ? '?next=' . urldecode($_GET['next']) : '';
         $this->render('login.html.twig', [
             'title' => 'Login',
-            'form' => $form
+            'form' => $form,
+            'next' => $next
         ]);
     }
 
@@ -91,7 +93,8 @@ class Auth extends FormController
             $role = $user->getRoles()[0] ?? null;
             if (!is_null($role) && has_key_presence(strtolower($role['RoleName']), self::ROLE_ROUTES)) {
                 $role = strtolower($role['RoleName']);
-                Response::redirect(self::ROLE_ROUTES[strtolower($role)]);
+                $next = isset($_GET['next']) ? urldecode($_GET['next']) : self::ROLE_ROUTES[strtolower($role)];
+                Response::redirect($next);
             } else {
                 Session::setFlash('toastr', 'An error has occurred. Please try again later.', [
                     'type' => Session::FLASH_TYPE_WARNING,

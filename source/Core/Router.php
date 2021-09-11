@@ -29,6 +29,7 @@ class Router
             $action = $this->toCamelCase($action_name);
 
             if (class_exists($controller)) {
+                $this->params['requested_uri'] = $this->current_path;
                 $controller_obj = new $controller($this->params, $view, $request);
 
                 if (is_callable([$controller_obj, $action])) {
