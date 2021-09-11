@@ -16,7 +16,7 @@
 {% block content %}
     <div class="pt-32pt pt-sm-64pt pb-32pt">
         <div class="container page__container">
-            {% set action = site_url('auth/login') %}
+            {% set action = site_url('auth/login' ~ next) %}
             {% autoescape false %}
                 {{ form.begin('post', action, ['col-md-5', 'p-0', 'mx-auto']) }}
                 {{ getFlashAlert('msg') }}
