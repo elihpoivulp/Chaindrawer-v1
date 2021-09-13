@@ -31,10 +31,27 @@ class AxieTeam extends BaseDBModel
             DailySLPGrindID, DailySLPGrindAmount, DailySLPGrindDateAdded
             FROM DailySLPGrind
             LEFT JOIN AssetTeams A on A.AssetTeamID = DailySLPGrind.AxieTeamID
+            WHERE AxieTeamID = :id
+            LIMIT 7 
         ";
         $s = $this->db->prepare($sql);
-        $s->execute();
+        $s->execute([':id' => $this->AssetTeamID]);
         return $s->fetchAll();
+    }
+
+    public function getRoyaltyOfCurrentBalance()
+    {
+        $sql = "SELECT
+                (AxieTeams.AxieTeamCurrentAXSBalance * (TT.TeamProfitShare / 100)) AS AXSRoyalty,
+                (AxieTeams.AxieTeamCurrentSLPBalance * (TT.TeamProfitShare / 100)) AS SLPRoyalty
+                FROM AxieTeams
+                INNER JOIN AssetTeams A on A.AssetTeamID = AxieTeams.AssetTeamID
+                INNER JOIN TeamTypes TT on A.TeamTypeID = TT.TeamTypeID
+                WHERE AxieTeams.AssetTeamID = :id
+                ";
+        $s = $this->db->prepare($sql);
+        $s->execute([':id' => $this->AssetTeamID]);
+        return $s->fetch();
     }
 
     public function getAxieScholar()

@@ -100,6 +100,14 @@ class Team extends BaseDBModel
         return $s->fetchAll();
     }
 
+    public function getLastPayoutDate()
+    {
+        $sql = "SELECT AxieTeamPayoutDate as LastPayoutDate, AxieTeamPayoutDate + INTERVAL 15 DAY AS NextPayoutDate FROM AxieTeamPayouts WHERE AxieTeamID = :id AND AxieTeamPayoutDate <= CURDATE()";
+        $s = $this->db->prepare($sql);
+        $s->execute([':id' => $this->AssetTeamID]);
+        return $s->fetch();
+    }
+
     protected function isAxieTeam(): bool
     {
         $sql = "SELECT * FROM AxieTeams WHERE AssetTeamID = :id";

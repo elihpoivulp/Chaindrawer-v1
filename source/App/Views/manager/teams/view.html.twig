@@ -82,17 +82,10 @@
                             <div class="row no-gutters flex" role="tablist">
                                 <div class="col-auto">
                                     <div class="p-card-header d-flex align-items-center">
-                                        <div class="h2 mb-0 mr-3">
+                                        <div class="h2 mb-0">
                                             <img class="avatar-img rounded-circle avatar-sm"
                                                  src="{{ load_static('assets/chndrwr/images/axies/axie_avatar_15.png') }}"
                                                  alt="Axie" width="45">
-                                        </div>
-                                        <div class="flex">
-                                            <p class="mb-0">
-                                                <strong>#{{ toMoneyFormat(team.AxieTeam.AxieTeamRank, false) }}</strong></p>
-                                            <p class="text-50 mb-0 d-flex align-items-center">
-                                                <small>Team Rank</small>
-                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -100,7 +93,8 @@
                                     <div class="p-card-header d-flex align-items-center">
                                         <div class="flex mt-1">
                                             <p class="mb-0">
-                                                <strong>{{ toMoneyFormat(team.AxieTeam.AxieTeamMMR, false) }}</strong></p>
+                                                <strong>{{ toMoneyFormat(team.AxieTeam.AxieTeamMMR, false) }}</strong>
+                                            </p>
                                             <p class="text-50 mb-0 d-flex align-items-center">
                                                 <small><em>MMR</em></small>
                                             </p>
@@ -112,7 +106,8 @@
                                         <div class="flex mt-1">
                                             <p class="mb-0 d-flex align-items-center">
                                                 {% if team.AssetTeamStatus %}
-                                                    <i class="fa fa-circle" style="font-size: 8px; color: greenyellow"></i>
+                                                    <i class="fa fa-circle"
+                                                       style="font-size: 8px; color: greenyellow"></i>
                                                     <strong>&nbsp;Active</strong>
                                                 {% else %}
                                                     <i class="fa fa-circle text-warning" style="font-size: 8px;"></i>
@@ -128,84 +123,70 @@
                             </div>
                         </div>
                         <div class="card-body d-flex flex-column">
-                            <small class="text-muted text-uppercase mb-3 d-block font-weight-bold">Team Details</small>
-                            <small class="d-flex align-items-center font-weight-bold text-muted mb-2">
-                                <span class="flex text-body">Team Value</span>
-                                <span class="d-flex align-items-center">{{ peso_symbol ~ ' ' ~ toMoneyFormat(team.AssetTeamValue) }}</span>
-                            </small>
-                            {#                        <small class="d-flex align-items-center font-weight-bold text-muted mb-2">#}
-                            {#                            <span class="flex text-body">Collected Amount</span>#}
-                            {#                            <span class="d-flex align-items-center">{{ peso_symbol ~ ' ' ~ toMoneyFormat(team.AssetTeamCollectedAmount) }}</span>#}
-                            {#                        </small>#}
-                            <small class="d-flex align-items-center font-weight-bold text-muted mb-2">
-                            <span class="flex text-body">
-                                <span class="text-body">
-                                    Current <em data-toggle="tooltip" title="Axie Infinity Shards">AXS</em>
-                                    Balance
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="flex text-body text-uppercase">
+                                    Team Details
+                                </div>
+                                <span class="d-flex align-items-center">
+                                    <span class="badge badge-dark" style="font-size: 12px">
+                                        <a href="{{ team.AxieTeam.AxieTeamTrackerAddress }}" class="text-white">
+                                            Tracker Address <i class="fa fa-external-link-alt ml-1"></i>
+                                        </a>
+                                    </span>
                                 </span>
-                            </span>
-                                <span class="d-flex align-items-center">{{ toMoneyFormat(team.AxieTeam.AxieTeamCurrentAXSBalance) }}</span>
+                            </div>
+                            <small class="text-info mb-2">
+                                <i class="material-icons" style="font-size: inherit">info</i>
+                                Values are updated every 8 AM.
                             </small>
-                            <small class="d-flex align-items-start font-weight-bold text-muted mb-2">
-                            <span class="flex d-flex flex-column">
-                                <span class="text-body">Current <em data-toggle="tooltip"
-                                                                    title="Small Love Potion">SLP</em> Balance</span>
-                                Updated everyday
-                            </span>
-                                <span class="d-flex align-items-center ml-1">
-                                 {{ toMoneyFormat(team.AxieTeam.AxieTeamCurrentSLPBalance, false) }} SLP
-                            </span>
-                            </small>
-                            <small class="d-flex align-items-center font-weight-bold text-muted">
-                                <span class="flex text-body">Axies</span>
-                            </small>
-                            <a href="{{ team.AxieTeam.AxieTeamAvatar1URL }}"
-                               class="d-flex align-items-center font-weight-bold text-muted ml-2" target="_blank">
-                                <span class="flex">1. {{ team.AxieTeam.AxieTeamAvatar1Type }}</span>
-                                <span class="d-flex align-items-center">
-                                    <i class="material-icons text-20 icon-16pt">link</i>
-                            </span>
-                            </a>
-                            <a href="{{ team.AxieTeam.AxieTeamAvatar2URL }}"
-                               class="d-flex align-items-center font-weight-bold text-muted ml-2" target="_blank">
-                                <span class="flex">2. {{ team.AxieTeam.AxieTeamAvatar2Type }}</span>
-                                <span class="d-flex align-items-center">
-                                    <i class="material-icons text-20 icon-16pt">link</i>
-                            </span>
-                            </a>
-                            <a href="{{ team.AxieTeam.AxieTeamAvatar3URL }}"
-                               class="d-flex align-items-center font-weight-bold text-muted ml-2 mb-2" target="_blank">
-                                <span class="flex">3. {{ team.AxieTeam.AxieTeamAvatar3Type }}</span>
-                                <span class="d-flex align-items-center">
-                                    <i class="material-icons text-20 icon-16pt">link</i>
-                            </span>
-                            </a>
-                            <small class="d-flex align-items-center font-weight-bold text-muted">
-                                <span class="flex text-body">Axie Scholar</span>
-                            </small>
-                            <small class="d-flex align-items-center font-weight-bold text-muted ml-2">
-                                <span class="flex">ChainDrawer Scholar #{{ team.AxieTeam.getAxieScholar.PlayerID }}</span>
-                            </small>
-                            {#                        <small class="d-flex align-items-center font-weight-bold text-muted mb-1">#}
-                            {#                            <span class="flex text-body">Scholar/Axie Player</span>#}
-                            {#                        </small>#}
-                            {#                        <div class="d-flex align-items-center" style="white-space: nowrap;">#}
-                            {#                            <div class="avatar avatar-32pt mr-8pt">#}
-                            {#                                <span class="avatar-title rounded-circle">#{{ team.AxieTeam.getAxieScholar.PlayerID }}</span>#}
-                            {#                            </div>#}
-                            {#                            <div class="flex ml-4pt">#}
-                            {#                                <div class="d-flex flex-column">#}
-                            {#                                    <p class="mb-0"><strong>{{ team.AxieTeam.getAxieScholar.PlayerIGN }}</strong></p>#}
-                            {#                                    #}{# <small class="text-50"><a href="#">See Profile</a></small> #}
-                            {#                                </div>#}
-                            {#                            </div>#}
-                            {#                            #}{# <a href="javascript:void(0);"><i class="material-icons text-20 icon-16pt">email</i></a> #}
-                            {#                        </div>#}
+                            <div class="d-flex align-items-center text-muted mb-2">
+                                <div class="flex text-body">
+                                    Currently Farmed <em data-toggle="tooltip" title="Smooth Love Potion">SLP</em>
+                                </div>
+                                <span class="d-flex align-items-center">{{ toMoneyFormat(team.AxieTeam.AxieTeamCurrentSLPBalance) }} SLP</span>
+                            </div>
+                            <div class="d-flex align-items-center text-muted">
+                                <div class="flex text-body">
+                                    Currently Farmed <em data-toggle="tooltip" title="Axie Infinity Shards">AXS</em>
+                                </div>
+                                <span class="d-flex align-items-center">{{ toMoneyFormat(team.AxieTeam.AxieTeamCurrentAXSBalance) }} AXS</span>
+                            </div>
+
+                            <div class="border-bottom my-3"></div>
+
+                            <div class="d-flex align-items-center text-muted mb-1">
+                                <span class="flex text-body">Current Managers Royalty ({{ team.TeamProfitShare|round }}%)</span>
+                            </div>
+                            <div class="d-flex align-items-center font-weight-bold text-muted ml-2">
+                                <div class="flex">SLP</div>
+                                <div class="d-flex align-items-center">{{ toMoneyFormat(team.AxieTeam.getRoyaltyOfCurrentBalance.SLPRoyalty, false) }}
+                                    SLP
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center font-weight-bold text-muted ml-2">
+                                <div class="flex">AXS</div>
+                                <div class="d-flex align-items-center">{{ toMoneyFormat(team.AxieTeam.getRoyaltyOfCurrentBalance.AXSRoyalty, false) }}
+                                    AXS
+                                </div>
+                            </div>
+                            {# <div class="text-muted">100 SLP</div> #}
+                            {# <div class="text-muted mb-3">100 SLP</div> #}
+                            {# <div class="d-flex align-items-start text-muted mb-2"> #}
+                            {# <div class="flex d-flex flex-column"> #}
+                            {# <div class="text-body"> #}
+                            {# Current <em data-toggle="tooltip" title="Small Love Potion">SLP</em> Balance #}
+                            {# </div> #}
+                            {# Updated everyday 8 AM #}
+                            {# </div> #}
+                            {# <span class="d-flex align-items-center ml-1"> #}
+                            {# {{ toMoneyFormat(team.AxieTeam.getRoyaltyOfCurrentBalance.SLPRoyalty, false) }} SLP #}
+                            {# </span> #}
+                            {# </div> #}
                         </div>
                         <div class="card-footer">
                             <strong>Daily SLP Grind</strong>
                             {% if charts.line.has_data %}
-                                <div class="chart"
+                                <div class="chart mt-2"
                                      style="height: 100px;">
                                     <canvas class="chart-canvas js-update-chart-line js-update-chart-area"
                                             id="daily-grind-chart"
@@ -224,13 +205,14 @@
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-12 col-lg-7 card-group-row__col">
-                    <div class="card card-group-row__card" style="position: relative; /*padding-bottom: calc(80px - 1.25rem);overflow: hidden; */ z-index: 0;">
+                    <div class="card card-group-row__card"
+                         style="position: relative; /*padding-bottom: calc(80px - 1.25rem);overflow: hidden; */ z-index: 0;">
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex mr-3">
                                     <div class="h2 mb-0">Managers</div>
                                     <div class="d-flex flex-column">
-                                        <p class="mb-0"><strong>Earnings Rate Allocation</strong></p>
+                                        <p class="mb-0"><strong>Earnings Allocation</strong></p>
                                         <small class="text-50">{{ team.TeamManagerCount }} {{ team.TeamManagerCount == 0 or team.TeamManagerCount > 1 ? 'Managers' : 'Manager' }}</small>
                                     </div>
                                 </div>
@@ -240,7 +222,7 @@
                                     <div class="chart" style="height: 190px;">
                                         <div class="text-center fullbleed d-flex align-items-center justify-content-center flex-column z-0">
                                             <h2 class="m-0">{{ team.TeamProfitShare|round }}%</h2>
-                                            <strong>Team Profit<br>Share</strong>
+                                            <strong>Royalty</strong>
                                         </div>
                                         <canvas class="chart-canvas position-relative z-1"
                                                 id="investors-ownership-chart">
@@ -261,52 +243,62 @@
                                             </small>
                                         {% endfor %}
                                     </div>
-
-                                    {#                                <strong>Income Breakdown</strong>#}
-                                    {#                                <div class="table-responsive">#}
-                                    {#                                    <table class="mt-2 table table-sm mb-0 thead-border-top-0 table-nowrap">#}
-                                    {#                                        <thead>#}
-                                    {#                                        <tr>#}
-                                    {#                                            <th>Investor ID</th>#}
-                                    {#                                            <th>Ownership</th>#}
-                                    {#                                            <th>SLP</th>#}
-                                    {#                                            <th>PHP</th>#}
-                                    {#                                        </tr>#}
-                                    {#                                        </thead>#}
-                                    {#                                        <tbody class="list" id="clients">#}
-                                    {#                                        {% if charts.doughnut.has_data %}#}
-                                    {#                                            {% for manager in team.getTeamManagers %}#}
-                                    {#                                                {% if user.getUserID == manager.UserID %}#}
-                                    {#                                                    {% set selected = 'selected font-weight-bolder' %}#}
-                                    {#                                                    {% set m = 'Me' %}#}
-                                    {#                                                {% else %}#}
-                                    {#                                                    {% set selected = '' %}#}
-                                    {#                                                    {% set m = labels[loop.index - 1] %}#}
-                                    {#                                                {% endif %}#}
-                                    {#                                                <tr class="{{ selected }}">#}
-                                    {#                                                    <td>#}
-                                    {#                                                        {{ m }}#}
-                                    {#                                                    </td>#}
-                                    {#                                                    <td>{{ manager.OwnershipRate }}%</td>#}
-                                    {#                                                    <td>{{ toMoneyFormat((team.AxieTeam.AxieTeamCurrentSLPBalance * (manager.OwnershipRate / 100))|round, false) }}</td>#}
-                                    {#                                                    <td>{{ peso_symbol ~ ' ' ~ toMoneyFormat((12782.64 * (manager.OwnershipRate / 100)|round)) }}</td>#}
-                                    {#                                                </tr>#}
-                                    {#                                            {% endfor %}#}
-                                    {#                                        {% else %}#}
-                                    {#                                            <tr>#}
-                                    {#                                                <td><strong>No data yet.</strong></td>#}
-                                    {#                                            </tr>#}
-                                    {#                                        {% endif %}#}
-                                    {#                                        </tbody>#}
-                                    {#                                    </table>#}
-                                    {#                                </div>#}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-12 col-lg-5"></div>
-                <div class="col-md-6 col-sm-12 col-lg-7">
+                <div class="col-12">
+                    <h5 class="mb-1">Distribution Summary</h5>
+                    <p>
+                        <small class="text-50">This summary is based on the Team's 60% Royalty earned from the total SLP
+                            and AXS farmed as of today.</small>
+                        <br>
+                    </p>
+                    <p>Next earnings distribution schedule:
+                        <strong>{{ last_payout ? last_payout.NextPayoutDate|date('F j, o') : 'No schedule yet' }}</strong>
+                    </p>
+                    <div class="table-responsive">
+                        <table class="mt-2 table table-sm mb-0 thead-border-top-0 table-nowrap">
+                            <thead>
+                            <tr>
+                                <th style="width: 40px">Manager ID</th>
+                                <th class="text-center">Ownership</th>
+                                <th class="text-center">SLP</th>
+                                <th class="text-center">AXS</th>
+                            </tr>
+                            </thead>
+                            <tbody class="list" id="clients">
+                            {% if charts.doughnut.has_data %}
+                                {% for manager in team.getTeamManagers %}
+                                    {% if user.getUserID == manager.UserID %}
+                                        {% set selected = 'selected font-weight-bolder bg-dark' %}
+                                        {% set m = 'Me' %}
+                                    {% else %}
+                                        {% set selected = 'text-70' %}
+                                        {% set m = labels[loop.index - 1] %}
+                                    {% endif %}
+                                    <tr class="{{ selected }}">
+                                        <td>
+                                            {{ m }}
+                                        </td>
+                                        <td class="text-center">{{ manager.OwnershipRate }}%</td>
+                                        <td class="text-center">{{ toMoneyFormat((team.AxieTeam.getRoyaltyOfCurrentBalance.SLPRoyalty * (manager.OwnershipRate / 100))|round) }}
+                                            SLP
+                                        </td>
+                                        <td class="text-center">{{ toMoneyFormat((team.AxieTeam.getRoyaltyOfCurrentBalance.AXSRoyalty * (manager.OwnershipRate / 100)|round)) }}
+                                            AXS
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td><strong>No data yet.</strong></td>
+                                </tr>
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         {% else %}
