@@ -6,16 +6,16 @@
 * {
     --body-font: "DM Sans", Oswald, Helvetica Neue, Arial, sans-serif;
     --title-font: "DM Sans", Oswald, Helvetica Neue, Arial, sans-serif;
-    font-weight: bold;
 }
 
 .headings-family-dm .h1, .headings-family-dm .h2, .headings-family-dm .h3, .headings-family-dm .h4, .headings-family-dm .h5, .headings-family-dm .h6, .headings-family-dm h1, .headings-family-dm h2, .headings-family-dm h3, .headings-family-dm h4, .headings-family-dm h5, .headings-family-dm h6 {
     font-family: var(--title-font);
-    font-weight: bolder;
-    line-height: 1.2 !important;
 }
 
 body {
     font-family: var(--body-font) !important;
-    line-height: 1.2 !important;
+}
+
+b, strong {
+    font-weight: bold;
 }
