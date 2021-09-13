@@ -1,0 +1,21 @@
+@font-face {
+    font-family: 'DM Sans';
+    src: url('fonts/DM_Sans/DMSans-Regular.ttf');
+}
+
+* {
+    --body-font: "DM Sans", Oswald, Helvetica Neue, Arial, sans-serif;
+    --title-font: "DM Sans", Oswald, Helvetica Neue, Arial, sans-serif;
+}
+
+.headings-family-dm .h1, .headings-family-dm .h2, .headings-family-dm .h3, .headings-family-dm .h4, .headings-family-dm .h5, .headings-family-dm .h6, .headings-family-dm h1, .headings-family-dm h2, .headings-family-dm h3, .headings-family-dm h4, .headings-family-dm h5, .headings-family-dm h6 {
+    font-family: var(--title-font);
+}
+
+body {
+    font-family: var(--body-font) !important;
+}
+
+b, strong {
+    font-weight: bold;
+}
