@@ -87,18 +87,13 @@
                                         <span class="d-flex align-items-center">{{ p.AxieTeamPayoutShareRate }}%</span>
                                     </p>
                                     <p class="d-flex align-items-center text-muted mb-1" style="width: 130px;">
-                                        <span class="flex text-body">Axie Scholar</span>
-                                        <span class="d-flex align-items-center">{{ p.AxieScholarPayoutShareRate }}%</span>
-                                    </p>
-                                    <p class="d-flex align-items-center text-muted mb-1" style="width: 130px;">
                                         <span class="flex text-body">Chaindrawer</span>
-                                        <span class="d-flex align-items-center">{{ p.ChainDrawerAxiePayoutShareRate }}%</span>
+                                        <span class="d-flex align-items-center">{{ p.ChainDrawerAxiePayoutShareRate + p.AxieScholarPayoutShareRate }}%</span>
                                     </p>
                                 </td>
                                 <td class="text-right border-top-0 pt-1">
                                     <p class="mb-1 text-50">{{ toMoneyFormat(p.AxieTeamPayoutTotalSLP) }} SLP</p>
-                                    <p class="mb-1 text-50">{{ toMoneyFormat(p.AxieScholarPayoutTotalSLP) }} SLP</p>
-                                    <p class="mb-0 text-50">{{ toMoneyFormat(p.ChainDrawerAxiePayoutTotalSLP) }} SLP</p>
+                                    <p class="mb-0 text-50">{{ toMoneyFormat(p.ChainDrawerAxiePayoutTotalSLP + p.AxieScholarPayoutTotalSLP) }} SLP</p>
                                 </td>
                             </tr>
                             <tr>
@@ -112,18 +107,13 @@
                                         <span class="d-flex align-items-center">{{ p.AxieTeamPayoutShareRate }}%</span>
                                     </p>
                                     <p class="d-flex align-items-center text-muted mb-1" style="width: 130px;">
-                                        <span class="flex text-body">Axie Scholar</span>
-                                        <span class="d-flex align-items-center">{{ p.AxieScholarPayoutShareRate }}%</span>
-                                    </p>
-                                    <p class="d-flex align-items-center text-muted mb-1" style="width: 130px;">
                                         <span class="flex text-body">Chaindrawer</span>
-                                        <span class="d-flex align-items-center">{{ p.ChainDrawerAxiePayoutShareRate }}%</span>
+                                        <span class="d-flex align-items-center">{{ p.ChainDrawerAxiePayoutShareRate + p.AxieScholarPayoutShareRate }}%</span>
                                     </p>
                                 </td>
                                 <td class="text-right border-top-0 pt-1">
                                     <p class="mb-1 text-50">{{ toMoneyFormat(p.AxieTeamPayoutTotalAXS) }} AXS</p>
-                                    <p class="mb-1 text-50">{{ toMoneyFormat(p.AxieScholarPayoutTotalAXS) }} AXS</p>
-                                    <p class="mb-0 text-50">{{ toMoneyFormat(p.ChainDrawerAxiePayoutTotalAXS) }} AXS</p>
+                                    <p class="mb-0 text-50">{{ toMoneyFormat(p.ChainDrawerAxiePayoutTotalAXS + p.AxieScholarPayoutTotalAXS) }} AXS</p>
                                 </td>
                             </tr>
                             <tr class="selected">
@@ -168,7 +158,7 @@
             </div>
             <div class="col-md-5">
                 <div class="page-section">
-                    <div class="d-flex flex-column mb-20pt">
+                    <div class="d-flex flex-column mb-12pt">
                         <p class="text-uppercase mb-24pt d-block font-weight-bold">AXS/SLP Distribution</p>
                         {% for manager in m %}
                             {% set label = manager.getManagerAccountID %}
@@ -189,7 +179,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <p class="text-uppercase mb-24pt d-block font-weight-bold">Current Account Balance</p>
+                            <p class="text-uppercase mb-24pt d-block font-weight-bold">Account Balance</p>
                         </div>
                         <div class="col-6">
                             <div class="card card-group-row__card">
