@@ -257,103 +257,137 @@
                                                     </button>
                                                 </div>
                                             </form>
-                                            <form method="post" action="{{ site_url('manager/withdraw/process') }}"
-                                                  class="tab-pane fade" id="t_emoney">
-                                                <input type="hidden" name="_method" value="emoney">
-                                                <input type="hidden" name="_token" value="{{ token }}">
-                                                <input type="hidden" name="_slp_amt" value="{{ slp_amt }}">
-                                                <input type="hidden" name="_axs_amt" value="{{ axs_amt }}">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="emoneys">Select Gateway</label>
-                                                    <select id="emoneys" data-toggle="select" class="form-control"
-                                                            name="emoney[payment]" required>
-                                                        {% for em in emoneys %}
-                                                            <option value="{{ em.EMoneyID }}"
-                                                                    {% if em.EMoneyID == 1 %}selected{% endif %} id="emoney_{{ em.EMoneyID }}">{{ em.EMoneyName }}</option>
-                                                        {% endfor %}
-                                                    </select>
+                                            {% if can_withdraw %}
+                                                <form method="post" action="{{ site_url('manager/withdraw/process') }}"
+                                                      class="tab-pane fade" id="t_emoney">
+                                                    <input type="hidden" name="_method" value="emoney">
+                                                    <input type="hidden" name="_token" value="{{ token }}">
+                                                    <input type="hidden" name="_slp_amt" value="{{ slp_amt }}">
+                                                    <input type="hidden" name="_axs_amt" value="{{ axs_amt }}">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="emoneys">Select Gateway</label>
+                                                        <select id="emoneys" data-toggle="select" class="form-control"
+                                                                name="emoney[payment]" required>
+                                                            {% for em in emoneys %}
+                                                                <option value="{{ em.EMoneyID }}"
+                                                                        {% if em.EMoneyID == 1 %}selected{% endif %} id="emoney_{{ em.EMoneyID }}">{{ em.EMoneyName }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="form-label"
+                                                               for="em_phone_number">Phone Number</label>
+                                                        <input id="em_phone_number" required
+                                                               name="emoney[phone_number]"
+                                                               type="text"
+                                                               class="form-control"
+                                                               data-mask="##########0" autocomplete="off" maxlength="11"
+                                                               value="{{ user.getUserPhone }}"
+                                                               placeholder="09xxxxxxxxx">
+                                                    </div>
+                                                    <div class="form-group mb-24pt">
+                                                        <label class="form-label"
+                                                               for="em_name">Account Name</label>
+                                                        <input id="em_name" required
+                                                               type="text"
+                                                               class="form-control"
+                                                               name="emoney[name]"
+                                                               placeholder="Account Name"
+                                                               value="{{ account.getUserFullName }}"
+                                                        >
+                                                    </div>
+                                                    <div class="text-right">
+                                                        <button type="submit" class="btn btn-accent confirm-wd"
+                                                                data-form="emoney">Confirm
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            {% else %}
+                                                <div class="tab-pane fade" id="t_emoney">
+                                                    <div class="alert alert-soft-info">
+                                                        <div class="d-flex flex-wrap">
+                                                            <div class="mr-8pt">
+                                                                <i class="material-icons">info</i>
+                                                            </div>
+                                                            <div class="flex d-flex align-items-center" style="min-width: 180px">
+                                                                <small class="text-100">
+                                                                    Emoney withdrawal schedule is from<br>Mon thru Fri, 9 AM - 5 PM
+                                                                </small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="form-label"
-                                                           for="em_phone_number">Phone Number</label>
-                                                    <input id="em_phone_number" required
-                                                           name="emoney[phone_number]"
-                                                           type="text"
-                                                           class="form-control"
-                                                           data-mask="##########0" autocomplete="off" maxlength="11"
-                                                           value="{{ user.getUserPhone }}"
-                                                           placeholder="09xxxxxxxxx">
+                                            {% endif %}
+                                            {% if can_withdraw %}
+                                                <form method="post" action="{{ site_url('manager/withdraw/process') }}"
+                                                      class="tab-pane fade" id="t_bank">
+                                                    <input type="hidden" name="_method" value="bank">
+                                                    <input type="hidden" name="_token" value="{{ token }}">
+                                                    <input type="hidden" name="_slp_amt" value="{{ slp_amt }}">
+                                                    <input type="hidden" name="_axs_amt" value="{{ axs_amt }}">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="bank">Select Bank</label>
+                                                        <select id="bank" data-toggle="select" class="form-control"
+                                                                name="bank[payment]" required>
+                                                            {% for bank in banks %}
+                                                                <option value="{{ bank.BankID }}"
+                                                                        {% if bank.BankID == 53 %}selected{% endif %} id="bank_{{ bank.BankID }}">{{ bank.BankName }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="form-label"
+                                                               for="b_phone_number">Phone Number</label>
+                                                        <input id="b_phone_number" required
+                                                               name="bank[phone_number]"
+                                                               type="text"
+                                                               class="form-control"
+                                                               data-mask="##########0" autocomplete="off" maxlength="11"
+                                                               value="{{ user.getUserPhone }}"
+                                                               placeholder="09xxxxxxxxx">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="form-label"
+                                                               for="b_account_name">Account Name</label>
+                                                        <input id="b_account_name" required
+                                                               type="text"
+                                                               class="form-control"
+                                                               name="bank[account_name]"
+                                                               placeholder="Account Name"
+                                                               value="{{ account.getUserFullName }}"
+                                                        >
+                                                    </div>
+                                                    <div class="form-group mb-24pt">
+                                                        <label class="form-label"
+                                                               for="b_account_number">Account Number</label>
+                                                        <input id="b_account_number" required
+                                                               name="bank[account_number]"
+                                                               type="text"
+                                                               class="form-control"
+                                                               placeholder="Account Number">
+                                                    </div>
+                                                    <div class="text-right">
+                                                        <button type="submit" class="btn btn-accent confirm-wd"
+                                                                data-form="bank">Confirm
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            {% else %}
+                                                <div class="tab-pane fade" id="t_bank">
+                                                    <div class="alert alert-soft-info">
+                                                        <div class="d-flex flex-wrap">
+                                                            <div class="mr-8pt">
+                                                                <i class="material-icons">info</i>
+                                                            </div>
+                                                            <div class="flex d-flex align-items-center" style="min-width: 180px">
+                                                                <small class="text-100">
+                                                                    Bank withdrawal schedule is from<br>Mon thru Fri, 9 AM - 5 PM
+                                                                </small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="form-group mb-24pt">
-                                                    <label class="form-label"
-                                                           for="em_name">Account Name</label>
-                                                    <input id="em_name" required
-                                                           type="text"
-                                                           class="form-control"
-                                                           name="emoney[name]"
-                                                           placeholder="Account Name"
-                                                           value="{{ account.getUserFullName }}"
-                                                    >
-                                                </div>
-                                                <div class="text-right">
-                                                    <button type="submit" class="btn btn-accent confirm-wd"
-                                                            data-form="emoney">Confirm
-                                                    </button>
-                                                </div>
-                                            </form>
-                                            <form method="post" action="{{ site_url('manager/withdraw/process') }}"
-                                                  class="tab-pane fade" id="t_bank">
-                                                <input type="hidden" name="_method" value="bank">
-                                                <input type="hidden" name="_token" value="{{ token }}">
-                                                <input type="hidden" name="_slp_amt" value="{{ slp_amt }}">
-                                                <input type="hidden" name="_axs_amt" value="{{ axs_amt }}">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="bank">Select Bank</label>
-                                                    <select id="bank" data-toggle="select" class="form-control"
-                                                            name="bank[payment]" required>
-                                                        {% for bank in banks %}
-                                                            <option value="{{ bank.BankID }}"
-                                                                    {% if bank.BankID == 53 %}selected{% endif %} id="bank_{{ bank.BankID }}">{{ bank.BankName }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label"
-                                                           for="b_phone_number">Phone Number</label>
-                                                    <input id="b_phone_number" required
-                                                           name="bank[phone_number]"
-                                                           type="text"
-                                                           class="form-control"
-                                                           data-mask="##########0" autocomplete="off" maxlength="11"
-                                                           value="{{ user.getUserPhone }}"
-                                                           placeholder="09xxxxxxxxx">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label"
-                                                           for="b_account_name">Account Name</label>
-                                                    <input id="b_account_name" required
-                                                           type="text"
-                                                           class="form-control"
-                                                           name="bank[account_name]"
-                                                           placeholder="Account Name"
-                                                           value="{{ account.getUserFullName }}"
-                                                    >
-                                                </div>
-                                                <div class="form-group mb-24pt">
-                                                    <label class="form-label"
-                                                           for="b_account_number">Account Number</label>
-                                                    <input id="b_account_number" required
-                                                           name="bank[account_number]"
-                                                           type="text"
-                                                           class="form-control"
-                                                           placeholder="Account Number">
-                                                </div>
-                                                <div class="text-right">
-                                                    <button type="submit" class="btn btn-accent confirm-wd"
-                                                            data-form="bank">Confirm
-                                                    </button>
-                                                </div>
-                                            </form>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
