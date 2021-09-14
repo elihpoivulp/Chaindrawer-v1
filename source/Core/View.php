@@ -68,6 +68,7 @@ class View
             $twig->addGlobal('user', $user);
             $twig->addGlobal('user_type', $role);
             $twig->addGlobal('peso_symbol', '₱');
+            $twig->addGlobal('can_withdraw', can_withdraw());
             $twig->addGlobal('colors', [
                 'avatar' => [
                     'bg-primary',

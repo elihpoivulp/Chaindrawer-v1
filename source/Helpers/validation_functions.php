@@ -1,5 +1,12 @@
 <?php
 
+function can_withdraw(): bool
+{
+    $time_now = date('H');
+    $day_now = date('D');
+    return (($time_now > 8 && $time_now < 17) && !has_inclusion_of($day_now, ['Sat', 'Sun']));
+}
+
 function is_blank(string $value): bool
 {
     return !isset($value) || trim($value) === '';
