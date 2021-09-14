@@ -13,27 +13,9 @@
             <a href="{{ site_url('manager') }}" class="sidebar-brand sidebar-brand-dark bg-dark">
                 <img class="sidebar-brand-icon" src="{{ load_static('assets/chndrwr/images/cd-logo-only.png') }}"
                      alt="{{ app }} logo">
-{#                {{ app }}#}
             </a>
-{#            <div class="sidebar-heading">Account</div>#}
-{#            <ul class="sidebar-menu">#}
-{#                <li class="sidebar-menu-item {% if get_uri(1) == 'dashboard' %}active{% endif %}">#}
-{#                    <a class="sidebar-menu-button"#}
-{#                       href="{{ site_url('manager/dashboard') }}">#}
-{#                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">insert_chart_outlined</span>#}
-{#                        <span class="sidebar-menu-text">Dashboard</span>#}
-{#                    </a>#}
-{#                </li>#}
-{#            </ul>#}
             <div class="sidebar-heading">Axie</div>
             <ul class="sidebar-menu">
-{#                <li class="sidebar-menu-item active{% endif %}">#}
-{#                    <a class="sidebar-menu-button"#}
-{#                       href="">#}
-
-{#                        <span class="sidebar-menu-text">My Teams</span>#}
-{#                    </a>#}
-{#                </li>#}
                 <li class="sidebar-menu-item {% if get_uri(1) == null or get_uri(1) == 'teams' %}active open{% endif %}">
                     <a class="sidebar-menu-button"
                        data-toggle="collapse"
