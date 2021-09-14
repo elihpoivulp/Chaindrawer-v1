@@ -49,6 +49,9 @@
                                data-sort="team-status">Status</a>
                         </th>
                         <th class="text-center">
+                            Current SLP/AXS<br>Balance
+                        </th>
+                        <th class="text-center">
                             <a href="javascript:void(0)"
                                class="sort"
                                data-sort="w-date-request">Request Date</a>
@@ -57,9 +60,6 @@
                             <a href="javascript:void(0)"
                                class="sort"
                                data-sort="w-date-complete">Date Completed</a>
-                        </th>
-                        <th class="text-center">
-                            Current SLP/AXS<br>Balance
                         </th>
                     </tr>
                     </thead>
@@ -82,44 +82,44 @@
                                 </td>
                                 <td class="text-center">
                                     <div class="col-auto d-flex flex-column align-items-center justify-content-center">
-                                        <strong>{{ toMoneyFormat(w.WithdrawalRequestSLPAmount) }} SLP</strong>
-                                        <strong>{{ toMoneyFormat(w.WithdrawalRequestAXSAmount) }} AXS</strong>
+                                        <span>{{ toMoneyFormat(w.WithdrawalRequestSLPAmount) }} SLP</span>
+                                        <span>{{ toMoneyFormat(w.WithdrawalRequestAXSAmount) }} AXS</span>
                                     </div>
                                 </td>
                                 <td class="text-center">
                                     <div class="col-auto d-flex flex-column align-items-center justify-content-center">
-                                        <strong>{{ peso_symbol ~ ' ' ~ toMoneyFormat(w.WithdrawalSLPinPHP) }} (SLP)</strong>
-                                        <strong>{{ peso_symbol ~ ' ' ~ toMoneyFormat(w.WithdrawalAXSinPHP) }} (AXS)</strong>
+                                        <span>{{ peso_symbol ~ ' ' ~ toMoneyFormat(w.WithdrawalSLPinPHP) }} (SLP)</span>
+                                        <span>{{ peso_symbol ~ ' ' ~ toMoneyFormat(w.WithdrawalAXSinPHP) }} (AXS)</span>
                                     </div>
                                 </td>
                                 <td class="text-center">
                                     <div class="col-auto d-flex flex-column align-items-center justify-content-center">
-                                        <strong class="text-50">{{ toMoneyFormat(w.WithdrawalSLPRate) }} per SLP</strong>
-                                        <strong class="text-50">{{ toMoneyFormat(w.WithdrawalAXSRate) }} per AXS</strong>
+                                        <span>{{ toMoneyFormat(w.WithdrawalSLPRate) }} per SLP</span>
+                                        <span>{{ toMoneyFormat(w.WithdrawalAXSRate) }} per AXS</span>
                                     </div>
                                 </td>
                                 <td class="text-center">
                                     {% if w.WithdrawalRequestStatus == 'pending' %}
-                                        <strong class="text-warning team-status">Pending</strong>
+                                        <span class="text-warning team-status">Pending</span>
                                     {% else %}
-                                        <strong class="text-success team-status">Completed</strong>
+                                        <span class="text-success team-status">Completed</span>
                                     {% endif %}
-                                </td>
-                                <td class="text-center">
-                                    <span class="w-date-request">
-                                       {{ w.WithdrawalRequestDate|date('M j, o H:i') }}
-                                    </span>
-                                </td>
-                                <td class="text-center">
-                                    <span class="w-date-complete">
-                                       {{ w.WithdrawalRequestDateCompleted ?  w.WithdrawalRequestDateCompleted|date('M j, o H:i') : '' }}
-                                    </span>
                                 </td>
                                 <td class="text-center">
                                     <div class="col-auto d-flex flex-column align-items-center justify-content-center">
                                         <strong>{{ toMoneyFormat(w.WithdrawalRequestRemSLPBalance) }} SLP</strong>
                                         <strong>{{ toMoneyFormat(w.WithdrawalRequestRemAXSBalance) }} AXS</strong>
                                     </div>
+                                </td>
+                                <td class="text-center">
+                                    <span class="w-date-request text-50">
+                                       {{ w.WithdrawalRequestDate|date('M j, o H:i') }}
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <span class="w-date-complete text-50">
+                                       {{ w.WithdrawalRequestDateCompleted ?  w.WithdrawalRequestDateCompleted|date('M j, o H:i') : '' }}
+                                    </span>
                                 </td>
                             </tr>
                         {% endfor %}
