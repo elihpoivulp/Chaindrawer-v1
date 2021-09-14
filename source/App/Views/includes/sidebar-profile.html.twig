@@ -23,9 +23,7 @@
 </a>
 <div class="{{ dropdown_class }}">
     <div class="dropdown-header"><strong>Account</strong></div>
-    <a class="dropdown-item" href="#">Edit Account</a>
-    <a class="dropdown-item" href="#">Billing</a>
-    <a class="dropdown-item" href="#">Payments</a>
+    <a class="dropdown-item" href="{{ site_url(get_uri(0) ~ '/account/edit') }}">Edit Account</a>
     <a class="dropdown-item" href="{{ site_url('auth/logout') }}">Logout</a>
     {% if user_type|length > 1 %}
         <div class="dropdown-divider"></div>

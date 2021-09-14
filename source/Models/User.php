@@ -6,11 +6,17 @@ namespace CD\Models;
 
 use CD\Config\Config;
 use CD\Core\DB\BaseDBModel;
+use CD\Core\DuplicateEntry;
+use Exception;
 use PDO;
 
 class User extends BaseDBModel
 {
     use Person;
+
+    public string $LoginHashedPassword;
+    public string $LoginUsername;
+    public string $LoginEmail;
 
     public function tableName(): string
     {
@@ -117,5 +123,47 @@ class User extends BaseDBModel
             return has_inclusion_of($role, array_column($this->getRoles(), 'RoleName'));
         }
         return false;
+    }
+
+    public function updatePassword(string $new_password): bool
+    {
+        $sql = "UPDATE Logins SET LoginHashedPassword = :new_password WHERE UserID = :id";
+        $s = $this->db->prepare($sql);
+        $result = $s->execute([
+            ':new_password' => $new_password,
+            ':id' => $this->getUserID()
+        ]);
+        if ($result) {
+            $this->LoginHashedPassword = $new_password;
+        }
+        return $result;
+    }
+
+    public function updateUsername(string $new_username): bool
+    {
+        $sql = "UPDATE Logins SET LoginUsername = :new_username WHERE UserID = :id";
+        $s = $this->db->prepare($sql);
+        $result = $s->execute([
+            ':new_username' => $new_username,
+            ':id' => $this->getUserID()
+        ]);
+        if ($result) {
+            $this->LoginUsername = $new_username;
+        }
+        return $result;
+    }
+
+    public function updateEmail(string $new_email): bool
+    {
+        $sql = "UPDATE Logins SET LoginEmail = :new_email WHERE UserID = :id";
+        $s = $this->db->prepare($sql);
+        $result = $s->execute([
+            ':new_email' => $new_email,
+            ':id' => $this->getUserID()
+        ]);
+        if ($result) {
+            $this->LoginEmail = $new_email;
+        }
+        return $result;
     }
 }
