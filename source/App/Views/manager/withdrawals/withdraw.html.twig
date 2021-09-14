@@ -140,7 +140,7 @@
                                     <span class="d-flex align-items-center text-70">{{ toMoneyFormat(account.manager.ManagerAccountCurrentSLPBalance) }} SLP</span>
                                 </div>
                                 <div class="d-flex align-items-center font-weight-bold mb-2">
-                                    <p class="flex text-body mb-0 font-weight-bolder">AXS</p>
+                                    <p class="flex text-body mb-0 font-weight-bolder mt-2">AXS</p>
                                     <span class="d-flex align-items-center text-70">{{ toMoneyFormat(account.manager.ManagerAccountCurrentAXSBalance) }} AXS</span>
                                 </div>
                             </div>
@@ -169,7 +169,7 @@
                                                value="{% if slp_amt %}{{ slp_amt }}{% endif %}"
                                         >
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-4 mt-sm-0 mt-2">
                                         <label for="axs_amt"
                                                class="{{ account.manager.ManagerAccountCurrentAXSBalance != 0 ? '' : 'text-muted' }}">AXS</label>
                                         <input id="axs_amt"

@@ -30,7 +30,9 @@ class ActiveAccount extends DB
                 AL.ActiveLoginIPAddress,
                 AL.ActiveLoginBrowserUserAgent,
                 AL.ActiveLoginDateLoggedIn,
-                L.LoginUsername
+                L.LoginUsername,
+                L.LoginHashedPassword,
+                L.LoginEmail
                 FROM ActiveLogins AL 
                 JOIN Logins L on L.LoginID = AL.LoginID 
                 JOIN Users U on U.UserID = L.UserID 

@@ -31,21 +31,17 @@
                                class="sort"
                                data-sort="team-name">Team Name</a>
                         </th>
-                        <th class="text-center" data-toggle="tooltip" title="Small Love Potion">Team Current<br>SLP
-                            Balance
-                        </th>
-                        <th class="text-center" data-toggle="tooltip" title="Axie Infinity Shards">Team Current<br>AXS
-                            Balance
+                        <th class="text-center" data-toggle="tooltip" title="Small Love Potion">SLP Balance</th>
+                        <th class="text-center" data-toggle="tooltip" title="Axie Infinity Shards">AXS Balance</th>
+                        <th class="text-center">
+                            <a href="javascript:void(0)"
+                               class="sort"
+                               data-sort="team-income-rate">Royalty</a>
                         </th>
                         <th class="text-center">
                             <a href="javascript:void(0)"
                                class="sort"
-                               data-sort="team-income-rate">Team<br>Earnings Rate</a>
-                        </th>
-                        <th class="text-center">
-                            <a href="javascript:void(0)"
-                               class="sort"
-                               data-sort="team-manager-ownership">Ownership<br>Rate</a>
+                               data-sort="team-manager-ownership">Ownership</a>
                         </th>
                         <th style="width: 120px"></th>
                     </tr>
@@ -66,7 +62,7 @@
                                             <div class="d-flex flex-column">
                                                 <small class="team-name">
                                                     <strong>
-                                                        <a href="{{ site_url('manager/teams') ~ '/' ~ team.AssetTeamSlug|url_encode }}">{{ team.AssetTeamName }}</a>
+                                                        <a class="text-white" href="{{ site_url('manager/teams') ~ '/' ~ team.AssetTeamSlug|url_encode }}">{{ team.AssetTeamName }} <i class="fa fa-link text-50" style="font-size: 8px; position: relative; top: -5px"></i></a>
                                                     </strong>
                                                 </small>
                                                 <small class="text-50">

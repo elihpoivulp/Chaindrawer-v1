@@ -20,6 +20,4 @@ $router->addRoute('manager', [], '@manager/routes');
 $router->addRoute('admin', [], '@admin/routes');
 $router->addRoute('auth', [], '@auth/routes');
 $router->addRoute('sandbox', ['controller' => 'Sandbox']);
-// $router->addRoute('login', ['controller' => 'Login', 'namespace' => 'Login']);
-// $router->addRoute('logout', ['controller' => 'Login', 'action' => 'logout', 'namespace' => 'Login']);
 $router->dispatch($request, $view);

@@ -6,6 +6,7 @@ namespace CD\Core;
 use CD\Config\Config;
 use ErrorException;
 use Exception;
+use PDOException;
 
 class Error
 {
@@ -47,3 +48,5 @@ class Error
         }
     }
 }
+
+class DuplicateEntry extends PDOException {}

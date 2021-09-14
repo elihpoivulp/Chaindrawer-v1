@@ -20,7 +20,7 @@
                  data-toggle="lists"
                  data-lists-sort-by="deposit-date"
                  data-lists-sort-desc="true"
-                 data-lists-values='["deposit-no", "deposit-amt", "deposit-date", "team-status"]'>
+                 data-lists-values='["deposit-no", "deposit-amt", "deposit-date", "deposit-to-team", "team-status"]'>
 
                 <table class="table mb-0 thead-border-top-0 table-nowrap">
                     <thead>
@@ -71,7 +71,7 @@
                                 </td>
                                 <td class="text-center">
                                     <span class="deposit-to-team">
-                                        <a href="{{ site_url('manager/teams') ~ '/' ~ deposit.AssetTeamSlug|url_encode }}">{{ deposit.AssetTeamName }}</a>
+                                        <a class="text-white" href="{{ site_url('manager/teams') ~ '/' ~ deposit.AssetTeamSlug|url_encode }}">{{ deposit.AssetTeamName }} <i class="fa fa-link text-50" style="font-size: 8px; position: relative; top: -5px"></i></a>
                                     </span>
                                 </td>
                                 <td class="text-center">

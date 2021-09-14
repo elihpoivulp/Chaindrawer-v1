@@ -48,7 +48,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-7">
+            <div class="col-lg-6">
                 <div class="page-section pb-0 pb-lg-32pt">
                     <div class="card table-responsive mb-0 mb-lg-24pt">
                         <table class="table table-flush table--elevated">
@@ -147,7 +147,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-lg-6">
                 <div class="page-section">
                     <div class="d-flex flex-column mb-12pt">
                         <p class="text-uppercase mb-24pt d-block font-weight-bold">AXS/SLP Distribution</p>
@@ -158,11 +158,11 @@
                                 {% set label = 'Me' %}
                                 {% set class = 'bg-dark' %}
                             {% endif %}
-                            <div class="d-flex flex-column justify-content-center mb-2 mt-24pt mt-lg-0">
+                            <div class="d-flex flex-column justify-content-center mb-2 mt-0">
                                 <small class="d-flex align-items-center font-weight-bold text-muted mb-1 {{ class }}">
                                     <span class="text-70 flex text-body ml-2">{{ label }}</span>
-                                    <span class="mr-4">{{ manager.OwnershipRate }}%</span>
-                                    <span class="mx-4">{{ toMoneyFormat((p.AxieTeamPayoutTotalSLP * (manager.OwnershipRate / 100))|round(1)) }} SLP</span>
+                                    <span class="mr-3">{{ manager.OwnershipRate }}%</span>
+                                    <span class="mr-3">{{ toMoneyFormat((p.AxieTeamPayoutTotalSLP * (manager.OwnershipRate / 100))|round(1)) }} SLP</span>
                                     <span class="mr-2">{{ toMoneyFormat((p.AxieTeamPayoutTotalAXS * (manager.OwnershipRate / 100))|round(1)) }} AXS</span>
                                 </small>
                             </div>

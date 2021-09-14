@@ -20,7 +20,7 @@
                  data-toggle="lists"
                  data-lists-sort-by="payout-date"
                  data-lists-sort-desc="true"
-                 data-lists-values='["earnings-no", "payout-date", "received-axs"]'>
+                 data-lists-values='["earnings-no", "payout-date", "received-slp", "received-axs"]'>
 
                 <table class="table mb-0 thead-border-top-0 table-nowrap">
                     <thead>
@@ -65,7 +65,7 @@
                                             <div class="flex d-flex flex-column">
                                                 <p class="mb-0">
                                                     <strong class="earnings-no">
-                                                        <a class="text-white" href="{{ site_url('manager/teams/earnings/' ~ payout.ManagerPayoutID)   }}">{{ payout.ManagerPayoutID }}</a>
+                                                        <a class="text-white" href="{{ site_url('manager/teams/earnings/' ~ payout.ManagerPayoutID)   }}">{{ payout.ManagerPayoutID }} <i class="fa fa-link text-50" style="font-size: 8px; position: relative; top: -5px"></i></a>
                                                     </strong>
                                                 </p>
                                             </div>
@@ -76,7 +76,9 @@
                                     </div>
                                 </td>
                                 <td class="text-center">
-                                    {{ toMoneyFormat(payout.ManagerPayoutTotalSLP, false) }} SLP
+                                    <span class="received-slp">
+                                        {{ toMoneyFormat(payout.ManagerPayoutTotalSLP, false) }} SLP
+                                    </span>
                                 </td>
                                 <td class="text-center">
                                     <span class="received-slp">
@@ -102,10 +104,6 @@
                     {% endif %}
                     </tbody>
                 </table>
-            </div>
-            <div class="card-footer text-right">
-                {# 15 <span class="text-50">of 1,430</span> <a href="#" class="text-50"><i class="material-icons ml-1">arrow_forward</i></a> #}
-                1 <span class="text-50">of 1</span>
             </div>
         </div>
     </div>
