@@ -175,7 +175,7 @@
                         <div class="col-6">
                             <div class="card card-group-row__card">
                                 <div class="card-body d-flex flex-column align-items-center">
-                                    <div class="h3 mb-1">0.00</div>
+                                    <div class="h3 mb-1">{{ toMoneyFormat(p.AXSBalanceOnThisDay) }}</div>
                                     <div class="d-flex align-items-center">
                                         <div class="avatar mb-0 mr-3 avatar-xs">
                                             <img src="{{ load_static('assets/chndrwr/images/axies/axieshards.png') }}"
@@ -187,7 +187,7 @@
                                             <p class="text-50 mb-0 mt-n1 d-flex align-items-center">
                                                 <i class="material-icons text-accent-red ml-4pt icon-16pt">trending_flat</i>
                                                 &nbsp;
-                                                0%
+                                                {{ p.AXSChange ?? '0.00' }}%
                                             </p>
                                         </div>
                                     </div>
@@ -197,7 +197,7 @@
                         <div class="col-6">
                             <div class="card card-group-row__card">
                                 <div class="card-body d-flex flex-column align-items-center">
-                                    <div class="h3 mb-1">1,526.55</div>
+                                    <div class="h3 mb-1">{{ toMoneyFormat(p.SLPBalanceOnThisDay) }}</div>
                                     <div class="d-flex align-items-center">
                                         <div class="avatar mb-0 mr-3 avatar-xs">
                                             <img src="{{ load_static('assets/chndrwr/images/axies/slp.png') }}"
@@ -209,7 +209,7 @@
                                             <p class="text-50 mb-0 mt-n1 d-flex align-items-center">
                                                 <i class="material-icons text-accent ml-4pt icon-16pt">trending_up</i>
                                                 &nbsp;
-                                                51.5%
+                                                {{ p.SLPChange }}%
                                             </p>
                                         </div>
                                     </div>

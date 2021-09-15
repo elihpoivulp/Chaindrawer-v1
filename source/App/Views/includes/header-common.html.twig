@@ -7,17 +7,19 @@
     <span class="d-none d-lg-block">{{ app }}</span>
 </a>
 
-<div class="d-none d-md-flex align-items-center mr-16pt">
-    <div class="avatar avatar-xs mr-12pt">
-        <div class="rounded navbar-avatar">
-            <img src="{{ load_static('assets/chndrwr/images/axies/slp.png') }}" alt="SLP Icon" class="avatar-img">
+<a href="{{ site_url('manager/market-chart/slp') }}">
+    <div class="d-none d-md-flex align-items-center mr-16pt">
+        <div class="avatar avatar-xs mr-12pt">
+            <div class="rounded navbar-avatar">
+                <img src="{{ load_static('assets/chndrwr/images/axies/slp.png') }}" alt="SLP Icon" class="avatar-img">
+            </div>
         </div>
+        <small class="flex d-flex flex-column">
+            <strong class="navbar-text-100">SLP</strong>
+            <span class="navbar-text-50">{{ slp_rate }}</span>
+        </small>
     </div>
-    <small class="flex d-flex flex-column">
-        <strong class="navbar-text-100">SLP</strong>
-        <span class="navbar-text-50">{{ slp_rate }}</span>
-    </small>
-</div>
+</a>
 <div class="flex"></div>
 
 <div class="nav navbar-nav flex-nowrap d-flex ml-0 mr-16pt">
