@@ -119,4 +119,12 @@ class Team extends BaseDBModel
         }
         return $result;
     }
+
+    public function getTeamAVGSLP()
+    {
+        $sql = "SELECT AVG(DailySLPGrindAmount) AS DailyAverageSLP FROM DailySLPGrind WHERE AxieTeamID = :id";
+        $s = $this->db->prepare($sql);
+        $s->execute([':id' => $this->AssetTeamID]);
+        return $s->fetch()['DailyAverageSLP'];
+    }
 }
