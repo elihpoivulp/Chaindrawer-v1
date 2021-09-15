@@ -55,7 +55,8 @@
                                          style="white-space: nowrap;">
                                         <div class="avatar avatar-sm mr-8pt">
                                         <span class="avatar-title rounded {{ random(colors['avatar']) }} text-white">
-                                            {{ team.AssetTeamName|split(' ')|map(p => "#{p}"|first)|join('') }}
+{#                                            {{ team.AssetTeamName|split(' ')|map(p => "#{p}"|first)|join('') }}#}
+                                            {{ replace(team.AssetTeamName, '/[a-zA-Z\']/') }}
                                         </span>
                                         </div>
                                         <div class="media-body">

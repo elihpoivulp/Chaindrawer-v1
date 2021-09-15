@@ -64,6 +64,12 @@
                         </li>
                     </ul>
                 </li>
+                <li class="sidebar-menu-item {% if get_uri(1) == 'market-chart' and get_uri(2) == 'slp' %}active{% endif %}">
+                    <a class="sidebar-menu-button" href="{{ site_url('manager/market-chart/slp') }}">
+                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">show_chart</span>
+                        <span class="sidebar-menu-text">SLP Market Chart</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

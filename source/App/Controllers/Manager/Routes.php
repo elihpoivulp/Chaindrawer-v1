@@ -21,6 +21,8 @@ class Routes extends AbstractRoute
         'transactions/deposits' => ['controller' => 'Transactions', 'action' => 'deposits'],
         'transactions/withdrawals' => ['controller' => 'Transactions', 'action' => 'withdrawals'],
         'account' => ['controller' => 'Account', 'action' => 'edit'],
-        'account/edit' => ['controller' => 'Account', 'action' => 'edit']
+        'account/edit' => ['controller' => 'Account', 'action' => 'edit'],
+        'market-chart/' => ['controller' => 'MarketChart', 'action' => 'slp'],
+        'market-chart/slp' => ['controller' => 'MarketChart', 'action' => 'slp']
     ];
 }

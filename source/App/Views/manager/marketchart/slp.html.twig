@@ -1,0 +1,74 @@
+{% extends 'base-manager.html.twig' %}
+{% block page_specific_scripts %}
+    {% include 'includes/scripts-charts.js.html.twig' %}
+    <script>
+        Charts.create('#slp_watch', 'line', {
+            tooltips: {
+                callbacks: {
+                    label: function (tooltipItem) {
+                        return '{{ peso_symbol }} ' + tooltipItem.yLabel;
+                    }
+                }
+            }
+        }, {
+            labels: '{{ api.labels }}'.split(', '),
+            datasets: [
+                {
+                    data: '{{ api.dataset }}'.split(', ')
+                }
+            ],
+        });
+    </script>
+{% endblock page_specific_scripts %}
+{% block breadcrumb %}
+    {% include 'includes/breadcrumb.html.twig' with {
+        'section': 'Market Chart',
+        'trails': {
+            'active': {
+                'url': null,
+                'name': 'SLP'
+            }
+        }
+    } %}
+{% endblock breadcrumb %}
+{% block content %}
+    <div class="page-section">
+        <h4>SLP (Smooth Love Potion)</h4>
+        <div class="card">
+            <div class="card-body"
+                 style="position: relative; padding-bottom: calc(80px - 1.25rem); overflow: hidden; z-index: 0; height: 300px;">
+                <div class="d-flex align-items-center mb-24pt">
+                    <div class="h2 mb-0 mr-3">{{ peso_symbol }} {{ api.last_known_rate }}</div>
+                    <div class="flex">
+                        <p class="mb-1"><strong>PHP Rate Per SLP</strong></p>
+                        <p class="text-50 mb-0 mt-n1 d-flex align-items-center">
+                            {% if (api.cache_date) %}
+                                As of {{ api.cache_date }}
+                            {% else %}
+                                Not available
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+                {% if (api.has_data) %}
+                    <div class="chart"
+                         style="height: auto; position: absolute; left: 0; right: 0; bottom: 0;">
+                        <canvas class="chart-canvas js-update-chart-line-accent"
+                                id="slp_watch"
+                                data-chart-hide-axes="true"
+                                data-chart-line-border-color="accent.300"
+                                data-chart-line-background-opacity="0.1"
+                                data-chart-line-background-color="gradient:yellow"></canvas>
+                    </div>
+                {% else %}
+                    <strong>Not available</strong>
+                {% endif %}
+            </div>
+            <div class="card-footer text-right">
+                <small class="text-50">
+                    API by <a href="https://www.coingecko.com/en/coins/smooth-love-potion/php" target="_blank">CoinGecko</a>
+                </small>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
