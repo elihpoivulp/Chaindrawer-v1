@@ -1,23 +1,25 @@
 <button class="navbar-toggler d-block d-lg-none rounded-0" type="button" data-toggle="sidebar">
     <span class="material-icons">menu</span>
 </button>
-<div class="d-none d-md-flex align-items-center mr-16pt">
-    <div class="avatar avatar-xs mr-12pt">
-        <div class="rounded navbar-avatar">
-            <img src="{{ load_static('assets/chndrwr/images/axies/slp.png') }}" alt="SLP Icon" class="avatar-img">
-        </div>
-    </div>
-    <small class="flex d-flex flex-column">
-        <strong class="navbar-text-100">SLP</strong>
-        <span class="navbar-text-50">{{ slp_rate }}</span>
-    </small>
-</div>
 <a href="{{ site_url('manager/teams/') }}" class="navbar-brand mr-16pt d-lg-none">
     <img class="navbar-brand-icon mr-0 mr-lg-8pt"
          src="{{ load_static('assets/chndrwr/images/cd-logo-only.png') }}" width="40" alt="{{ app }}">
     <span class="d-none d-lg-block">{{ app }}</span>
 </a>
 
+<a href="{{ site_url('manager/market-chart/slp') }}">
+    <div class="d-none d-md-flex align-items-center mr-16pt">
+        <div class="avatar avatar-xs mr-12pt">
+            <div class="rounded navbar-avatar">
+                <img src="{{ load_static('assets/chndrwr/images/axies/slp.png') }}" alt="SLP Icon" class="avatar-img">
+            </div>
+        </div>
+        <small class="flex d-flex flex-column">
+            <strong class="navbar-text-100">SLP</strong>
+            <span class="navbar-text-50">{{ slp_rate }}</span>
+        </small>
+    </div>
+</a>
 <div class="flex"></div>
 
 <div class="nav navbar-nav flex-nowrap d-flex ml-0 mr-16pt">

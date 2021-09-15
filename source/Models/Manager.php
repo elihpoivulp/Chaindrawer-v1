@@ -105,6 +105,10 @@ class Manager extends AccountModel
     public function getPayout(int $payout_id, bool $update_seen = false)
     {
         $sql = "SELECT
+                @slp_bal_on_this_day :=(MP.ManagerPayoutTotalSLP + MP.ManagerPayoutLastSLPBalance) AS SLPBalanceOnThisDay,
+                @slp_change :=ROUND(((@slp_bal_on_this_day - MP.ManagerPayoutLastSLPBalance) / @slp_bal_on_this_day) * 100, 2) AS SLPChange,
+                @axs_bal_on_this_day :=(MP.ManagerPayoutTotalAXS + MP.ManagerPayoutLastAXSBalance) AS AXSBalanceOnThisDay,
+                @axs_change :=ROUND(((@axs_bal_on_this_day - MP.ManagerPayoutLastAXSBalance) / @axs_bal_on_this_day) * 100, 2) AS AXSChange,
                 AxieTeamPayoutShareRate, AxieTeamPayoutTotalAXS, AxieTeamPayoutTotalSLP,
                 AssetTeamName, AssetTeamSlug,
                 CONVERT(ManagerPayoutID, CHAR) AS ManagerPayoutID, ManagerPayoutShareRate, ManagerPayoutDate, ManagerPayoutTotalAXS, ManagerPayoutTotalSLP, ManagerPayoutLastAXSBalance, ManagerPayoutLastSLPBalance,
@@ -119,7 +123,9 @@ class Manager extends AccountModel
                 INNER JOIN FortnightAxieWithdrawals FAW on ATP.FortnightAxieWithdrawalID = FAW.FortnightAxieWithdrawalID
                 INNER JOIN AxieScholarPayouts ASP on ATP.AxieTeamPayoutID = ASP.AxieTeamPayoutID
                 INNER JOIN ChainDrawerAxiePayouts CDAP on ATP.AxieTeamPayoutID = CDAP.AxieTeamPayoutID
-                WHERE MP.ManagerPayoutID = :id GROUP BY ManagerPayoutSeen ASC, ManagerPayoutID DESC";
+                INNER JOIN ManagerAccounts MA on MP.ManagerAccountID = MA.ManagerAccountID
+                WHERE MP.ManagerPayoutID = :id 
+                GROUP BY ManagerPayoutSeen ASC, ManagerPayoutID DESC";
         // $year = date('Y');
         // $sql = "SELECT * FROM ManagerPayouts
         //         INNER JOIN ManagerAccounts MA on ManagerPayouts.ManagerAccountID = MA.ManagerAccountID
