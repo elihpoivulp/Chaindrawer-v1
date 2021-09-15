@@ -6,6 +6,7 @@ use CD\Config\Config;
 use CD\Core\Sessions\Session;
 use CD\Core\Sessions\SessionsUserAuth;
 use CD\Models\ActiveAccount;
+use CD\Models\SLP;
 use Exception;
 use Twig\Environment;
 use Twig\Error\LoaderError;
@@ -53,6 +54,9 @@ class View
             $twig->addFunction(new TwigFunction('get_uri', function ($pos = null) {
                 return get_uri($pos);
             }));
+            $twig->addFunction(new TwigFunction('replace', function ($source, $pattern, $replacement = '') {
+                return preg_replace($pattern, $replacement, $source);
+            }));
             $role = 'Guest';
             $user = null;
             if (SessionsUserAuth::isLoggedIn()) {
@@ -64,11 +68,18 @@ class View
                     $role = array_column($user->getRoles(), 'RoleName');
                 }
             }
+            $slp = new SLP();
+            try {
+                $last_known_rate = $slp->getData()['last_known_rate'];
+            } catch (Exception $e) {
+                $last_known_rate = 0;
+            }
             $twig->addGlobal('app', Config::WEBSITE_NAME);
             $twig->addGlobal('user', $user);
             $twig->addGlobal('user_type', $role);
             $twig->addGlobal('peso_symbol', '₱');
             $twig->addGlobal('can_withdraw', can_withdraw());
+            $twig->addGlobal('slp_rate', $last_known_rate);
             $twig->addGlobal('colors', [
                 'avatar' => [
                     'bg-primary',

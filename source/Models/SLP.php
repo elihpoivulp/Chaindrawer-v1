@@ -60,7 +60,7 @@ class SLP extends BaseDBModel
             $data['data'] = is_string($data['data']) ? json_decode($data['data']) : $data['data'];
             $cache_date = new DateTime($data['cache_date']);
             $d = $cache_date->diff(new DateTime(date('Y-m-d H:i:s')));
-            if ($d->i >= 30) {
+            if ($d->s >= 30) {
                 $t = $this->getLatestAndCache();
                 if ($t['data'] && $t['last_known_rate'] != 0) {
                     $data = $t;
@@ -124,7 +124,11 @@ class SLP extends BaseDBModel
     protected function saveToDB(): bool
     {
         if ($this->data) {
-            $s = $this->db->prepare("insert into {$this->tableName()} (SLPCacheData, SLPCacheRate, SLPCacheDateCached) values (?, ?, ?)");
+            // $s = $this->db->prepare("insert into {$this->tableName()} (SLPCacheData, SLPCacheRate, SLPCacheDateCached) values (?, ?, ?)");
+            $s = $this->db->prepare("
+                UPDATE SLPCaches SET SLPCacheData = ?, SLPCacheRate = ?, SLPCacheDateCached = ?
+                WHERE SLPCacheID = 1;
+            ");
             return $s->execute([json_encode($this->data['data']), $this->data['last_known_rate'], $this->data['cache_date']]);
         }
         return false;
