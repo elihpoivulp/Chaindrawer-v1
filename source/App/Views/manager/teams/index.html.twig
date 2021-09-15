@@ -21,7 +21,7 @@
                  data-toggle="lists"
                  data-lists-sort-by="team-manager-ownership"
                  data-lists-sort-desc="false"
-                 data-lists-values='["team-name", "team-manager-ownership", "team-income-rate"]'>
+                 data-lists-values='["team-name", "team-manager-ownership", "team-income-rate", "bal-slp", "bal-axs", "avg-slp"]'>
 
                 <table class="table mb-0 thead-border-top-0 table-nowrap">
                     <thead>
@@ -31,12 +31,19 @@
                                class="sort"
                                data-sort="team-name">Team Name</a>
                         </th>
-                        <th class="text-center" data-toggle="tooltip" title="Small Love Potion">SLP Balance</th>
-                        <th class="text-center" data-toggle="tooltip" title="Axie Infinity Shards">AXS Balance</th>
+                        <th class="text-center" data-toggle="tooltip" title="Small Love Potion">
+                            <a href="javascript:void(0);" data-sort="bal-slp" class="sort">SLP<br>Farmed</a>
+                        </th>
+                        <th class="text-center" data-toggle="tooltip" title="Axie Infinity Shards">
+                            <a href="javascript:void(0);" data-sort="bal-axs" class="sort">AXS<br>Farmed</a>
+                        </th>
                         <th class="text-center">
                             <a href="javascript:void(0)"
                                class="sort"
                                data-sort="team-income-rate">Royalty</a>
+                        </th>
+                        <th class="text-center">
+                            <a href="javascript:void(0);" data-sort="avg-slp" class="sort">Daily<br>SLP Average</a>
                         </th>
                         <th class="text-center">
                             <a href="javascript:void(0)"
@@ -74,15 +81,20 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center bal-slp">
                                     {{ toMoneyFormat(team.AxieTeam.AxieTeamCurrentSLPBalance) }} SLP
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center bal-axs">
                                     {{ toMoneyFormat(team.AxieTeam.AxieTeamCurrentAXSBalance) }} AXS
                                 </td>
                                 <td class="text-center">
                                     <span class="team-income-rate {% if team.TeamProfitShare == 60.00 %}text-success{% endif %}">
                                         {{ team.TeamProfitShare }}%
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <span class="avg-slp">
+                                        {{ toMoneyFormat(team.getTeamAVGSLP) }} SLP
                                     </span>
                                 </td>
                                 <td class="text-center">

@@ -171,7 +171,8 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <strong>Daily SLP Grind</strong>
+                            <strong>SLP Grind</strong>
+                            <p><span class="text-muted">Daily Average:</span> <span class="bg-dark px-2">{{ toMoneyFormat(team.getTeamAVGSLP) }} SLP</span></p>
                             {% if charts.line.has_data %}
                                 <div class="chart mt-2"
                                      style="height: 100px;">
