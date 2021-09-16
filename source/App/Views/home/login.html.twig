@@ -17,6 +17,12 @@
                                 {% autoescape false %}
                                     {{ form.begin('post', action, ['col-xl-8 offset-xl-2 p-0 text-left']) }}
                                     {{ getFlashAlert('msg') }}
+{#                                    <div class="form-group border-bottom-1" style="border-bottom-color: #e4a93c!important;">#}
+{#                                        {{ form.field('username').required.autofocus.flush }}#}
+{#                                    </div>#}
+{#                                    <div class="form-group border-bottom-1" style="border-bottom-color: #e4a93c!important;">#}
+{#                                        {{ form.field('password').password.required.flush }}#}
+{#                                    </div>#}
                                     <div class="form-group">
                                         {{ form.field('username').required.autofocus }}
                                     </div>
