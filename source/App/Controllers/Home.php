@@ -19,7 +19,11 @@ class Home extends Controller
 
     public function indexAction()
     {
-        $this->render('');
-        // Response::redirect('auth/login');
+        $this->render(
+            'coming_soon.html.twig',
+            [
+                'title' => 'Coming Soon!'
+            ]
+        );
     }
 }
