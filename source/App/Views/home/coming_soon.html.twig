@@ -1,13 +1,22 @@
 {% extends 'base-login.html.twig' %}
 {% block content %}
-    <div class="pt-32pt pt-sm-64pt pb-32pt">
-        <div class="container page__container">
-            <div class="hero text-center pb-64pt">
-                <h1>Coming Soon!</h1>
-                <p class="text-50 lead measure-hero-lead mx-auto">
-                    Investors fund an Axie team that <strong>{{ app }}</strong> manages &amp; train a player to play competitively &amp; earn for everyone.
-                </p>
+    <body class="layout-boxed layout-sticky-subnav">
+    {% include 'includes/preloader.html.twig' %}
+    <div class="mdk-drawer-layout js-mdk-drawer-layout p-0" data-push data-responsive-width="992px">
+        <div class="mdk-drawer-layout__content page-content flex align-items-center justify-content-center" style="box-shadow: none;">
+            <div class="container-fluid page__container" id="app-body">
+                <div class="container page__container">
+                    <div class="hero text-center ">
+                        <img src="{{ load_static('assets/chndrwr/images/cd-logo-only.png') }}" alt="Chaindrawer logo" style="width: 280px;" class="img-fluid">
+                        <h1>We play NFT Games!</h1>
+                        <h2 class="text-50 measure-hero-lead mx-auto">
+                            Coming soon!
+                        </h2>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    {% include 'includes/scripts.html.twig' %}
+    </body>
 {% endblock %}
