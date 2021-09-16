@@ -9,8 +9,8 @@ class Config
     public static function DEBUG(): bool
     {
         // TODO Change value in production
-        return true;
-        // return $_ENV['DEBUG'];
+        // return true;
+        return $_ENV['DEBUG'];
     }
 
     public static function LOGS_DIR(): string
