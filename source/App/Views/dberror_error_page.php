@@ -44,9 +44,9 @@
     <div class="mdk-drawer-layout__content page-content" style="min-height: unset;">
         <div class="container-fluid page__container flex d-flex align-items-center justify-content-center py-128pt" id="app-body">
             <section class="page-section text-center">
-                <h1 class="font-weight-bolder mb-0" style="font-size: 128pt; line-height: 180px">503</h1>
+                <h1 class="font-weight-bolder mb-0" style="font-size: 128pt; line-height: 180px">500</h1>
                 <h4 class="font-size-32pt mb-2"><i class="text-danger material-icons icon-32pt" style="position: relative; top: -4px">error</i>&nbsp;<em>Internal Server Error</em></h4>
-                <strong class="text-50 font-size-16pt">This website is temporarily down.</strong>
+                <strong class="text-50 font-size-16pt">Unable to process request. Please try again later.</strong>
             </section>
         </div>
         <div class="js-fix-footer footer border-top-2" id="app-footer">
