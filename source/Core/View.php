@@ -68,11 +68,14 @@ class View
                     $role = array_column($user->getRoles(), 'RoleName');
                 }
             }
-            $slp = new SLP();
-            try {
-                $last_known_rate = $slp->getData()['last_known_rate'];
-            } catch (Exception $e) {
-                $last_known_rate = 0;
+            $last_known_rate = 0;
+            if ($user) {
+                $slp = new SLP();
+                try {
+                    $last_known_rate = $slp->getData()['last_known_rate'];
+                } catch (Exception $e) {
+                    $last_known_rate = 0;
+                }
             }
             $twig->addGlobal('app', Config::WEBSITE_NAME);
             $twig->addGlobal('user', $user);

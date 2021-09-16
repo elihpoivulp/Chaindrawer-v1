@@ -19,6 +19,7 @@ class Home extends Controller
 
     public function indexAction()
     {
-        Response::redirect('auth/login');
+        $this->render('');
+        // Response::redirect('auth/login');
     }
 }
