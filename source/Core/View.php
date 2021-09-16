@@ -162,7 +162,11 @@ class View
     static private function _getTemplate(string $template, array $context)
     {
         try {
-            return self::$twig->render($template, $context);
+            if (is_null(self::$twig)) {
+                include(VIEWS_PATH . '/dberror_error_page.php');
+            } else {
+                return self::$twig->render($template, $context);
+            }
         } catch (LoaderError | RuntimeError | SyntaxError $e) {
             throw new Exception($e->getMessage());
         }

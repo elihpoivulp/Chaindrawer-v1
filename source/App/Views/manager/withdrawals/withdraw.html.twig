@@ -123,6 +123,7 @@
     } %}
 {% endblock breadcrumb %}
 {% block content %}
+    {% set low_balance = account.manager.ManagerAccountCurrentSLPBalance < 1 and account.manager.ManagerAccountCurrentAXSBalance < 1 %}
     <div class="row">
         <div class="col-lg-9 pr-lg-0">
             <div class="page-section">
@@ -135,6 +136,9 @@
                         <div class="col-5">
                             <div class="d-flex flex-column mb-24pt">
                                 <p class="text-muted text-uppercase mb-3 d-block font-weight-bold">balance</p>
+                                {% if low_balance %}
+                                    <p><small class="text-warning bg-dark">Your balance is too low.</small></p>
+                                {% endif %}
                                 <div class="d-flex align-items-center font-weight-bold mb-2">
                                     <p class="flex text-body mb-0 font-weight-bolder">SLP</p>
                                     <span class="d-flex align-items-center text-70">{{ toMoneyFormat(account.manager.ManagerAccountCurrentSLPBalance) }} SLP</span>
@@ -157,29 +161,30 @@
                                 <div class="form-group row align-items-center mb-0">
                                     <label class="col-form-label form-label col-sm-3">Amount</label>
                                     <div class="col-sm-4">
-                                        <label for="slp_amt">SLP</label>
+                                        <label for="slp_amt" class="{{ low_balance ? 'text-muted' : '' }}">SLP</label>
                                         <input id="slp_amt"
                                                type="text"
                                                name="s"
-                                               class="form-control {% if err.s %}is-invalid{% endif %} {% if account.manager.ManagerAccountCurrentSLPBalance == 0 %}disabled{% endif %}"
-                                               placeholder="SLP Amount"
+                                               class="form-control {% if err.s %}is-invalid{% endif %} {% if low_balance %}bg-dark disabled{% endif %}"
+                                               placeholder="{{ not low_balance ? 'SLP Amount' : 'Not enough balance' }}"
                                                data-mask="0,###,000"
                                                required
+                                               {{ low_balance ? 'disabled' : '' }}
                                                data-mask-reverse="true"
                                                value="{% if slp_amt %}{{ slp_amt }}{% endif %}"
                                         >
                                     </div>
                                     <div class="col-sm-4 mt-sm-0 mt-2">
                                         <label for="axs_amt"
-                                               class="{{ account.manager.ManagerAccountCurrentAXSBalance != 0 ? '' : 'text-muted' }}">AXS</label>
+                                               class="{{ account.manager.ManagerAccountCurrentAXSBalance > 0 ? '' : 'text-muted' }}">AXS</label>
                                         <input id="axs_amt"
                                                type="text"
                                                name="a"
-                                               class="form-control bg-dark disabled {% if err.a %}is-invalid{% endif %}"
-                                               placeholder="{{ account.manager.ManagerAccountCurrentAXSBalance != 0 ? 'AXS Amount' : 'Not enough balance' }}"
+                                               class="form-control bg-dark {% if err.a %}is-invalid{% endif %}"
+                                               placeholder="{{ account.manager.ManagerAccountCurrentAXSBalance > 0 ? 'AXS Amount' : 'Not enough balance' }}"
                                                data-mask="0,###,000"
                                                data-mask-reverse="true"
-                                               {% if not account.manager.ManagerAccountCurrentAXSBalance == 0 %}disabled{% endif %}
+                                               {% if not account.manager.ManagerAccountCurrentAXSBalance < 1 %}disabled{% endif %}
                                                value="{% if axs_amt %}{{ axs_amt }}{% endif %}"
                                         >
                                     </div>
@@ -195,7 +200,7 @@
                                             </button>
                                         {% else %}
                                             <button type="submit"
-                                                    class="btn btn-accent">Next
+                                                    class="btn btn-accent {% if low_balance %}disabled{% endif %}">Next
                                             </button>
                                         {% endif %}
                                     </div>
