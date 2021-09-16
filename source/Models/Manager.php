@@ -113,7 +113,6 @@ class Manager extends AccountModel
                 AssetTeamName, AssetTeamSlug,
                 CONVERT(ManagerPayoutID, CHAR) AS ManagerPayoutID, ManagerPayoutShareRate, ManagerPayoutDate, ManagerPayoutTotalAXS, ManagerPayoutTotalSLP, ManagerPayoutLastAXSBalance, ManagerPayoutLastSLPBalance,
                 FortnightAxieWithdrawalTotalAXS, FortnightAxieWithdrawalTotalSLP,
-                AxieScholarPayoutShareRate, AxieScholarPayoutTotalAXS, AxieScholarPayoutTotalSLP,
                 ChainDrawerAxiePayoutShareRate, ChainDrawerAxiePayoutTotalAXS, ChainDrawerAxiePayoutTotalSLP
                 FROM
                 ManagerPayouts MP
@@ -121,7 +120,6 @@ class Manager extends AccountModel
                 INNER JOIN AxieTeams A on ATP.AxieTeamID = A.AssetTeamID
                 INNER JOIN AssetTeams T on A.AssetTeamID = T.AssetTeamID
                 INNER JOIN FortnightAxieWithdrawals FAW on ATP.FortnightAxieWithdrawalID = FAW.FortnightAxieWithdrawalID
-                INNER JOIN AxieScholarPayouts ASP on ATP.AxieTeamPayoutID = ASP.AxieTeamPayoutID
                 INNER JOIN ChainDrawerAxiePayouts CDAP on ATP.AxieTeamPayoutID = CDAP.AxieTeamPayoutID
                 INNER JOIN ManagerAccounts MA on MP.ManagerAccountID = MA.ManagerAccountID
                 WHERE MP.ManagerPayoutID = :id 

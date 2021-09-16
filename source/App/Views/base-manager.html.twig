@@ -17,14 +17,16 @@
                             </p>
                         </div>
                         <div class="col-auto border-left">
-                            <strong class="m-0">&#8369; {{ account.manager.getFormattedBalance }} AXS</strong>
+                            <strong class="m-0">{{ account.manager.ManagerAccountCurrentAXSBalance }} AXS</strong>
                             <p class="text-50 mb-0 d-flex align-items-center">
                                 <em data-toggle="tooltip" title="Axie Infinity Shards">AXS</em>&nbsp;Balance
                             </p>
                         </div>
-                        <div class="col-auto border-left">
-                            <a href="{{ site_url('manager/withdraw') }}" class="btn btn-accent {% if account.manager.ManagerAccountCurrentSLPBalance == 0 %}disabled{% endif %}">Withdraw</a>
-                        </div>
+                        {% if account.manager.ManagerAccountCurrentSLPBalance > 0 or account.manager.ManagerAccountCurrentAXSBalance > 0 %}
+                            <div class="col-auto border-left">
+                                <a href="{{ site_url('manager/withdraw') }}" class="btn btn-accent {% if account.manager.ManagerAccountCurrentSLPBalance == 0 %}disabled{% endif %}">Withdraw</a>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
