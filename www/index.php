@@ -19,6 +19,7 @@ $router = new Router();
 $router->addRoute('manager', [], '@manager/routes');
 $router->addRoute('admin', [], '@admin/routes');
 $router->addRoute('auth', [], '@auth/routes');
+$router->addRoute('become-one', ['controller' => 'Home', 'action' => 'become']);
 $router->addRoute('sandbox', ['controller' => 'Sandbox']);
 $router->dispatch($request, $view);
 

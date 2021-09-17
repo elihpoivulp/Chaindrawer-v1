@@ -4,6 +4,7 @@ namespace CD\App\Controllers\Auth;
 
 use CD\App\Controllers\Auth\Forms\AuthForm;
 use CD\Config\Config;
+use CD\Core\CSRFToken;
 use CD\Core\Forms\FormController;
 use CD\Core\Forms\ModelForm;
 use CD\Core\Request;
@@ -61,7 +62,8 @@ class Auth extends FormController
         $this->render('login.html.twig', [
             'title' => 'Login',
             'form' => $form,
-            'next' => $next
+            'next' => $next,
+            '_token' => CSRFToken::generateToken()
         ]);
     }
 
