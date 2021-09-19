@@ -62,6 +62,11 @@ class Request
         return (!$this->isGet() && $this->requestIsSameDomain());
     }
 
+    public function isAJAX(): bool
+    {
+        return !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+    }
+
     public function getBody(): array
     {
         $body = [];

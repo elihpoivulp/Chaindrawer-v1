@@ -22,12 +22,12 @@ class Home extends Controller
 
     public function indexAction()
     {
-        $this->render(
-            'coming_soon.html.twig',
-            [
-                'title' => 'Coming Soon!'
-            ]
-        );
+//        $this->render(
+//            'coming_soon.html.twig',
+//            [
+//                'title' => 'Coming Soon!'
+//            ]
+//        );
     }
 
     public function become()
@@ -36,7 +36,7 @@ class Home extends Controller
             'success' => false,
             'message' => 'Your request cannot be processed right now. Please try again later.'
         ];
-        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' && $this->request->requestIsSameDomain())
+        if($this->request->isAJAX() && $this->request->requestIsSameDomain())
         {
             $has_error = false;
             $p = $this->request->getBody();
