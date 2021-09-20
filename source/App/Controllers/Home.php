@@ -6,6 +6,7 @@ use CD\Config\Config;
 use CD\Core\Controller;
 use CD\Core\CSRFToken;
 use CD\Core\Request;
+use CD\Core\Response;
 use CD\Core\View;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -22,6 +23,7 @@ class Home extends Controller
 
     public function indexAction()
     {
+        Response::redirect('auth/login');
 //        $this->render(
 //            'coming_soon.html.twig',
 //            [
