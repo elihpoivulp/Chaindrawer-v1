@@ -14,6 +14,11 @@ class CronJobs extends DB
         $this->db = $this->db();
     }
 
+    public function update_team_data(int $id, array $data)
+    {
+//        $s = $this->db->prepare('')
+    }
+
     public function test(): bool
     {
         $s = $this->db->prepare("INSERT INTO test (value) VALUES (?)");

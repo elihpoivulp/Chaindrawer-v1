@@ -28,12 +28,14 @@ class AxieTeam extends BaseDBModel
     {
         $sql = "
             SELECT
-                DailySLPGrindID, DailySLPGrindAmount, DailySLPGrindDateAdded
+                DailySLPGrindID, SUM(DailySLPGrindAmount) AS DailySLPGrindAmount, DailySLPGrindDateAdded
             FROM DailySLPGrind
             LEFT JOIN AssetTeams A on A.AssetTeamID = DailySLPGrind.AxieTeamID
             WHERE AxieTeamID = :id AND 
                  DailySLPGrindDateAdded BETWEEN DATE_SUB(DATE(NOW()), INTERVAL DAYOFWEEK(NOW())-2 DAY) AND
-                 DATE_SUB(DATE(NOW()), INTERVAL DAYOFWEEK(NOW())-8 DAY) ORDER BY DailySLPGrindDateAdded
+                 DATE_SUB(DATE(NOW()), INTERVAL DAYOFWEEK(NOW())-8 DAY)
+            GROUP BY DailySLPGrindDateAdded
+            ORDER BY DailySLPGrindDateAdded
         ";
         $s = $this->db->prepare($sql);
         $s->execute([':id' => $this->AssetTeamID]);

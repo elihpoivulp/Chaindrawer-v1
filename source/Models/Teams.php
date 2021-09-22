@@ -51,4 +51,36 @@ class Teams extends BaseDBModel
         $s->execute();
         return $s->fetchAll();
     }
+
+    public function getRoninAddresses()
+    {
+        $s = $this->db->prepare("SELECT AssetTeamID AS id, AxieTeamTrackerAddress AS ronin, AxieTeamCurrentSLPBalance AS latest_balance FROM AxieTeams");
+        $s->execute();
+        return $s->fetchAll();
+    }
+
+    public function updateTeamData($id, $data): bool
+    {
+        $vals = '';
+        foreach ($data as $key => $value) {
+            $vals .= $key . ' = :' . strtolower($key) . ', ';
+        }
+        $vals = rtrim($vals, ', ');
+        $sql = "UPDATE AxieTeams SET $vals WHERE AssetTeamID = :id";
+        $s = $this->db->prepare($sql);
+        foreach ($data as $key => $row) {
+            $s->bindValue(':' . strtolower($key), $row);
+        }
+        $s->bindValue(':id', $id);
+        return $s->execute();
+    }
+
+    public function updateDailySLP($id, $value): bool
+    {
+        $sql = "INSERT INTO DailySLPGrind (AxieTeamID, DailySLPGrindAmount) VALUES (:id, :val)";
+        $s = $this->db->prepare($sql);
+        $s->bindValue(':id', $id);
+        $s->bindValue(':val', $value);
+        return $s->execute();
+    }
 }
