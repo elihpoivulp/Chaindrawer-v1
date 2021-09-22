@@ -1,4 +1,7 @@
 {% extends 'base-login.html.twig' %}
+{% block page_specific_styles %}
+    <link rel="stylesheet" href="{{ load_static('assets/vendor/toastr.min.css') }}">
+{% endblock %}
 {% block content %}
     <div class="col my-auto p-md-64pt p-4">
         <div class="mdk-box js-mdk-box"
@@ -171,4 +174,13 @@
             });
         });
     </script>
+    {% block page_specific_scripts %}
+        <script src="{{ load_static('assets/vendor/toastr.min.js') }}"></script>
+        <script src="{{ load_static('assets/chndrwr/app.js') }}"></script>
+        <script>
+            {% autoescape false %}
+            {{ getFlashToast('toastr') }}
+            {% endautoescape %}
+        </script>
+    {% endblock %}
 {% endblock %}
