@@ -131,8 +131,8 @@
         var email_input = $('#bcam-email');
         var card_body = $('#modal-body');
         var loading_classes = 'is-loading is-loading-md is-loading-accent-yellow';
-        var handler = '{{ site_url("become-one?type=manager") }}';
-        submit_email.on('click', function () {
+        var handler = '{{ site_url("become-one") }}';
+        submit_email.on('click', function (e) {
             if (email_input.val() === '') {
                 email_input.addClass('is-invalid');
                 return;
