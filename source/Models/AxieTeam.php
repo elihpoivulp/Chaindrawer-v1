@@ -34,7 +34,7 @@ class AxieTeam extends BaseDBModel
             WHERE AxieTeamID = :id AND 
                  DailySLPGrindDateAdded BETWEEN DATE_SUB(DATE(NOW()), INTERVAL DAYOFWEEK(NOW())-2 DAY) AND
                  DATE_SUB(DATE(NOW()), INTERVAL DAYOFWEEK(NOW())-8 DAY)
-            GROUP BY DailySLPGrindDateAdded
+            GROUP BY DATE(DailySLPGrindDateAdded)
             ORDER BY DailySLPGrindDateAdded
         ";
         $s = $this->db->prepare($sql);
