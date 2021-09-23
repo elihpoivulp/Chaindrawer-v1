@@ -7,7 +7,7 @@
 define('BASE_PATH', dirname(__DIR__));
 require_once  BASE_PATH . '/source/bootstrap.php';
 
-//
+
 use CD\Core\Request;
 use CD\Core\Router;
 use CD\Core\View;
@@ -23,7 +23,7 @@ $router->addRoute('become-one', ['controller' => 'Home', 'action' => 'become']);
 $router->addRoute('sandbox', ['controller' => 'Sandbox']);
 $router->dispatch($request, $view);
 
-//
+
 // class ParseCSV
 // {
 //     public static string $delimiter = ',';
@@ -79,7 +79,7 @@ $router->dispatch($request, $view);
 //         foreach ($this->data as $row) {
 //             $cols = join(', ', array_keys($row));
 //             $vals = trim(str_repeat('?, ', count($row)), ', ');
-//             $sql = "INSERT INTO ManagerShares ($cols) VALUES ($vals)";
+//             $sql = "INSERT INTO DailySLPGrind ($cols) VALUES ($vals)";
 //             // $x = join(', ', array_values($row));
 //             // $sql = "INSERT INTO ManagerShares ($cols) VALUES ($x)";
 //             // echo '<pre>';

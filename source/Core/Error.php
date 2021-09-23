@@ -27,7 +27,7 @@ class Error
     static public function exceptionHandler($exception)
     {
         $code = $exception->getCode();
-        if (Config::DEBUG()) {
+        if (Config::DEBUG() == true) {
             http_response_code($code);
             $msg = "<h1>Fatal error</h1>";
             $msg .= "<p>Uncaught Exception: " . get_class($exception) . "</p>";
