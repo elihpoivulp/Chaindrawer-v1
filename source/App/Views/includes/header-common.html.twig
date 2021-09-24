@@ -7,10 +7,10 @@
     <span class="d-none d-lg-block">{{ app }}</span>
 </a>
 
-<a href="{{ site_url('manager/market-chart/slp') }}">
+<a href="{{ site_url(get_uri(0) ~ '/market-chart/slp') }}">
     <div class="d-none d-md-flex align-items-center mr-16pt">
         <div class="avatar avatar-xs mr-12pt">
-            <div class="rounded navbar-avatar">
+            <div class="rounded navbar-avatar border-0 bg-transparent">
                 <img src="{{ load_static('assets/chndrwr/images/axies/slp.png') }}" alt="SLP Icon" class="avatar-img">
             </div>
         </div>
@@ -59,7 +59,7 @@
         </div>
     </div>
     -->
-    {% if 'Admin' in user_type %}
-        {% include 'includes/admin/mail.html.twig' %}
-    {% endif %}
+{#    {% if 'Admin' in user_type %}#}
+{#        {% include 'includes/admin/mail.html.twig' %}#}
+{#    {% endif %}#}
 </div>
