@@ -107,7 +107,7 @@ EOF;
                     $mail->addReplyTo('business@chaindrawer.com');
                     $mail->addAddress($cleaned);
                     $mail->isHTML(true);
-                    $mail->Subject = 'Membership Request';
+                    $mail->Subject = 'Chaindrawer Axie Infinity Co-Manager Membership';
                     $mail->Body = $body;
                     if ($mail->send()) {
                         $response['success'] = true;
