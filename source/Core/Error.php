@@ -28,7 +28,7 @@ class Error
     {
         $code = $exception->getCode();
         if (Config::DEBUG() == true) {
-            http_response_code($code);
+            http_response_code(is_int($code) ? $code : 500);
             $msg = "<h1>Fatal error</h1>";
             $msg .= "<p>Uncaught Exception: " . get_class($exception) . "</p>";
             $msg .= "<p>Message: <strong>{$exception->getMessage()}</strong></p>";
