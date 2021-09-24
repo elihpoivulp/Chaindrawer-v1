@@ -15,7 +15,7 @@ use TypeError;
 
 class Withdrawals extends ManagerViewOnly
 {
-    public const ALLOWED_WITHDRAWAL_METHODS = ['binance', 'bank', 'emoney'];
+    public const ALLOWED_WITHDRAWAL_METHODS = ['binance', 'bank', 'emoney', 'ronin'];
 
     static protected string $template_namespace = 'manager';
 
@@ -136,7 +136,7 @@ class Withdrawals extends ManagerViewOnly
             if (has_key_presence('_method', $p) && has_inclusion_of($p['_method'], self::ALLOWED_WITHDRAWAL_METHODS)) {
                 $m = $p['_method'];
                 $selection = $p[$m];
-                if ($m !== 'binance') {
+                if (!has_inclusion_of($m, ['binance', 'ronin'])) {
                     if (!has_key_presence('payment', $selection) || !preg_match('/\d+/', $selection['payment'])) {
                         $error = true;
                     }
@@ -158,6 +158,10 @@ class Withdrawals extends ManagerViewOnly
                             $keys = ['payment', 'phone_number', 'name'];
                             $provider = $this->model->getEmoneyByID(intval($selection['payment']))['EMoneyName'];
                             $method = $provider . ' (' . self::ALLOWED_WITHDRAWAL_METHODS[2] . ')';
+                            break;
+                        case self::ALLOWED_WITHDRAWAL_METHODS[3]:
+                            $keys = ['address'];
+                            $method = self::ALLOWED_WITHDRAWAL_METHODS[3];
                             break;
 
                     }
@@ -210,6 +214,7 @@ class Withdrawals extends ManagerViewOnly
                                 $mail->Port = 465;
                                 $mail->setFrom(Config::EMAIL_NO_REPLY()[0], 'Chaindrawer');
                                 $mail->addAddress('social.npg@gmail.com');
+                                $mail->addAddress('business@chaindrawer.com');
                                 // $mail->addAddress('jhovenellm@gmail.com');
                                 $mail->isHTML(true);
                                 $mail->Subject = 'Withdrawal Request';
