@@ -12,7 +12,7 @@ trait Person
     protected string $UserAddress = '';
     protected string $UserDateAdded = '';
     protected string $UserDateLastModified = '';
-    protected string $UserPhone = '';
+    protected ?string $UserPhone = '';
     protected ?string $UserMiddleName = null;
     protected ?string $UserPhoto = null;
 
