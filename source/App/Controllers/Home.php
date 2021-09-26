@@ -57,9 +57,9 @@ class Home extends Controller
                     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
                     $mail->Port = 465;
                     $body = <<<EOF
-<h1>Thank you for your interest in becoming one of our Axie Infinity co-managers.</h1>
+<h1>Thank you for your interest in becoming one of our axie infinity co-managers.</h1>
 To know more about the ownership computation & token distribution, you may click this link: <br>
-https://drive.google.com/file/d/1cZzpTBXdWZgDYxAtGcB8y6mkJEtTfgnq/view?usp=sharing
+https://drive.google.com/file/d/1U4KlbmdjuZRD2SqXuTQjpx1dc1GD66b9/view?usp=sharing
 <br>
 <br>
 <h2>Procedure</h2>
@@ -78,13 +78,28 @@ Reply to this email with the following information:
 <li>Your chosen Team ID</li>
 <li>Amount</li>
 </ol>
+<p><strong>Payment methods:</strong></p>
+&nbsp;&nbsp;GCASH/PAYMAYA/COINSPH:<br>
+&nbsp;&nbsp;&nbsp;09970789953
+<br>
+<br>
+&nbsp;&nbsp;Bank Transfer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Acct Name: Jhovenell Manait<br>
+&nbsp;&nbsp;&nbsp;&nbsp;BDO: 011280065743<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CIMB: 20860745941693<br>
+&nbsp;&nbsp;&nbsp;&nbsp;UNIONBANK: 109485670903
 <h3>Step 3:</h3>
-We will send you a Purchasing Agreement Contract once decided you can proceed with the payment.
-E-mail us your signed contract & proof of payment.
-<h3>Step 4:</h3>
-We will send your login credentials to our multi-manager tracking system:<br>
-https://chaindrawer.com/auth/login
+We will send you an acknowledgement receipt together with your login details to our system:<br>
+https://chaindrawer.com
 <br><br>
+<em>
+<strong>Note</strong>: Your shared axie team will only become "active" once the full amount of the team was filled.
+</em>
+<br>
+<br>
+Thanks!
+<br>
+<br>
 <hr>
 <br>
 <em>Chaindrawer is <strong>NOT</strong> affiliated with Axie Infinity.</em>
