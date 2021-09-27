@@ -1,0 +1,111 @@
+{% if response.success %}
+    {% set body = response.body %}
+    <h4># {{ body.WithdrawalRequestID }}</h4>
+    {% if response.type == 'confirm' %}
+        <form action="{{ site_url('admin/withdrawals/process?ref=dashboard') }}" method="post">
+            <input type="hidden" name="w_id" value="{{ body.WithdrawalRequestID }}">
+            <input type="hidden" name="action" value="complete">
+            <input type="hidden" name="wsa" value="{{ body.WithdrawalRequestSLPAmount }}">
+            <input type="hidden" name="waa" value="{{ body.WithdrawalRequestAXSAmount }}">
+            <input type="hidden" name="mid" value="{{ body.ManagerAccountID }}">
+            <div class="row my-2 bg-darker py-3">
+                <div class="col">
+                    <div class="d-flex align-items-center mb-1" style="white-space: nowrap;">
+                        <div class="flex">
+                            <div class="d-flex flex-column">
+                                <p class="mb-0"><strong>Account Name</strong></p>
+                                <small class="text-50">{{ body.FullName }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="d-flex align-items-center mb-1" style="white-space: nowrap;">
+                        <div class="flex">
+                            <div class="d-flex flex-column">
+                                <p class="mb-0"><strong>Projected SLP Balance</strong></p>
+                                <small class="text-50">{{ toMoneyFormat(body.WithdrawalRequestRemSLPBalance) }}
+                                    SLP</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5 class="mb-2">Withdrawal details</h5>
+            <div class="row">
+                <div class="col">
+                    <div class="d-flex align-items-center mb-1" style="white-space: nowrap;">
+                        <div class="flex">
+                            <div class="d-flex flex-column">
+                                <p class="mb-0"><strong>Withdraw SLP Amount</strong></p>
+                                <small class="text-50">{{ toMoneyFormat(body.WithdrawalRequestSLPAmount) }} SLP</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-1" style="white-space: nowrap;">
+                        <div class="flex">
+                            <div class="d-flex flex-column">
+                                <p class="mb-0"><strong>Method</strong></p>
+                                <small class="text-50">{{ body.WithdrawalRequestMethod|upper }}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center" style="white-space: nowrap;">
+                        <div class="flex">
+                            <div class="d-flex flex-column">
+                                <p class="mb-0"><strong>Requested at</strong></p>
+                                <small class="text-50">{{ time_ago(body.WithdrawalRequestDate|date('U')) }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% if body.WithdrawalRequestMethod|lower == 'emoney' or body.WithdrawalRequestMethod|lower == 'bank' %}
+                    <div class="col">
+                        <div class="form-group mb-2">
+                            <label for="slp_rate">SLP Rate</label>
+                            <input type="text" class="form-control-sm" id="slp_rate" name="slp_rate" placeholder="Set SLP Rate" required>
+                        </div>
+                        <div class="form-group mb-1">
+                            <label for="amt">Converted Amount</label>
+                            <input type="text" class="form-control-sm" id="amt" name="amt" placeholder="Set Received Amount" required>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <hr>
+            <div class="text-right">
+                <button type="submit" class="btn btn-outline-success text-center btn-sm">
+                    <i class="material-icons icon--left">check</i> Confirm
+                </button>
+            </div>
+        </form>
+    {% elseif response.type == 'cancel' %}
+        <form action="{{ site_url('admin/withdrawals/process?ref=dashboard') }}" method="post">
+            <input type="hidden" name="w_id" value="{{ body.WithdrawalRequestID }}">
+            <input type="hidden" name="action" value="cancel">
+            <strong>This will cancel the withdrawal request #{{ body.WithdrawalRequestID }}.</strong>
+            <hr>
+            <div class="text-right mt-2">
+                <button type="submit" class="btn btn-outline-warning text-center btn-sm">
+                    <i class="material-icons icon--left">check</i> Yes, Cancel It
+                </button>
+            </div>
+        </form>
+    {% else %}
+        <strong class="text-warning">Invalid action</strong>
+    {% endif %}
+{% else %}
+    <div class="alert alert-soft-warning mb-lg-32pt">
+        <div class="d-flex flex-wrap align-items-start">
+            <div class="mr-8pt">
+                <i class="material-icons">warning</i>
+            </div>
+            <div class="flex" style="min-width: 180px">
+                <small class="text-100">
+                    <strong>Error</strong><br>
+                    <span>{{ response.message }}</span>
+                </small>
+            </div>
+        </div>
+    </div>
+{% endif %}

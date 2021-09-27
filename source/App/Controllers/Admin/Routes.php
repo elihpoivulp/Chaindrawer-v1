@@ -20,5 +20,7 @@ class Routes extends AbstractRoute
         'users/new' => ['action' => 'new', 'controller' => 'Users'],
         'logins' => ['controller' => 'Logins'],
         'logins/new' => ['action' => 'new', 'controller' => 'Logins'],
+        'withdrawals/get-fragment' => ['action' => 'getWithdrawalDetails', 'controller' => 'Withdrawals'],
+        'withdrawals/process' => ['action' => 'process', 'controller' => 'Withdrawals'],
     ];
 }

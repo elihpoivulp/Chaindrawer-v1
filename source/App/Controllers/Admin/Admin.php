@@ -6,6 +6,7 @@ namespace CD\App\Controllers\Admin;
 use CD\Core\Request;
 use CD\Core\View;
 use CD\Core\ViewControllers\AdminViewOnly;
+use CD\Models\Manager;
 
 class Admin extends AdminViewOnly
 {
@@ -20,8 +21,10 @@ class Admin extends AdminViewOnly
 
     public function indexAction()
     {
+        $manager = new Manager();
         $this->render('index.html.twig', [
-            'title' => 'Admin'
+            'title' => 'Admin',
+            'withdrawals' => $manager->getAllWithdrawals(5)
         ]);
     }
 }

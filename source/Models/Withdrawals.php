@@ -63,4 +63,60 @@ class Withdrawals extends BaseDBModel
         $s->execute();
         return $this->db->lastInsertId();
     }
+
+    public function getWithdrawalDetails($id)
+    {
+        $sql = "SELECT 
+                WR.*,
+                CONVERT(WR.WithdrawalRequestID, CHAR) AS WithdrawalRequestID,
+                WithdrawalAXSinPHP, WithdrawalSLPinPHP, WithdrawalSLPRate, WithdrawalAXSRate,
+                CONCAT(UserFirstName, ' ', UserMiddleName, ' ', UserLastName) as FullName
+                FROM WithdrawalRequests WR
+                JOIN ManagerAccounts JOIN ManagerAccounts MA on WR.ManagerAccountID = MA.ManagerAccountID
+                JOIN Users ON ManagerAccounts.UserID = Users.UserID
+                LEFT JOIN Withdrawals W on WR.WithdrawalRequestID = W.WithdrawalRequestID
+                WHERE WR.WithdrawalRequestID = :id
+                ORDER BY WithdrawalRequestStatus DESC, WithdrawalRequestDate DESC, WithdrawalRequestDateCompleted DESC
+                ";
+        $s = $this->db->prepare($sql);
+        $s->execute(['id' => $id]);
+        return $s->fetch();
+    }
+
+    public function completeWithdrawal($id, $manager_id, $data): bool
+    {
+        $now = $data['WithdrawalDateProcessed'];
+        $sql = "UPDATE WithdrawalRequests SET WithdrawalRequestStatus = 'completed', WithdrawalRequestDateCompleted = '$now' WHERE WithdrawalRequestID = :id";
+        $s = $this->db->prepare($sql);
+        $s->bindValue(':id', $id);
+        if ($s->execute()) {
+            $data['WithdrawalRequestID'] = $id;
+            $cols = '(' . join(', ', array_keys($data)) . ')';
+            $keys = '';
+            foreach ($data as $index => $datum) {
+                $keys .= ':' . $index . ', ';
+            }
+            $keys =  '(' . rtrim($keys, ', ') . ')';
+            $sql = "INSERT INTO Withdrawals $cols VALUES $keys";
+            $s = $this->db->prepare($sql);
+            foreach ($data as $index => $datum) {
+                $s->bindValue(':'. $index, $datum);
+            }
+            if ($s->execute()) {
+                $sql = "UPDATE ManagerAccounts SET ManagerAccountCurrentSLPBalance = (ManagerAccountCurrentSLPBalance - :consumed) WHERE ManagerAccountID = :id";
+                $s = $this->db->prepare($sql);
+                $s->bindValue(':consumed', $data['WithdrawalSLPAmount']);
+                $s->bindValue(':id', $manager_id);
+                return $s->execute();
+            }
+        }
+        return false;
+    }
+
+    public function cancelWithdrawal($id): bool
+    {
+        $sql = "DELETE FROM WithdrawalRequests WHERE WithdrawalRequestID = :id";
+        $s = $this->db->prepare($sql);
+        return $s->execute([':id' => $id]);
+    }
 }
