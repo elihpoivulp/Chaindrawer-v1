@@ -102,6 +102,25 @@ class Manager extends AccountModel
         return $s->fetchAll();
     }
 
+    public function getAllWithdrawals($limit = null)
+    {
+        $sql = "SELECT 
+                WR.*,
+                CONVERT(WR.WithdrawalRequestID, CHAR) AS WithdrawalRequestID,
+                WithdrawalAXSinPHP, WithdrawalSLPinPHP, WithdrawalSLPRate, WithdrawalAXSRate
+                FROM WithdrawalRequests WR
+                LEFT JOIN Withdrawals W on WR.WithdrawalRequestID = W.WithdrawalRequestID
+                WHERE WithdrawalRequestStatus = 'pending'
+                ORDER BY WithdrawalRequestStatus DESC, WithdrawalRequestDate DESC, WithdrawalRequestDateCompleted DESC
+                ";
+        if ($limit) {
+            $sql .= " LIMIT $limit";
+        }
+        $s = $this->db->prepare($sql);
+        $s->execute();
+        return $s->fetchAll();
+    }
+
     public function getPayout(int $payout_id, bool $update_seen = false)
     {
         $sql = "SELECT

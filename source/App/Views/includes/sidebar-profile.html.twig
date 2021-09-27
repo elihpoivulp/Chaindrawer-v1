@@ -23,7 +23,7 @@
 </a>
 <div class="{{ dropdown_class }}">
     <div class="dropdown-header"><strong>Account</strong></div>
-    <a class="dropdown-item" href="{{ site_url(get_uri(0) ~ '/account/edit') }}">Edit Account</a>
+    <a class="dropdown-item" href="{{ 'manager/account/edit' }}">Edit Account</a>
     <a class="dropdown-item" href="{{ site_url('auth/logout') }}">Logout</a>
     {% if user_type|length > 1 %}
         <div class="dropdown-divider"></div>
@@ -39,7 +39,7 @@
                 </span>
             </small>
         </a>
-        <a href="{{ site_url('manager/dashboard') }}" class="dropdown-item d-flex align-items-center {% if get_uri(0) == 'manager' %}active{% endif %}">
+        <a href="{{ site_url('manager') }}" class="dropdown-item d-flex align-items-center {% if get_uri(0) == 'manager' %}active{% endif %}">
             <div class="avatar avatar-sm mr-8pt">
                 <span class="avatar-title rounded bg-accent">MNR</span>
             </div>
