@@ -69,6 +69,7 @@ Go to this link:
 https://docs.google.com/spreadsheets/d/1-4ORedm015beevOK9mEOb-6xqGd6hVku7iZfKgBZh94/edit#gid=0
 <br>
 for current team details to be filled.
+
 <h3>Step 2:</h3>
 Reply to this email with the following information:
 <ol>
