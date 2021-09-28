@@ -12,6 +12,8 @@ class Cron
     private array $ronin_addresses = [];
     private array $addresses = [];
     private array $balances = [];
+    private array $next_claims = [];
+    private array $has_claims = [];
     private $data;
 
     /**
@@ -33,15 +35,18 @@ class Cron
         $this->ronin_addresses = $this->model->getRoninAddresses();
         $addresses = [];
         $balances = [];
+        $next_claims = [];
         foreach ($this->ronin_addresses as $ronin_address) {
             $address = $ronin_address['ronin'];
             $id = $ronin_address['id'];
             preg_match('/([a-z0-9]{40})/', $address, $matches);
             $addresses[$id] = '0x' . $matches[0];
             $balances['0x' . $matches[0]] = $ronin_address['latest_balance'];
+            $next_claims['0x' . $matches[0]] = $ronin_address['next_claim'];
         }
         $this->balances = $balances;
         $this->addresses = $addresses;
+        $this->next_claims = $next_claims;
         if ($data = file_get_contents($this->endpoint . join(',', array_values($addresses)))) {
             $this->data = json_decode($data, true);
         } else {
@@ -66,6 +71,9 @@ class Cron
             if (!$this->model->updateTeamData($id, $new_values)) {
                 throw new Exception('Failed to update team data', 500);
             }
+            if ($team['next_claim'] > $this->next_claims[$ronin]) {
+                $this->has_claims[] = $ronin;
+            }
         }
     }
 
@@ -82,6 +90,14 @@ class Cron
                     throw new Exception('Failed to daily slp', 500);
                 }
             }
+        }
+    }
+
+    public function update_team_claims()
+    {
+        if ($this->has_claims) {
+            // distribute
+            echo '';
         }
     }
 

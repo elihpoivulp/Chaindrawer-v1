@@ -54,7 +54,7 @@ class Teams extends BaseDBModel
 
     public function getRoninAddresses()
     {
-        $s = $this->db->prepare("SELECT AssetTeamID AS id, AxieTeamTrackerAddress AS ronin, AxieTeamCurrentSLPBalance AS latest_balance FROM AxieTeams");
+        $s = $this->db->prepare("SELECT AssetTeamID AS id, AxieTeamTrackerAddress AS ronin, AxieTeamCurrentSLPBalance AS latest_balance, AxieTeamNextSLPClaim AS next_claim FROM AxieTeams");
         $s->execute();
         return $s->fetchAll();
     }
@@ -82,5 +82,13 @@ class Teams extends BaseDBModel
         $s->bindValue(':id', $id);
         $s->bindValue(':val', $value);
         return $s->execute();
+    }
+
+    public function getIncomingClaims($limit = 5)
+    {
+        $sql = "SELECT AssetTeamName, AxieTeamCurrentSLPBalance, AxieTeamTrackerAddress, AxieTeamNextSLPClaim FROM AssetTeams AT INNER JOIN AxieTeams AXT ON AXT.AssetTeamID = AT.AssetTeamID ORDER BY AxieTeamNextSLPClaim LIMIT :limit";
+        $s = $this->db->prepare($sql);
+        $s->execute([':limit' => $limit]);
+        return $s->fetchAll();
     }
 }
