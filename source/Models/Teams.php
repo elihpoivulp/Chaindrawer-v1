@@ -27,6 +27,7 @@ class Teams extends BaseDBModel
     {
         $s = $this->db->prepare('CALL GetAllTeams();');
         $s->execute();
+        $s->setFetchMode(PDO::FETCH_CLASS, Team::class);
         return $s->fetchAll();
     }
 

@@ -25,6 +25,10 @@ class Teams extends AdminViewOnly
     public function indexAction()
     {
         $teams = $this->model->getTeams();
+//        echo '<pre>';
+//        print_r($teams);
+//        echo '</pre>';
+//        exit;
         $this->render('teams/all.html.twig', [
             'title' => 'Teams',
             'teams' => $teams
