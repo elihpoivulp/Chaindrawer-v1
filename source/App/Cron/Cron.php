@@ -64,8 +64,8 @@ class Cron
             $new_values['AxieTeamMMR'] = $team['mmr'];
             $new_values['AxieTeamRank'] = $team['rank'];
             $new_values['AxieTeamCurrentSLPBalance'] = $team['total_slp'];
-            $new_values['AxieTeamNextSLPClaim'] = gmdate('Y-m-d H:i:s', $team['next_claim']);
-            $new_values['AxieTeamLastSLPClaim'] = gmdate('Y-m-d H:i:s', $team['last_claim']);
+            $new_values['AxieTeamNextSLPClaim'] = date('Y-m-d H:i:s', $team['next_claim']);
+            $new_values['AxieTeamLastSLPClaim'] = date('Y-m-d H:i:s', $team['last_claim']);
             $new_values['AxieTeamDateLastModified'] = date('Y-m-d H:i:s');
             if (!$this->model->updateTeamData($id, $new_values)) {
                 throw new Exception('Failed to update team data', 500);
@@ -86,7 +86,7 @@ class Cron
             if ($team['total_slp'] > $this->balances[$ronin]) {
                 $added = $team['total_slp'] - $this->balances[$ronin];
                 if (!$this->model->updateDailySLP($id, $added)) {
-                    throw new Exception('Failed to daily slp', 500);
+                    throw new Exception('Failed to fetch daily slp', 500);
                 }
             }
         }
