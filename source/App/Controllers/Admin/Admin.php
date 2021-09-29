@@ -7,6 +7,7 @@ use CD\Core\Request;
 use CD\Core\View;
 use CD\Core\ViewControllers\AdminViewOnly;
 use CD\Models\Manager;
+use CD\Models\Teams as TeamsModel;
 
 class Admin extends AdminViewOnly
 {
@@ -22,9 +23,11 @@ class Admin extends AdminViewOnly
     public function indexAction()
     {
         $manager = new Manager();
+        $teams = new TeamsModel();
         $this->render('index.html.twig', [
             'title' => 'Admin',
-            'withdrawals' => $manager->getAllWithdrawals(5)
+            'withdrawals' => $manager->getAllWithdrawals(5),
+            'incoming_claims' => $teams->getIncomingClaims()
         ]);
     }
 }
