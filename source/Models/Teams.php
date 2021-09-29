@@ -46,6 +46,14 @@ class Teams extends BaseDBModel
         return $s->fetch();
     }
 
+    public function getTeamByID($id)
+    {
+        $s = $this->db->prepare('CALL GetTeamByID(:id)');
+        $s->setFetchMode(PDO::FETCH_CLASS, Team::class);
+        $s->execute(['id' => $id]);
+        return $s->fetch();
+    }
+
     public function getTeamTypes()
     {
         $s = $this->db->prepare('SELECT * FROM TeamTypes');
@@ -55,7 +63,7 @@ class Teams extends BaseDBModel
 
     public function getRoninAddresses()
     {
-        $s = $this->db->prepare("SELECT AssetTeamID AS id, AxieTeamTrackerAddress AS ronin, AxieTeamCurrentSLPBalance AS latest_balance, AxieTeamNextSLPClaim AS next_claim FROM AxieTeams");
+        $s = $this->db->prepare("SELECT AT.AssetTeamID AS id, AxieTeamTrackerAddress AS ronin, AxieTeamCurrentSLPBalance AS latest_balance, AxieTeamNextSLPClaim AS next_claim, AxieTeamTotalSLPFarmed as total_slp, TeamProfitShare AS royalty FROM AssetTeams AT JOIN AxieTeams AXT ON AXT.AssetTeamID = AT.AssetTeamID JOIN TeamTypes TT ON TT.TeamTypeID = AT.TeamTypeID");
         $s->execute();
         return $s->fetchAll();
     }
@@ -85,6 +93,62 @@ class Teams extends BaseDBModel
         return $s->execute();
     }
 
+    public function newFortnight($amount, $date): int
+    {
+        $sql = "INSERT INTO FortnightAxieWithdrawals (FortnightAxieWithdrawalTotalSLP, FortnightAxieWithdrawalIsDistributed, FortnightAxieWithdrawalDate) VALUES (:amt, 1, :date)";
+        $s = $this->db->prepare($sql);
+        $s->bindValue(':amt', $amount);
+        $s->bindValue(':date', $date);
+        $s->execute();
+        return $this->db->lastInsertId();
+    }
+
+    public function newTeamPayout($id, $f_id, $amt, $date, $rate): int
+    {
+        $sql = "INSERT INTO AxieTeamPayouts (AxieTeamPayoutTotalSLP, AxieTeamPayoutShareRate, FortnightAxieWithdrawalID, AxieTeamID, AxieTeamPayoutDate) VALUES (:amt, :rate, :f_id, :id, :date)";
+        $s = $this->db->prepare($sql);
+        $s->bindValue(':amt', $amt);
+        $s->bindValue(':rate', $rate);
+        $s->bindValue(':date', $date);
+        $s->bindValue(':id', $id);
+        $s->bindValue(':f_id', $f_id);
+        $s->execute();
+        return $this->db->lastInsertId();
+    }
+
+    public function newCDPayout($id, $amt, $date, $rate): bool
+    {
+        $sql = "INSERT INTO ChainDrawerAxiePayouts (ChainDrawerAxiePayoutTotalSLP, AxieTeamPayoutID, ChainDrawerAxiePayoutDate, ChainDrawerAxiePayoutShareRate) VALUES (:amt, :id, :date, :rate)";
+        $s = $this->db->prepare($sql);
+        $s->bindValue(':amt', $amt);
+        $s->bindValue(':rate', $rate);
+        $s->bindValue(':date', $date);
+        $s->bindValue(':id', $id);
+        return $s->execute();
+    }
+
+    public function newManagerPayout($amt, $m_id, $last_bal, $date, $rate, $p_id): bool
+    {
+        $sql = "INSERT INTO ManagerPayouts (ManagerPayoutTotalSLP, ManagerAccountID, ManagerPayoutLastSLPBalance, ManagerPayoutDate, ManagerPayoutShareRate, AxieTeamPayoutID) VALUES (:amt, :m_id, :last_bal, :date, :rate, :p_id)";
+        $s = $this->db->prepare($sql);
+        $s->bindValue(':amt', $amt);
+        $s->bindValue(':m_id', $m_id);
+        $s->bindValue(':last_bal', $last_bal);
+        $s->bindValue(':date', $date);
+        $s->bindValue(':rate', $rate);
+        $s->bindValue(':p_id', $p_id);
+        return $s->execute();
+    }
+
+    public function updateTeamLifetimeSLP($id, $amt): bool
+    {
+        $sql = "UPDATE AxieTeams SET AxieTeamTotalSLPFarmed = AxieTeamTotalSLPFarmed + :amt WHERE AssetTeamID = :id";
+        $s = $this->db->prepare($sql);
+        $s->bindValue(':amt', $amt);
+        $s->bindValue(':id', $id);
+        return $s->execute();
+    }
+
     public function getIncomingClaims($limit = 5)
     {
         $sql = "SELECT AssetTeamName, AxieTeamCurrentSLPBalance, AxieTeamTrackerAddress, AxieTeamNextSLPClaim FROM AssetTeams AT INNER JOIN AxieTeams AXT ON AXT.AssetTeamID = AT.AssetTeamID ORDER BY AxieTeamNextSLPClaim LIMIT :limit";
@@ -92,4 +156,5 @@ class Teams extends BaseDBModel
         $s->execute([':limit' => $limit]);
         return $s->fetchAll();
     }
+
 }
