@@ -27,7 +27,39 @@
                      data-lists-sort-by="date-established"
                      data-lists-sort-desc="false"
                      data-lists-values='["team-name", "team-income-rate", "bal-slp", "team-status", "date-established"]'>
-
+                    <div class="card-header">
+                        <div class="row align-items-center" style="white-space: nowrap;">
+                            <div class="col-lg d-flex flex-wrap align-items-center justify-content-between">
+                                <div class="search-form form-control-flush search-form--dark d-lg-inline-flex mb-8pt mb-lg-0">
+                                    <label for="search-table" class="d-none"></label>
+                                    <input type="text" id="search-table" class="form-control search w-lg-auto"
+                                           placeholder="Search ...">
+                                    <button class="btn" type="button" role="button"><i class="material-icons">search</i>
+                                    </button>
+                                </div>
+{#                                <div class="ml-lg-auto dropdown">#}
+{#                                    <a href="#" class="btn btn-link dropdown-toggle text-70" data-toggle="dropdown">Status</a>#}
+{#                                    <div class="dropdown-menu dropdown-menu-right">#}
+{#                                        <a href="#" class="dropdown-item active">All</a>#}
+{#                                        <a href="#" class="dropdown-item">Active</a>#}
+{#                                        <a href="#" class="dropdown-item">Pending</a>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="dropdown mr-8pt">#}
+{#                                    <a href="#" class="btn btn-link dropdown-toggle text-70" data-toggle="dropdown">Types</a>#}
+{#                                    <div class="dropdown-menu dropdown-menu-right">#}
+{#                                        <a href="#" class="dropdown-item active">All</a>#}
+{#                                        <a href="#" class="dropdown-item">Pioneer</a>#}
+{#                                        <a href="#" class="dropdown-item">Regular</a>#}
+{#                                    </div>#}
+{#                                </div>#}
+                                <a href="{{ site_url('admin/teams/new') }}" class="btn btn-outline-accent-yellow btn-sm btn-rounded">
+                                    <i class="material-icons icon--left">add</i>
+                                    Add New Team
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                     <table class="table mb-0 thead-border-top-0 table-nowrap">
                         <thead>
                         <tr>
