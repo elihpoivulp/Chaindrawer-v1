@@ -64,7 +64,6 @@ class Cron
             $new_values['AxieTeamMMR'] = $team['mmr'];
             $new_values['AxieTeamRank'] = $team['rank'];
             $new_values['AxieTeamCurrentSLPBalance'] = $team['total_slp'];
-            $new_values['AxieTeamTotalSLPFarmed'] = $team['lifetime_slp'];
             $new_values['AxieTeamNextSLPClaim'] = gmdate('Y-m-d H:i:s', $team['next_claim']);
             $new_values['AxieTeamLastSLPClaim'] = gmdate('Y-m-d H:i:s', $team['last_claim']);
             $new_values['AxieTeamDateLastModified'] = date('Y-m-d H:i:s');
