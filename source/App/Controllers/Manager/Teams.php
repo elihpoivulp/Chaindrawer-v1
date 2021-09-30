@@ -77,7 +77,7 @@ class Teams extends ManagerViewOnly
                         'title' => $team->AssetTeamName,
                         'account' => $this->account,
                         'team' => $team,
-                        'last_payout' => $team->getLastPayoutDate(),
+//                        'last_payout' => $team->getLastPayoutDate(),
                         'charts' => [
                             'doughnut' => [
                                 'has_data' => $managers,

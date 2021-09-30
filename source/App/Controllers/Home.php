@@ -58,7 +58,7 @@ class Home extends Controller
                     $mail->Port = 465;
                     $body = <<<EOF
 <h1>Thank you for your interest in becoming one of our axie infinity co-managers.</h1>
-To know more about the ownership computation & token distribution, you may click this link: <br>
+To know more about the details you may click this link: <br>
 https://drive.google.com/file/d/1U4KlbmdjuZRD2SqXuTQjpx1dc1GD66b9/view?usp=sharing
 <br>
 <br>
@@ -68,15 +68,15 @@ Go to this link:
 <br>
 https://docs.google.com/spreadsheets/d/1-4ORedm015beevOK9mEOb-6xqGd6hVku7iZfKgBZh94/edit#gid=0
 <br>
-and choose the shared Axie team that you like.
+for current team details to be filled.
+
 <h3>Step 2:</h3>
 Reply to this email with the following information:
 <ol>
 <li>Name (First Name, Middle Name, Last Name)</li>
 <li>Address (Complete Address)</li>
 <li>Contact #</li>
-<li>Your chosen Team ID</li>
-<li>Amount</li>
+<li>Payment</li>
 </ol>
 <p><strong>Payment methods:</strong></p>
 &nbsp;&nbsp;GCASH/PAYMAYA/COINSPH:<br>

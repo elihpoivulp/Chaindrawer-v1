@@ -57,6 +57,9 @@ class View
             $twig->addFunction(new TwigFunction('replace', function ($source, $pattern, $replacement = '') {
                 return preg_replace($pattern, $replacement, $source);
             }));
+            $twig->addFunction(new TwigFunction('time_ago', function ($time) {
+                return get_time_ago($time);
+            }));
             $role = 'Guest';
             $user = null;
             if (SessionsUserAuth::isLoggedIn()) {
@@ -69,14 +72,14 @@ class View
                 }
             }
             $last_known_rate = 0;
-            if ($user) {
-                $slp = new SLP();
-                try {
-                    $last_known_rate = $slp->getData()['last_known_rate'];
-                } catch (Exception $e) {
-                    $last_known_rate = 0;
-                }
-            }
+//            if ($user) {
+//                $slp = new SLP();
+//                try {
+//                    $last_known_rate = $slp->getData()['last_known_rate'];
+//                } catch (Exception $e) {
+//                    $last_known_rate = 0;
+//                }
+//            }
             $twig->addGlobal('app', Config::WEBSITE_NAME);
             $twig->addGlobal('user', $user);
             $twig->addGlobal('user_type', $role);

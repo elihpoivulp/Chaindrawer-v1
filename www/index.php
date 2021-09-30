@@ -79,7 +79,7 @@ $router->dispatch($request, $view);
 //         foreach ($this->data as $row) {
 //             $cols = join(', ', array_keys($row));
 //             $vals = trim(str_repeat('?, ', count($row)), ', ');
-//             $sql = "INSERT INTO DailySLPGrind ($cols) VALUES ($vals)";
+//             $sql = "INSERT INTO ManagerPayouts ($cols) VALUES ($vals)";
 //             // $x = join(', ', array_values($row));
 //             // $sql = "INSERT INTO ManagerShares ($cols) VALUES ($x)";
 //             // echo '<pre>';
@@ -122,9 +122,49 @@ $router->dispatch($request, $view);
 // $p = new ParseCSV('ax.csv');
 // $p->parse();
 //
-// // $pdo = new \CD\Core\DB\DB();
-// // for ($i = 1; $i <= 34; $i++) {
-// //     $sql = "INSERT INTO UserRoles (RoleID, UserID) VALUES (?, ?)";
-// //     $s = $pdo->db()->prepare($sql);
-// //     $s->execute([2, $i]);
-// // }
+//$vals = [
+//    381.07,
+//237.12,
+//237.12,
+//949.13,
+//519.61,
+//237.12,
+//474.61,
+//514.66,
+//1286.29,
+//237.12,
+//259.80,
+//259.80,
+//789.38,
+//259.80,
+//259.80,
+//1236.68,
+//1730.76,
+//216.54,
+//216.54,
+//1298.07,
+//952.30,
+//762.13,
+//190.53,
+//190.53,
+//190.53,
+//381.07,
+//190.53,
+//381.07,
+//304.85,
+//474.61,
+//135.01,
+//404.78,
+//1079.09,
+//];
+//  $pdo = new \CD\Core\DB\DB();
+//  for ($i = 1; $i <= 34; $i++) {
+//      if ($i == 28) {
+//          continue;
+//      }
+//      $sql = "UPDATE ManagerAccounts SET ManagerAccountTotalSLPGained = :bal WHERE ManagerAccountID = :id";
+//      $s = $pdo->db()->prepare($sql);
+//      $s->bindValue(':bal', $vals[$i-1]);
+//      $s->bindValue(':id', $i);
+//      $s->execute();
+//  }

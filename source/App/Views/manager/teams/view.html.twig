@@ -244,7 +244,7 @@
                         <br>
                     </p>
                     <p>Next earnings distribution schedule:
-                        <strong>{{ last_payout ? last_payout.NextPayoutDate|date('F j, o') : 'No schedule yet' }}</strong>
+                        <strong>{{ team.AxieTeam.AxieTeamNextSLPClaim ? team.AxieTeam.AxieTeamNextSLPClaim|date('F j, o') : 'No schedule yet' }}</strong>
                     </p>
                     <div class="table-responsive">
                         <table class="mt-2 table table-sm mb-0 thead-border-top-0 table-nowrap">

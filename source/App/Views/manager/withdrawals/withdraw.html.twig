@@ -127,7 +127,7 @@
                     html = '\
                     <div class="d-flex mb-8pt ml-8pt">\
                         <div>\
-                            <strong class="text-70">Ronin Address</strong>\
+                            <strong class="text-70">Ronin Address&nbsp;</strong>\
                         </div>\
                         <br>\
                         <strong class="text-white">' + $('#ronin').val() + '</strong>\
@@ -255,6 +255,12 @@
                                         <a href="javascript:void(0);"
                                            class=""
                                            data-toggle="tab"
+                                           data-target="#t_ronin"
+                                           role="tab"
+                                           aria-selected="false">Ronin</a>
+                                        <a href="javascript:void(0);"
+                                           class=""
+                                           data-toggle="tab"
                                            data-target="#t_emoney"
                                            role="tab"
                                            aria-selected="false">E-money</a>
@@ -292,7 +298,43 @@
                                                     </button>
                                                 </div>
                                             </form>
-                                            <!--RONIN FORM HERE-->
+                                            <form method="post" action="{{ site_url('manager/withdraw/process') }}"
+                                                  class="tab-pane fade" id="t_ronin">
+                                                <input type="hidden" name="_method" value="ronin">
+                                                <input type="hidden" name="_token" value="{{ token }}">
+                                                <input type="hidden" name="_slp_amt" value="{{ slp_amt }}">
+                                                <input type="hidden" name="_axs_amt" value="{{ axs_amt }}">
+                                                <div class="alert alert-soft-warning">
+                                                    <div class="d-flex flex-wrap align-items-start">
+                                                        <div class="mr-8pt">
+                                                            <i class="material-icons">warning</i>
+                                                        </div>
+                                                        <div class="flex" style="min-width: 180px">
+                                                            <small class="text-100">
+                                                                <strong>Warning!</strong><br>
+                                                                <span>Please make sure you input your correct Ronin Address before confirming.</span>
+                                                            </small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mb-24pt">
+                                                    <label class="form-label"
+                                                           for="ronin">Ronin Address</label>
+                                                    <input id="ronin" required
+                                                           name="ronin[address]"
+                                                           type="text"
+                                                           class="form-control"
+                                                           value=""
+                                                           maxlength="80"
+                                                           minlength="40"
+                                                           placeholder="0xNNN.. or ronin:NNN.. or NNN..">
+                                                </div>
+                                                <div class="text-right">
+                                                    <button type="submit" class="btn btn-accent confirm-wd"
+                                                            data-form="ronin">Confirm
+                                                    </button>
+                                                </div>
+                                            </form>
                                             {% if can_withdraw %}
                                                 <form method="post" action="{{ site_url('manager/withdraw/process') }}"
                                                       class="tab-pane fade" id="t_emoney">

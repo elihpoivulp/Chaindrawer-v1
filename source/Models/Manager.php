@@ -195,6 +195,16 @@ class Manager extends AccountModel
         return $s->fetchAll();
     }
 
+    public function addToBalance($amount = null): bool
+    {
+        $sql = "UPDATE ManagerAccounts SET ManagerAccountCurrentSLPBalance = ManagerAccountCurrentSLPBalance + :add, ManagerAccountTotalSLPGained = ManagerAccountTotalSLPGained + :add1 WHERE ManagerAccountID = :id";
+        $s = $this->db->prepare($sql);
+        $s->bindValue(':add', $amount);
+        $s->bindValue(':add1', $amount);
+        $s->bindValue(':id', $this->ManagerAccountID);
+        return $s->execute();
+    }
+
     // public function getShares(): array
     // {
     //     $sql = "SELECT ManagerShareID, ManagerShareAmount, ManagerSharePurchaseDate, ManagerShareDateLastModified FROM ManagerShares

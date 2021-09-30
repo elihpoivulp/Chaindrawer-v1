@@ -53,13 +53,14 @@ class Withdrawals extends BaseDBModel
 
     public function addToWithdrawHistory(array $data): int
     {
-        $s = $this->db->prepare("INSERT INTO WithdrawalRequests (WithdrawalRequestSLPAmount, WithdrawalRequestAXSAmount, WithdrawalRequestMethod, WithdrawalRequestRemSLPBalance, WithdrawalRequestRemAXSBalance, ManagerAccountID) VALUES (:slp_amt, :axs_amt, :method, :rem_slp_bal, :rem_axs_bal, :manager)");
+        $s = $this->db->prepare("INSERT INTO WithdrawalRequests (WithdrawalRequestSLPAmount, WithdrawalRequestAXSAmount, WithdrawalRequestMethod, WithdrawalRequestRemSLPBalance, WithdrawalRequestRemAXSBalance, ManagerAccountID, WithdrawalRequestDate) VALUES (:slp_amt, :axs_amt, :method, :rem_slp_bal, :rem_axs_bal, :manager, :date)");
         $s->bindValue(':slp_amt', $data['slp_amt']);
         $s->bindValue(':axs_amt', $data['axs_amt']);
         $s->bindValue(':method', $data['method']);
         $s->bindValue(':rem_slp_bal', $data['rem_slp_bal']);
         $s->bindValue(':rem_axs_bal', $data['rem_axs_bal']);
         $s->bindValue(':manager', $data['manager']);
+        $s->bindValue(':date', $data['date']);
         $s->execute();
         return $this->db->lastInsertId();
     }
@@ -72,8 +73,8 @@ class Withdrawals extends BaseDBModel
                 WithdrawalAXSinPHP, WithdrawalSLPinPHP, WithdrawalSLPRate, WithdrawalAXSRate,
                 CONCAT(UserFirstName, ' ', UserMiddleName, ' ', UserLastName) as FullName
                 FROM WithdrawalRequests WR
-                JOIN ManagerAccounts JOIN ManagerAccounts MA on WR.ManagerAccountID = MA.ManagerAccountID
-                JOIN Users ON ManagerAccounts.UserID = Users.UserID
+                JOIN ManagerAccounts MA on WR.ManagerAccountID = MA.ManagerAccountID
+                JOIN Users ON MA.UserID = Users.UserID
                 LEFT JOIN Withdrawals W on WR.WithdrawalRequestID = W.WithdrawalRequestID
                 WHERE WR.WithdrawalRequestID = :id
                 ORDER BY WithdrawalRequestStatus DESC, WithdrawalRequestDate DESC, WithdrawalRequestDateCompleted DESC

@@ -6,8 +6,8 @@
             <a href="{{ site_url('admin') }}"
                class="sidebar-brand ">
                 <img class="sidebar-brand-icon"
-                     src="{{ load_static('assets/chndrwr/images/cd-square-logo-cropped.png') }}"
-                     alt="{{ app }} logo">
+                     src="{{ load_static('assets/chndrwr/images/new/cd-logo-only.png') }}"
+                     alt="{{ app }} logo" style="width: auto">
             </a>
             <div class="sidebar-account mx-16pt mb-16pt dropdown mb-32pt">
                 {% include 'includes/sidebar-profile.html.twig' with {'area': 'drawer'} %}
@@ -40,248 +40,248 @@
                                 <span class="sidebar-menu-text">All Teams</span>
                             </a>
                         </li>
-                        <li class="sidebar-menu-item {% if get_uri(1) == 'teams' and get_uri(2) == 'new' %}active{% endif %}">
-                            <a class="sidebar-menu-button"
-                               href="{{ site_url('admin/teams/new') }}">
-                                <span class="sidebar-menu-text">New Team</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-menu-item {% if get_uri(1) == 'teams' and get_uri(2) == 'manage' %}active open{% endif %}">
-                            <a class="sidebar-menu-button" data-toggle="collapse" href="#manage_teams_menu">
-                                <span style="margin-right: 21px;"></span>
-                                Manage
-                                <span class="ml-auto sidebar-menu-toggle-icon"></span>
-                            </a>
-                            <ul class="sidebar-submenu collapse sm-indent {% if get_uri(1) == 'teams' and get_uri(2) == 'manage' %}show{% endif %}" id="manage_teams_menu">
-                                <li class="sidebar-menu-item {% if get_uri(1) == 'teams' and get_uri(2) == 'manage' and get_uri(3) == null %}active{% endif %}">
-                                    <a class="sidebar-menu-button" href="{{ site_url('admin/teams/manage') }}">
-                                        <span class="sidebar-menu-text">Add Team Managers</span>
-                                    </a>
-                                </li>
-                                <li class="sidebar-menu-item">
-                                    <a class="sidebar-menu-button" href="#">
-                                        <span class="sidebar-menu-text">Delete</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+{#                        <li class="sidebar-menu-item {% if get_uri(1) == 'teams' and get_uri(2) == 'new' %}active{% endif %}">#}
+{#                            <a class="sidebar-menu-button"#}
+{#                               href="{{ site_url('admin/teams/new') }}">#}
+{#                                <span class="sidebar-menu-text">New Team</span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                        <li class="sidebar-menu-item {% if get_uri(1) == 'teams' and get_uri(2) == 'manage' %}active open{% endif %}">#}
+{#                            <a class="sidebar-menu-button" data-toggle="collapse" href="#manage_teams_menu">#}
+{#                                <span style="margin-right: 21px;"></span>#}
+{#                                Manage#}
+{#                                <span class="ml-auto sidebar-menu-toggle-icon"></span>#}
+{#                            </a>#}
+{#                            <ul class="sidebar-submenu collapse sm-indent {% if get_uri(1) == 'teams' and get_uri(2) == 'manage' %}show{% endif %}" id="manage_teams_menu">#}
+{#                                <li class="sidebar-menu-item {% if get_uri(1) == 'teams' and get_uri(2) == 'manage' and get_uri(3) == null %}active{% endif %}">#}
+{#                                    <a class="sidebar-menu-button" href="{{ site_url('admin/teams/manage') }}">#}
+{#                                        <span class="sidebar-menu-text">Add Team Managers</span>#}
+{#                                    </a>#}
+{#                                </li>#}
+{#                                <li class="sidebar-menu-item">#}
+{#                                    <a class="sidebar-menu-button" href="#">#}
+{#                                        <span class="sidebar-menu-text">Delete</span>#}
+{#                                    </a>#}
+{#                                </li>#}
+{#                            </ul>#}
+{#                        </li>#}
                     </ul>
                 </li>
-                <li class="sidebar-menu-item {% if get_uri(1) == 'managers' %}active open{% endif %}">
-                    <a class="sidebar-menu-button"
-                       data-toggle="collapse"
-                       href="#managers_menu">
-                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">work</span>
-                        Managers
-                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
-                    </a>
-                    <ul class="sidebar-submenu collapse sm-indent"
-                        id="managers_menu">
-                        <li class="sidebar-menu-item {% if get_uri(1) == 'managers' and get_uri(2) == null %}active{% endif %}">
-                            <a class="sidebar-menu-button"
-                               href="{{ site_url('admin/managers') }}">
-                                <span class="sidebar-menu-text">All Managers</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-menu-item {% if get_uri(1) == 'managers' and get_uri(2) == 'new' %}active{% endif %}">
-                            <a class="sidebar-menu-button"
-                               href="{{ site_url('admin/managers/new') }}">
-                                <span class="sidebar-menu-text">New Manager</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button"
-                               href="#">
-                                <span class="sidebar-menu-text">Manage Managers</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="sidebar-menu-item">
-                    <a class="sidebar-menu-button"
-                       data-toggle="collapse"
-                       href="#players_menu">
-                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">videogame_asset</span>
-                        Scholars
-                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
-                    </a>
-                    <ul class="sidebar-submenu collapse sm-indent"
-                        id="players_menu">
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button"
-                               href="#">
-                                <span class="sidebar-menu-text">All Scholars</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button"
-                               href="#">
-                                <span class="sidebar-menu-text">New Scholar</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button"
-                               href="#">
-                                <span class="sidebar-menu-text">Manage Scholars</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="sidebar-menu-item">
-                    <a class="sidebar-menu-button"
-                       data-toggle="collapse"
-                       href="#monthly_payout">
-                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left"><span
-                                    class="fa fa-piggy-bank"></span></span>
-                        Monthly Payout
-                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
-                    </a>
-                    <ul class="sidebar-submenu collapse sm-indent"
-                        id="monthly_payout">
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button"
-                               href="#">
-                                <span class="sidebar-menu-text">New Payout</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button"
-                               href="#">
-                                <span class="sidebar-menu-text">History</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button"
-                               href="#">
-                                <span class="sidebar-menu-text">Manage Payouts</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+{#                <li class="sidebar-menu-item {% if get_uri(1) == 'managers' %}active open{% endif %}">#}
+{#                    <a class="sidebar-menu-button"#}
+{#                       data-toggle="collapse"#}
+{#                       href="#managers_menu">#}
+{#                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">work</span>#}
+{#                        Managers#}
+{#                        <span class="ml-auto sidebar-menu-toggle-icon"></span>#}
+{#                    </a>#}
+{#                    <ul class="sidebar-submenu collapse sm-indent"#}
+{#                        id="managers_menu">#}
+{#                        <li class="sidebar-menu-item {% if get_uri(1) == 'managers' and get_uri(2) == null %}active{% endif %}">#}
+{#                            <a class="sidebar-menu-button"#}
+{#                               href="{{ site_url('admin/managers') }}">#}
+{#                                <span class="sidebar-menu-text">All Managers</span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                        <li class="sidebar-menu-item {% if get_uri(1) == 'managers' and get_uri(2) == 'new' %}active{% endif %}">#}
+{#                            <a class="sidebar-menu-button"#}
+{#                               href="{{ site_url('admin/managers/new') }}">#}
+{#                                <span class="sidebar-menu-text">New Manager</span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                        <li class="sidebar-menu-item">#}
+{#                            <a class="sidebar-menu-button"#}
+{#                               href="#">#}
+{#                                <span class="sidebar-menu-text">Manage Managers</span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                    </ul>#}
+{#                </li>#}
+{#                <li class="sidebar-menu-item">#}
+{#                    <a class="sidebar-menu-button"#}
+{#                       data-toggle="collapse"#}
+{#                       href="#players_menu">#}
+{#                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">videogame_asset</span>#}
+{#                        Scholars#}
+{#                        <span class="ml-auto sidebar-menu-toggle-icon"></span>#}
+{#                    </a>#}
+{#                    <ul class="sidebar-submenu collapse sm-indent"#}
+{#                        id="players_menu">#}
+{#                        <li class="sidebar-menu-item">#}
+{#                            <a class="sidebar-menu-button"#}
+{#                               href="#">#}
+{#                                <span class="sidebar-menu-text">All Scholars</span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                        <li class="sidebar-menu-item">#}
+{#                            <a class="sidebar-menu-button"#}
+{#                               href="#">#}
+{#                                <span class="sidebar-menu-text">New Scholar</span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                        <li class="sidebar-menu-item">#}
+{#                            <a class="sidebar-menu-button"#}
+{#                               href="#">#}
+{#                                <span class="sidebar-menu-text">Manage Scholars</span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                    </ul>#}
+{#                </li>#}
+{#                <li class="sidebar-menu-item">#}
+{#                    <a class="sidebar-menu-button"#}
+{#                       data-toggle="collapse"#}
+{#                       href="#monthly_payout">#}
+{#                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left"><span#}
+{#                                    class="fa fa-piggy-bank"></span></span>#}
+{#                        Monthly Payout#}
+{#                        <span class="ml-auto sidebar-menu-toggle-icon"></span>#}
+{#                    </a>#}
+{#                    <ul class="sidebar-submenu collapse sm-indent"#}
+{#                        id="monthly_payout">#}
+{#                        <li class="sidebar-menu-item">#}
+{#                            <a class="sidebar-menu-button"#}
+{#                               href="#">#}
+{#                                <span class="sidebar-menu-text">New Payout</span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                        <li class="sidebar-menu-item">#}
+{#                            <a class="sidebar-menu-button"#}
+{#                               href="#">#}
+{#                                <span class="sidebar-menu-text">History</span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                        <li class="sidebar-menu-item">#}
+{#                            <a class="sidebar-menu-button"#}
+{#                               href="#">#}
+{#                                <span class="sidebar-menu-text">Manage Payouts</span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                    </ul>#}
+{#                </li>#}
             </ul>
 
-            <div class="sidebar-heading">System</div>
-            <ul class="sidebar-menu">
-                <li class="sidebar-menu-item {% if get_uri(1) == 'users' %}active open{% endif %}">
-                    <a class="sidebar-menu-button" data-toggle="collapse" href="#users_menu">
-                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">
-                            verified_user
-                        </span>
-                        Users
-                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
-                    </a>
-                    <ul class="sidebar-submenu collapse sm-indent {% if get_uri(1) == 'users' %}show{% endif %}" id="users_menu">
-                        <li class="sidebar-menu-item {% if get_uri(1) == 'users' and get_uri(2) == null %}active{% endif %}">
-                            <a class="sidebar-menu-button"
-                               href="{{ site_url('admin/users') }}">
-                                <span class="sidebar-menu-text">All Users</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-menu-item {% if get_uri(1) == 'users' and get_uri(2) == 'new' %}active{% endif %}">
-                            <a class="sidebar-menu-button"
-                               href="{{ site_url('admin/users/new') }}">
-                                <span class="sidebar-menu-text">New User</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+{#            <div class="sidebar-heading">System</div>#}
+{#            <ul class="sidebar-menu">#}
+{#                <li class="sidebar-menu-item {% if get_uri(1) == 'users' %}active open{% endif %}">#}
+{#                    <a class="sidebar-menu-button" data-toggle="collapse" href="#users_menu">#}
+{#                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">#}
+{#                            verified_user#}
+{#                        </span>#}
+{#                        Users#}
+{#                        <span class="ml-auto sidebar-menu-toggle-icon"></span>#}
+{#                    </a>#}
+{#                    <ul class="sidebar-submenu collapse sm-indent {% if get_uri(1) == 'users' %}show{% endif %}" id="users_menu">#}
+{#                        <li class="sidebar-menu-item {% if get_uri(1) == 'users' and get_uri(2) == null %}active{% endif %}">#}
+{#                            <a class="sidebar-menu-button"#}
+{#                               href="{{ site_url('admin/users') }}">#}
+{#                                <span class="sidebar-menu-text">All Users</span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                        <li class="sidebar-menu-item {% if get_uri(1) == 'users' and get_uri(2) == 'new' %}active{% endif %}">#}
+{#                            <a class="sidebar-menu-button"#}
+{#                               href="{{ site_url('admin/users/new') }}">#}
+{#                                <span class="sidebar-menu-text">New User</span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                    </ul>#}
+{#                </li>#}
+{#            </ul>#}
 
-            <div class="sidebar-heading">Accounting</div>
-            <ul class="sidebar-menu">
-                <li class="sidebar-menu-item">
-                    <a class="sidebar-menu-button"
-                       data-toggle="collapse"
-                       href="#accounts_menu">
-                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left"><span
-                                    class="fa fa-address-book"></span></span>
-                        Accounts
-                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
-                    </a>
-                    <ul class="sidebar-submenu collapse sm-indent"
-                        id="accounts_menu">
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button"
-                               href="#">
-                                <span class="sidebar-menu-text">All Accounts</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button"
-                               href="#">
-                                <span class="sidebar-menu-text">New Account</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button"
-                               href="#">
-                                <span class="sidebar-menu-text">Manage Accounts</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="sidebar-menu-item">
-                    <a class="sidebar-menu-button"
-                       data-toggle="collapse"
-                       href="#transactions_menu">
-                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left"><span
-                                    class="fa fa-history"></span></span>
-                        Transactions
-                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
-                    </a>
-                    <ul class="sidebar-submenu collapse sm-indent"
-                        id="transactions_menu">
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button"
-                               href="#">
-                                <span class="sidebar-menu-text">New Deposit</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button"
-                               href="#">
-                                <span class="sidebar-menu-text">New Expense</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button"
-                               href="#">
-                                <span class="sidebar-menu-text">Transaction Log</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button"
-                               href="#">
-                                <span class="sidebar-menu-text">Manage Transactions</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button"
-                               href="#">
-                                <span class="sidebar-menu-text">Balance Sheet</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="sidebar-menu-item">
-                    <a class="sidebar-menu-button"
-                       data-toggle="collapse"
-                       href="#reports_menu">
-                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">bar_chart</span>
-                        Reports
-                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
-                    </a>
-                    <ul class="sidebar-submenu collapse sm-indent"
-                        id="reports_menu">
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button"
-                               href="#">
-                                <span class="sidebar-menu-text">Income Reports</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+{#            <div class="sidebar-heading">Accounting</div>#}
+{#            <ul class="sidebar-menu">#}
+{#                <li class="sidebar-menu-item">#}
+{#                    <a class="sidebar-menu-button"#}
+{#                       data-toggle="collapse"#}
+{#                       href="#accounts_menu">#}
+{#                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left"><span#}
+{#                                    class="fa fa-address-book"></span></span>#}
+{#                        Accounts#}
+{#                        <span class="ml-auto sidebar-menu-toggle-icon"></span>#}
+{#                    </a>#}
+{#                    <ul class="sidebar-submenu collapse sm-indent"#}
+{#                        id="accounts_menu">#}
+{#                        <li class="sidebar-menu-item">#}
+{#                            <a class="sidebar-menu-button"#}
+{#                               href="#">#}
+{#                                <span class="sidebar-menu-text">All Accounts</span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                        <li class="sidebar-menu-item">#}
+{#                            <a class="sidebar-menu-button"#}
+{#                               href="#">#}
+{#                                <span class="sidebar-menu-text">New Account</span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                        <li class="sidebar-menu-item">#}
+{#                            <a class="sidebar-menu-button"#}
+{#                               href="#">#}
+{#                                <span class="sidebar-menu-text">Manage Accounts</span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                    </ul>#}
+{#                </li>#}
+{#                <li class="sidebar-menu-item">#}
+{#                    <a class="sidebar-menu-button"#}
+{#                       data-toggle="collapse"#}
+{#                       href="#transactions_menu">#}
+{#                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left"><span#}
+{#                                    class="fa fa-history"></span></span>#}
+{#                        Transactions#}
+{#                        <span class="ml-auto sidebar-menu-toggle-icon"></span>#}
+{#                    </a>#}
+{#                    <ul class="sidebar-submenu collapse sm-indent"#}
+{#                        id="transactions_menu">#}
+{#                        <li class="sidebar-menu-item">#}
+{#                            <a class="sidebar-menu-button"#}
+{#                               href="#">#}
+{#                                <span class="sidebar-menu-text">New Deposit</span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                        <li class="sidebar-menu-item">#}
+{#                            <a class="sidebar-menu-button"#}
+{#                               href="#">#}
+{#                                <span class="sidebar-menu-text">New Expense</span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                        <li class="sidebar-menu-item">#}
+{#                            <a class="sidebar-menu-button"#}
+{#                               href="#">#}
+{#                                <span class="sidebar-menu-text">Transaction Log</span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                        <li class="sidebar-menu-item">#}
+{#                            <a class="sidebar-menu-button"#}
+{#                               href="#">#}
+{#                                <span class="sidebar-menu-text">Manage Transactions</span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                        <li class="sidebar-menu-item">#}
+{#                            <a class="sidebar-menu-button"#}
+{#                               href="#">#}
+{#                                <span class="sidebar-menu-text">Balance Sheet</span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                    </ul>#}
+{#                </li>#}
+{#                <li class="sidebar-menu-item">#}
+{#                    <a class="sidebar-menu-button"#}
+{#                       data-toggle="collapse"#}
+{#                       href="#reports_menu">#}
+{#                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">bar_chart</span>#}
+{#                        Reports#}
+{#                        <span class="ml-auto sidebar-menu-toggle-icon"></span>#}
+{#                    </a>#}
+{#                    <ul class="sidebar-submenu collapse sm-indent"#}
+{#                        id="reports_menu">#}
+{#                        <li class="sidebar-menu-item">#}
+{#                            <a class="sidebar-menu-button"#}
+{#                               href="#">#}
+{#                                <span class="sidebar-menu-text">Income Reports</span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                    </ul>#}
+{#                </li>#}
+{#            </ul>#}
         </div>
     </div>
 </div>
