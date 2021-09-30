@@ -122,7 +122,7 @@ class Withdrawals extends ManagerViewOnly
 
     public function processAction()
     {
-        if ($this->request->isPost() && can_withdraw() && !$this->account->manager->hasPendingWithdrawal()) {
+        if ($this->request->isPost() && !$this->account->manager->hasPendingWithdrawal()) {
             $p = $_POST;
             $message = [];
             $keys = [];
@@ -140,6 +140,9 @@ class Withdrawals extends ManagerViewOnly
                     if (!has_key_presence('payment', $selection) || !preg_match('/\d+/', $selection['payment'])) {
                         $error = true;
                     }
+                }
+                if (has_inclusion_of($m, ['bank', 'emony']) && !can_withdraw()) {
+                    $error = true;
                 }
                 if (!$error) {
                     $message['slp_balance'] = $this->account->manager->ManagerAccountCurrentSLPBalance;
@@ -226,6 +229,7 @@ class Withdrawals extends ManagerViewOnly
                                     'method' => strtolower($m),
                                     'rem_slp_bal' => $rem_slp,
                                     'rem_axs_bal' => $rem_axs,
+                                    'date' => date('Y-m-d H:i:s'),
                                     'manager' => $this->account->manager->getManagerAccountID()
                                 ];
                                 $id = $this->model->addToWithdrawHistory($withdraw_data);
