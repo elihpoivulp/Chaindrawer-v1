@@ -176,7 +176,6 @@
     </script>
     {% block page_specific_scripts %}
         <script src="{{ load_static('assets/vendor/toastr.min.js') }}"></script>
-        <script src="{{ load_static('assets/chndrwr/app.js') }}"></script>
         <script>
             {% autoescape false %}
             {{ getFlashToast('toastr') }}
