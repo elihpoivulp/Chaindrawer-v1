@@ -116,13 +116,13 @@ class Managers extends AdminViewOnly
                     $user->saveNewUser($cleaned);
                     Session::setFlash('msg', 'A new user has been added!', [
                         'type' => Session::FLASH_TYPE_SUCCESS,
-                        'title' => 'Login unsuccessful',
+                        'title' => 'Success!',
                         'dismissable' => true
                     ]);
                 } catch (\Exception | \PDOException $e) {
                     Session::setFlash('toastr', 'An error has occurred while saving data. Please try again later.', [
                         'type' => Session::FLASH_TYPE_WARNING,
-                        'title' => 'Success',
+                        'title' => 'Failed',
                         'dismissable' => true
                     ]);
                 }
