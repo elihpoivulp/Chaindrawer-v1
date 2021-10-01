@@ -101,13 +101,8 @@ class User extends BaseDBModel
                 CONVERT(M.ManagerAccountID, CHAR) AS ManagerAccountID,
                 M.ManagerTotalAsset,
                 M.ManagerAccountCurrentSLPBalance,
-                M.ManagerAccountCurrentAXSBalance,
-                A.AccountID,
-                A.AccountBalance,
-                A.AccountDateOpened,
-                A.AccountDateLastModified
+                M.ManagerAccountCurrentAXSBalance
                 FROM ManagerAccounts M 
-                JOIN Accounts A on A.AccountID = M.AccountID
                 WHERE M.UserID = :id";
         $s = $this->db->prepare($sql);
         $s->bindValue(':id', $this->UserID, PDO::PARAM_INT);
