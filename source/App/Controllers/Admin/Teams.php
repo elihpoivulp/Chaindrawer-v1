@@ -112,7 +112,7 @@ class Teams extends AdminViewOnly
                         }
                     }
                     $vals[$key] = $value;
-                    $cleaned[$key] = htmlspecialchars(strip_tags($value));
+                    $cleaned[$key] = strip_tags($value);
                 }
             }
             if (!$errors) {

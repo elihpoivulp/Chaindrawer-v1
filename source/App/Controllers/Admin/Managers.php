@@ -105,11 +105,11 @@ class Managers extends AdminViewOnly
                         }
                     }
                     $vals[$uk] = $value;
-                    $cleaned[':' . $uk] = htmlspecialchars(strip_tags($value));
+                    $cleaned[':' . $uk] = strip_tags($value);
                 }
             }
             if (has_inclusion_of('UserMiddleName', $b)) {
-                $cleaned[':UserMiddleName'] = htmlspecialchars(strip_tags($b['UserMiddleName']));
+                $cleaned[':UserMiddleName'] = strip_tags($b['UserMiddleName']);
             }
             if (!$errors) {
                 try {
