@@ -37,39 +37,109 @@ class Teams extends AdminViewOnly
 
     public function newTeamAction()
     {
-        $form = new NewTeamForm(new Team());
+        $errors = [];
+        $vals = [];
+        $type = 1;
         if ($this->request->isPost()) {
-            $form->loadData($this->request->getBody());
-            if ($form->validate() === true) {
-                Session::setFlash('msg', 'A new team has been added', [
-                    'type' => Session::FLASH_TYPE_SUCCESS,
-                    'title' => 'Teams',
-                    'dismissable' => true
-                ]);
+            $cleaned = [];
+            $b = $this->request->getBody();
+            $expected = [
+                'team_name' => [
+                    'min' => 4,
+                    'max' => 50
+                ],
+                'team_value' => [
+                    'min' => 8,
+                    'max' => 22
+                ],
+                'team_type' => [
+                    'min' => 1,
+                    'max' => 4
+                ],
+                'tracker_address' => [
+                    'max' => 200
+                ],
+                'date_established' => [
+                    'min' => 10,
+                    'max' => 10
+                ],
+            ];
+            foreach ($expected as $key => $rules) {
+                $value = $b[$key];
+                $field = 'Field' . ' "' . ucwords(str_replace('_', ' ', $key)) . '" ';
+                if (!has_inclusion_of($key, $b) && !$value) {
+                    $errors[] = $field . 'cannot be empty.';
+                } else {
+                    if ($rules && is_array($rules)) {
+                        foreach ($rules as $rule => $rule_val) {
+                            switch ($rule) {
+                                case 'max':
+                                    if (has_length_greater_than($value, $rule_val)) {
+                                        $errors[$key] = $field . 'can\'t have characters greater than ' . $rule_val;
+                                    }
+                                    break;
+                                case 'min':
+                                    if (has_length_less_than($value, $rule_val)) {
+                                        $errors[$key] = $field . 'can\'t have characters less than  ' . $rule_val;
+                                    }
+                                    break;
+                            }
+                        }
+                    }
+                    if ($key === 'team_name') {
+                        if ($this->model->teamNameTaken(slugify($value))) {
+                            $errors[$key] = 'Team with the same name already exists';
+                        }
+                    }
+                    if ($key === 'team_type') {
+                        if (!preg_match('/^\d+$/', $value)) {
+                            $errors[$key] = $field . 'does not contain a valid integer/number';
+                        }
+                    }
+                    if ($key === 'date_established') {
+                        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $value)) {
+                            $errors[$key] = $field . 'does not seem to be a valid date format';
+                        }
+                    }
+                    if ($key === 'team_value') {
+                        if (!preg_match('/^[.,\d]+$/', $value)) {
+                            $errors[$key] = $field . 'does not seem to be a valid money format';
+                        }
+                    }
+                    if ($key === 'tracker_address') {
+                        if (!filter_var($value, FILTER_VALIDATE_URL)) {
+                            $errors[$key] = $field . 'does not seem to be a valid URL';
+                        }
+                    }
+                    $vals[$key] = $value;
+                    $cleaned[$key] = htmlspecialchars(strip_tags($value));
+                }
+            }
+            if (!$errors) {
+                try {
+                    $cleaned['slug'] = slugify($cleaned['team_name']);
+                    $cleaned['team_value'] = str_replace(',', '', $cleaned['team_value']);
+                    $this->model->saveNewTeam($cleaned);
+                    Session::setFlash('msg', 'New team created successfully!', [
+                        'type' => Session::FLASH_TYPE_SUCCESS,
+                        'title' => 'Success!',
+                        'dismissable' => true
+                    ]);
+                } catch (\Exception | \PDOException $e) {
+                    Session::setFlash('toastr', 'An error has occurred while saving data. Please try again later.', [
+                        'type' => Session::FLASH_TYPE_WARNING,
+                        'title' => 'Failed',
+                        'dismissable' => true
+                    ]);
+                }
             }
         }
-        $player = new Players();
-        $platform = new AssetPlatforms();
-        $players = [];
-        $platforms = [];
-        $team_types = [];
-        foreach ($player->getAll() as $player) {
-            $players[$player['PlayerID']] = $player['PlayerIGN'];
-        }
-        foreach ($platform->getAll() as $platform) {
-            $platforms[$platform['AssetPlatformID']] = $platform['AssetPlatformName'];
-        }
-        foreach (array_reverse($this->model->getTeamTypes()) as $team_type) {
-            $team_types[$team_type['TeamTypeID']] = $team_type['TeamTypeName'];
-        }
         $this->render('teams/new.html.twig', [
-            'title' => 'New Team',
-            'form' => [
-                'form' => $form,
-                'players' => $players,
-                'platforms' => $platforms,
-                'team_types' => $team_types
-            ]
+            'title' => 'New Axie Team',
+            'errors' => $errors,
+            'vals' => $vals,
+            'team_types' => $this->model->getTeamTypes(),
+            'd_type' => $type
         ]);
     }
 

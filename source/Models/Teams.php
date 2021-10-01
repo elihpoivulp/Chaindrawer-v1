@@ -3,11 +3,11 @@
 namespace CD\Models;
 
 use CD\Core\DB\BaseDBModel;
+use Exception;
 use PDO;
 
 class Teams extends BaseDBModel
 {
-
     public function tableName(): string
     {
         return 'AssetTeams';
@@ -155,6 +155,46 @@ class Teams extends BaseDBModel
         $s = $this->db->prepare($sql);
         $s->execute([':limit' => $limit]);
         return $s->fetchAll();
+    }
+
+    public function teamNameTaken($slug): bool
+    {
+        $sql = "SELECT AssetTeamName FROM AssetTeams WHERE AssetTeamSlug = :slug LIMIT 1";
+        $s = $this->db->prepare($sql);
+        $s->execute(['slug' => $slug]);
+        return $s->rowCount();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function saveNewTeam($data): bool
+    {
+        try {
+            $this->db->beginTransaction();
+
+            $sql = "INSERT INTO AssetTeams (AssetTeamName, PlayerID, AssetTeamSlug, AssetTeamValue, TeamTypeID, AssetTeamDateAdded, AssetPlatformID) VALUES (:name, 1, :slug, :value, :type, :date, 1)";
+            $s = $this->db->prepare($sql);
+            $s->bindValue(':name', ucwords($data['team_name']));
+            $s->bindValue(':slug', $data['slug']);
+            $s->bindValue(':value', $data['team_value']);
+            $s->bindValue(':type', $data['team_type']);
+            $s->bindValue(':date', $data['date_established']);
+            $s->execute();
+
+            $last_id = $this->db->lastInsertId();
+            $sql = "INSERT INTO AxieTeams (AxieTeamTrackerAddress, AssetTeamID) VALUES (:address, :tid)";
+            $s = $this->db->prepare($sql);
+            $s->bindValue(':address', $data['tracker_address']);
+            $s->bindValue(':tid', $last_id);
+            $s->execute();
+
+            $this->db->commit();
+            return true;
+        } catch (Exception | \PDOException $e) {
+            $this->db->rollBack();
+            throw new Exception($e->getMessage(), 500);
+        }
     }
 
 }
