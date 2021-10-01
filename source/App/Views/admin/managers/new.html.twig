@@ -81,8 +81,8 @@
                             <div class="form-group">
                                 <label class="form-label" for="gender">Gender</label>
                                 <select id="gender" name="UserGender" data-toggle="select" class="form-control" data-minimum-results-for-search="-1">
-                                    <option value="M" selected>Male</option>
-                                    <option value="F">Female</option>
+                                    <option value="M" {{ gender == 'M' ? 'selected' : '' }}>Male</option>
+                                    <option value="F" {{ gender == 'F' ? 'selected' : '' }}>Female</option>
                                 </select>
                             </div>
                         </div>
