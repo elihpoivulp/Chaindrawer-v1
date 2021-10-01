@@ -2,9 +2,10 @@
 
 namespace CD\Models;
 
+use CD\Core\DB\BaseDBModel;
 use PDO;
 
-class Manager extends AccountModel
+class Manager extends BaseDBModel
 {
     // use Person;
     protected string $ManagerAccountID;
