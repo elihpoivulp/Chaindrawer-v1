@@ -96,7 +96,7 @@ class Users extends BaseDBModel
 
         } catch (Exception | \PDOException $e) {
             $this->db->rollBack();
-            throw new Exception($e->getMessage());
+            throw new Exception($e->getMessage(), 500);
         }
     }
 }
