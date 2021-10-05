@@ -81,7 +81,7 @@ class Withdrawals extends AdminViewOnly
 
     public function processAction()
     {
-        $b = $this->request->getBody();
+        $b = $_POST;
         if ($this->request->isPost() && has_key_presence('w_id', $b) && preg_match('/\d+/', $b['w_id']) && has_inclusion_of($b['action'], ['complete', 'cancel'])) {
             $response = [
                 'message' => '',
@@ -95,6 +95,11 @@ class Withdrawals extends AdminViewOnly
                         'WithdrawalSLPAmount' => $b['wsa'],
                         'WithdrawalAXSAmount' => $b['waa']
                     ];
+                    if (has_key_presence('others', $b)) {
+                        foreach ($b['others'] as $index => $val) {
+                            $data[$index] = $val;
+                        }
+                    }
                     if (has_key_presence('slp_rate', $b)) {
                         $data['WithdrawalSLPinPHP'] = $b['amt'];
                         $data['WithdrawalSLPRate'] = $b['slp_rate'];

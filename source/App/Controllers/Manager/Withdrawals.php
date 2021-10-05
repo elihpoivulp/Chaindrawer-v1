@@ -141,29 +141,41 @@ class Withdrawals extends ManagerViewOnly
                         $error = true;
                     }
                 }
-                if (has_inclusion_of($m, ['bank', 'emony']) && !can_withdraw()) {
+                if (has_inclusion_of($m, ['bank', 'emoney']) && !can_withdraw()) {
                     $error = true;
                 }
+                $recipient = [];
                 if (!$error) {
                     $message['slp_balance'] = $this->account->manager->ManagerAccountCurrentSLPBalance;
                     $message['axs_balance'] = $this->account->manager->ManagerAccountCurrentAXSBalance;
-                    switch (strtolower($p['_method'])) {
+                    switch ($the_method = strtolower($p['_method'])) {
                         case self::ALLOWED_WITHDRAWAL_METHODS[0]:
                             $keys = ['email'];
+                            if (!$recipient['email'] = filter_var($p[$the_method]['email'], FILTER_VALIDATE_EMAIL)) {
+                                $error = true;
+                            }
                             $method = self::ALLOWED_WITHDRAWAL_METHODS[0];
                             break;
                         case self::ALLOWED_WITHDRAWAL_METHODS[1]:
                             $keys = ['payment', 'phone_number', 'account_name', 'account_number'];
                             $bank = $this->model->getBankByID(intval($selection['payment']))['BankName'];
+                            $recipient['bank_name'] = $bank;
+                            $recipient['phone_number'] = $p[$the_method]['phone_number'];
+                            $recipient['account_name'] = $p[$the_method]['account_name'];
+                            $recipient['account_number'] = $p[$the_method]['account_number'];
                             $method = $bank . ' (' . self::ALLOWED_WITHDRAWAL_METHODS[1] . ')';
                             break;
                         case self::ALLOWED_WITHDRAWAL_METHODS[2]:
                             $keys = ['payment', 'phone_number', 'name'];
                             $provider = $this->model->getEmoneyByID(intval($selection['payment']))['EMoneyName'];
+                            $recipient['gateway'] = $provider;
+                            $recipient['phone'] = $p[$the_method]['phone_number'];
+                            $recipient['name'] = $p[$the_method]['name'];
                             $method = $provider . ' (' . self::ALLOWED_WITHDRAWAL_METHODS[2] . ')';
                             break;
                         case self::ALLOWED_WITHDRAWAL_METHODS[3]:
                             $keys = ['address'];
+                            $recipient['ronin'] = $p[$the_method]['address'];
                             $method = self::ALLOWED_WITHDRAWAL_METHODS[3];
                             break;
 
@@ -232,12 +244,12 @@ class Withdrawals extends ManagerViewOnly
                                     'date' => date('Y-m-d H:i:s'),
                                     'manager' => $this->account->manager->getManagerAccountID()
                                 ];
-                                $id = $this->model->addToWithdrawHistory($withdraw_data);
+                                $id = $this->model->addToWithdrawHistory($withdraw_data, $recipient);
                                 if ($id) {
                                     $message['request_id'] = $id;
                                     $body = $this->getRender('withdraw_request_email_template.html.twig', $message, '');
                                     $mail->Body = $body;
-                                    $mail->send();
+//                                    $mail->send();
                                     Session::set('_w_status', true);
                                     unset($_SESSION['_w_s']);
                                     unset($_SESSION['_w_a']);

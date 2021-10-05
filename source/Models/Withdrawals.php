@@ -51,9 +51,43 @@ class Withdrawals extends BaseDBModel
         return $s->fetch();
     }
 
-    public function addToWithdrawHistory(array $data): int
+    public function addToWithdrawHistory(array $data, array $recipient): int
     {
-        $s = $this->db->prepare("INSERT INTO WithdrawalRequests (WithdrawalRequestSLPAmount, WithdrawalRequestAXSAmount, WithdrawalRequestMethod, WithdrawalRequestRemSLPBalance, WithdrawalRequestRemAXSBalance, ManagerAccountID, WithdrawalRequestDate) VALUES (:slp_amt, :axs_amt, :method, :rem_slp_bal, :rem_axs_bal, :manager, :date)");
+        $cols = 'WithdrawalRequestSLPAmount, WithdrawalRequestAXSAmount, WithdrawalRequestMethod, WithdrawalRequestRemSLPBalance, WithdrawalRequestRemAXSBalance, ManagerAccountID, WithdrawalRequestDate';
+        $keys = ':slp_amt, :axs_amt, :method, :rem_slp_bal, :rem_axs_bal, :manager, :date';
+//        'binance', 'bank', 'emoney', 'ronin'
+        function addBind($s, array $data) {
+            foreach ($data as $k => $v) {
+                $s->bindValue($k, $v);
+            }
+        }
+        switch ($data['method']) {
+            case 'binance':
+                $cols .= ', BinanceEmail';
+                $keys .= ', :binance';
+                $data[':binance'] = $recipient['email'];
+                break;
+            case 'bank':
+                $cols .= ', BankName, BankPhone, BankAccountName, BankAccountNumber';
+                $keys .= ', :bname, :bphone, :baccname, :baccnum';
+                $data[':bname'] = $recipient['bank_name'];
+                $data[':bphone'] = $recipient['phone_number'];
+                $data[':baccname'] = $recipient['account_name'];
+                $data[':baccnum'] = $recipient['account_number'];
+                break;
+            case 'emoney':
+                $cols .= ', EMoneyGateWay, EMoneyPhone, EMoneyAccountName';
+                $keys .= ', :emoneygateway, :emoneyphone, :emoneyaccname';
+                $data[':emoneygateway'] = $recipient['gateway'];
+                $data[':emoneyphone'] = $recipient['phone'];
+                $data[':emoneyaccname'] = $recipient['name'];
+            case 'ronin':
+                $cols .= ', RoninAddress';
+                $keys .= ', :ronin';
+                $data[':ronin'] = $recipient['ronin'];
+                break;
+        }
+        $s = $this->db->prepare("INSERT INTO WithdrawalRequests ($cols) VALUES ($keys)");
         $s->bindValue(':slp_amt', $data['slp_amt']);
         $s->bindValue(':axs_amt', $data['axs_amt']);
         $s->bindValue(':method', $data['method']);
@@ -61,6 +95,7 @@ class Withdrawals extends BaseDBModel
         $s->bindValue(':rem_axs_bal', $data['rem_axs_bal']);
         $s->bindValue(':manager', $data['manager']);
         $s->bindValue(':date', $data['date']);
+        addBind($s, $data);
         $s->execute();
         return $this->db->lastInsertId();
     }
