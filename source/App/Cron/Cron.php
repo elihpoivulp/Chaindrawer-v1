@@ -77,13 +77,23 @@ class Cron
             $new_values['AxieTeamMMR'] = $team['mmr'];
             $new_values['AxieTeamRank'] = $team['rank'];
             $new_values['AxieTeamCurrentSLPBalance'] = $team['total_slp'];
-            $new_values['AxieTeamNextSLPClaim'] = date('Y-m-d H:i:s', $team['next_claim']);
-            $new_values['AxieTeamLastSLPClaim'] = date('Y-m-d H:i:s', $team['last_claim']);
+            if ($team['next_claim'] > 1209600) {
+                $next = date('Y-m-d H:i:s', $team['next_claim']);
+            } else {
+                $next = null;
+            }
+            if ($team['last_claim'] > 0) {
+                $last = date('Y-m-d H:i:s', $team['last_claim']);
+            } else {
+                $last = null;
+            }
+            $new_values['AxieTeamNextSLPClaim'] = $next;
+            $new_values['AxieTeamLastSLPClaim'] = $last;
             $new_values['AxieTeamDateLastModified'] = date('Y-m-d H:i:s');
             if (!$this->model->updateTeamData($id, $new_values)) {
                 throw new Exception('Failed to update team data', 500);
             }
-            if ($team['next_claim'] > $this->db_team_data[$ronin]['next_claim']) {
+            if ($team['next_claim'] !== 1209600 && $team['next_claim'] > $this->db_team_data[$ronin]['next_claim']) {
                 $this->has_claims[$id] = $ronin;
             }
         }
@@ -158,6 +168,39 @@ class Cron
                 }
             }
         }
+    }
+
+    public function test()
+    {
+        $team = new Teams();
+        $id = 3;
+        $managers = $team->getTeamByID($id)->getTeamManagers();
+        $claimed = 4252.8;
+        $manager_share = 1594.8;
+        $payout_date = '2021-10-02 00:00:00';
+        $error = '';
+        foreach ($managers as $manager) {
+            $amount = round(($manager_share * ($manager->OwnershipRate) / 100), 2);
+            if ($manager->addToBalance($amount)) {
+                if (!$this->model->newManagerPayout($amount, $manager->getManagerAccountID(), $manager->ManagerAccountCurrentSLPBalance, $payout_date, $manager->OwnershipRate, 13)) {
+                    $error = 'Failed to insert manager payout';
+                    break;
+                }
+            } else {
+                $error = 'Failed to update manager balance.';
+                break;
+            }
+        }
+        if ($error) {
+            echo $error;
+            return;
+        } else if (!$team->updateTeamLifetimeSLP($id, $claimed)) {
+            echo 'Failed updating team lifetime balance';
+            return;
+        } else {
+            echo 'updated!';
+        }
+
     }
 
 }
