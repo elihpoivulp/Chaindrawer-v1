@@ -40,63 +40,50 @@
                                 <span class="sidebar-menu-text">All Teams</span>
                             </a>
                         </li>
-{#                        <li class="sidebar-menu-item {% if get_uri(1) == 'teams' and get_uri(2) == 'new' %}active{% endif %}">#}
-{#                            <a class="sidebar-menu-button"#}
-{#                               href="{{ site_url('admin/teams/new') }}">#}
-{#                                <span class="sidebar-menu-text">New Team</span>#}
-{#                            </a>#}
-{#                        </li>#}
-{#                        <li class="sidebar-menu-item {% if get_uri(1) == 'teams' and get_uri(2) == 'manage' %}active open{% endif %}">#}
-{#                            <a class="sidebar-menu-button" data-toggle="collapse" href="#manage_teams_menu">#}
-{#                                <span style="margin-right: 21px;"></span>#}
-{#                                Manage#}
-{#                                <span class="ml-auto sidebar-menu-toggle-icon"></span>#}
-{#                            </a>#}
-{#                            <ul class="sidebar-submenu collapse sm-indent {% if get_uri(1) == 'teams' and get_uri(2) == 'manage' %}show{% endif %}" id="manage_teams_menu">#}
-{#                                <li class="sidebar-menu-item {% if get_uri(1) == 'teams' and get_uri(2) == 'manage' and get_uri(3) == null %}active{% endif %}">#}
-{#                                    <a class="sidebar-menu-button" href="{{ site_url('admin/teams/manage') }}">#}
-{#                                        <span class="sidebar-menu-text">Add Team Managers</span>#}
-{#                                    </a>#}
-{#                                </li>#}
-{#                                <li class="sidebar-menu-item">#}
-{#                                    <a class="sidebar-menu-button" href="#">#}
-{#                                        <span class="sidebar-menu-text">Delete</span>#}
-{#                                    </a>#}
-{#                                </li>#}
-{#                            </ul>#}
-{#                        </li>#}
+                        <li class="sidebar-menu-item {% if get_uri(1) == 'teams' and get_uri(2) == 'new' %}active{% endif %}">
+                            <a class="sidebar-menu-button"
+                               href="{{ site_url('admin/teams/new') }}">
+                                <span class="sidebar-menu-text">New Team</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu-item {% if get_uri(1) == 'teams' and get_uri(2) == 'manage' %}active{% endif %}">
+                            <a class="sidebar-menu-button"
+                               href="{{ site_url('admin/teams/manage') }}">
+                                <span class="sidebar-menu-text">Manage Team</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
-{#                <li class="sidebar-menu-item {% if get_uri(1) == 'managers' %}active open{% endif %}">#}
-{#                    <a class="sidebar-menu-button"#}
-{#                       data-toggle="collapse"#}
-{#                       href="#managers_menu">#}
-{#                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">work</span>#}
-{#                        Managers#}
-{#                        <span class="ml-auto sidebar-menu-toggle-icon"></span>#}
-{#                    </a>#}
-{#                    <ul class="sidebar-submenu collapse sm-indent"#}
-{#                        id="managers_menu">#}
-{#                        <li class="sidebar-menu-item {% if get_uri(1) == 'managers' and get_uri(2) == null %}active{% endif %}">#}
-{#                            <a class="sidebar-menu-button"#}
-{#                               href="{{ site_url('admin/managers') }}">#}
-{#                                <span class="sidebar-menu-text">All Managers</span>#}
-{#                            </a>#}
-{#                        </li>#}
-{#                        <li class="sidebar-menu-item {% if get_uri(1) == 'managers' and get_uri(2) == 'new' %}active{% endif %}">#}
-{#                            <a class="sidebar-menu-button"#}
-{#                               href="{{ site_url('admin/managers/new') }}">#}
-{#                                <span class="sidebar-menu-text">New Manager</span>#}
-{#                            </a>#}
-{#                        </li>#}
-{#                        <li class="sidebar-menu-item">#}
-{#                            <a class="sidebar-menu-button"#}
-{#                               href="#">#}
-{#                                <span class="sidebar-menu-text">Manage Managers</span>#}
-{#                            </a>#}
-{#                        </li>#}
-{#                    </ul>#}
-{#                </li>#}
+                <li class="sidebar-menu-item {% if get_uri(1) == 'managers' %}active open{% endif %}">
+                    <a class="sidebar-menu-button"
+                       data-toggle="collapse"
+                       href="#managers_menu">
+                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">work</span>
+                        Managers
+                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                    </a>
+                    <ul class="sidebar-submenu collapse {% if get_uri(1) == 'managers' %}show{% endif %} sm-indent"
+                        id="managers_menu">
+                        <li class="sidebar-menu-item {% if get_uri(1) == 'managers' and get_uri(2) == null %}active{% endif %}">
+                            <a class="sidebar-menu-button"
+                               href="{{ site_url('admin/managers') }}">
+                                <span class="sidebar-menu-text">All Managers</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu-item {% if get_uri(1) == 'managers' and get_uri(2) == 'new' %}active{% endif %}">
+                            <a class="sidebar-menu-button"
+                               href="{{ site_url('admin/managers/new') }}">
+                                <span class="sidebar-menu-text">New Manager</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu-item">
+                            <a class="sidebar-menu-button"
+                               href="#">
+                                <span class="sidebar-menu-text">Manage Managers</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
 {#                <li class="sidebar-menu-item">#}
 {#                    <a class="sidebar-menu-button"#}
 {#                       data-toggle="collapse"#}

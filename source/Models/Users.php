@@ -8,6 +8,16 @@ use PDO;
 
 class Users extends BaseDBModel
 {
+    public function getOne($search_value, string $pk)
+    {
+        $table = $this->tableName();
+        $pk = $pk ?? $this->primaryKey();
+        $cols = $this->getColumns();
+        $s = $this->db->prepare("SELECT $cols FROM $table WHERE $pk = :value");
+        $s->setFetchMode(PDO::FETCH_CLASS, User::class);
+        $s->execute(['value' => $search_value]);
+        return $s->fetch();
+    }
 
     public function tableName(): string
     {
@@ -44,7 +54,7 @@ class Users extends BaseDBModel
     /**
      * @throws Exception
      */
-    public function saveNewUser($data): bool
+    public function saveNewUser($data): int
     {
         try {
             $this->db->beginTransaction();
@@ -92,11 +102,11 @@ class Users extends BaseDBModel
             $s->execute();
 
             $this->db->commit();
-            return true;
+            return $last_id;
 
         } catch (Exception | \PDOException $e) {
             $this->db->rollBack();
-            throw new Exception($e->getMessage());
+            throw new Exception($e->getMessage(), 500);
         }
     }
 }

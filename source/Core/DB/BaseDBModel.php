@@ -2,6 +2,7 @@
 
 namespace CD\Core\DB;
 
+use CD\Models\User;
 use PDO;
 
 abstract class BaseDBModel extends DB
@@ -23,7 +24,7 @@ abstract class BaseDBModel extends DB
         return $s->fetchAll();
     }
 
-    public function getOne($search_value, string $pk): array
+    public function getOne($search_value, string $pk)
     {
         $table = $this->tableName();
         $pk = $pk ?? $this->primaryKey();

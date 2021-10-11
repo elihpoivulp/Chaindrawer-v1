@@ -33,7 +33,7 @@
             </div>
             <h5 class="mb-2">Withdrawal details</h5>
             <div class="row">
-                <div class="col">
+                <div class="col-md-6">
                     <div class="d-flex align-items-center mb-1" style="white-space: nowrap;">
                         <div class="flex">
                             <div class="d-flex flex-column">
@@ -42,11 +42,13 @@
                             </div>
                         </div>
                     </div>
+                    {% set method_up = body.WithdrawalRequestMethod|upper %}
+                    {% set method = method_up|lower %}
                     <div class="d-flex align-items-center mb-1" style="white-space: nowrap;">
                         <div class="flex">
                             <div class="d-flex flex-column">
                                 <p class="mb-0"><strong>Method</strong></p>
-                                <small class="text-50">{{ body.WithdrawalRequestMethod|upper }}</small>
+                                <small class="text-50">{{ method_up }}</small>
                             </div>
                         </div>
                     </div>
@@ -59,15 +61,112 @@
                         </div>
                     </div>
                 </div>
-                {% if body.WithdrawalRequestMethod|lower == 'emoney' or body.WithdrawalRequestMethod|lower == 'bank' %}
-                    <div class="col">
-                        <div class="form-group mb-2">
-                            <label for="slp_rate">SLP Rate</label>
-                            <input type="text" class="form-control-sm" id="slp_rate" name="slp_rate" placeholder="Set SLP Rate" required>
+                <div class="col-md-6">
+                    {% if method == 'bank' %}
+                        <div class="d-flex align-items-center mb-1" style="white-space: nowrap;">
+                            <div class="flex">
+                                <div class="d-flex flex-column">
+                                    <p class="mb-0"><strong>Bank Name</strong></p>
+                                    <small class="text-50">{{ body.BankName }}</small>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group mb-1">
-                            <label for="amt">Converted Amount</label>
-                            <input type="text" class="form-control-sm" id="amt" name="amt" placeholder="Set Received Amount" required>
+                        <div class="d-flex align-items-center mb-1" style="white-space: nowrap;">
+                            <div class="flex">
+                                <div class="d-flex flex-column">
+                                    <p class="mb-0"><strong>Phone Number</strong></p>
+                                    <small class="text-50">{{ body.BankPhone }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center mb-1" style="white-space: nowrap;">
+                            <div class="flex">
+                                <div class="d-flex flex-column">
+                                    <p class="mb-0"><strong>Account Name</strong></p>
+                                    <small class="text-50">{{ body.BankAccountName }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center mb-1" style="white-space: nowrap;">
+                            <div class="flex">
+                                <div class="d-flex flex-column">
+                                    <p class="mb-0"><strong>Account Number</strong></p>
+                                    <small class="text-50">{{ body.BankAccountNumber }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="others[BankName]" value="{{ body.BankName }}">
+                        <input type="hidden" name="others[BankPhone]" value="{{ body.BankPhone }}">
+                        <input type="hidden" name="others[BankAccountName]" value="{{ body.BankAccountName }}">
+                        <input type="hidden" name="others[BankAccountNumber]" value="{{ body.BankAccountNumber }}">
+                    {% elseif method == 'ronin' %}
+                        <div class="d-flex align-items-center mb-1" style="white-space: nowrap;">
+                            <div class="flex">
+                                <div class="d-flex flex-column">
+                                    <p class="mb-0"><strong>Ronin Address</strong></p>
+                                    <small class="text-50">{{ body.RoninAddress }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="others[RoninAddress]" value="{{ body.RoninAddress }}">
+                    {% elseif method == 'emoney' %}
+                        <div class="d-flex align-items-center mb-1" style="white-space: nowrap;">
+                            <div class="flex">
+                                <div class="d-flex flex-column">
+                                    <p class="mb-0"><strong>Gateway</strong></p>
+                                    <small class="text-50">{{ body.EMoneyGateWay }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center mb-1" style="white-space: nowrap;">
+                            <div class="flex">
+                                <div class="d-flex flex-column">
+                                    <p class="mb-0"><strong>Phone Number</strong></p>
+                                    <small class="text-50">{{ body.EMoneyPhone }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center mb-1" style="white-space: nowrap;">
+                            <div class="flex">
+                                <div class="d-flex flex-column">
+                                    <p class="mb-0"><strong>Account Name</strong></p>
+                                    <small class="text-50">{{ body.EMoneyAccountName }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="others[EMoneyGateWay]" value="{{ body.EMoneyGateWay }}">
+                        <input type="hidden" name="others[EMoneyPhone]" value="{{ body.EMoneyPhone }}">
+                        <input type="hidden" name="others[EMoneyAccountName]"
+                               value="{{ body.EMoneyAccountName }}">
+                    {% elseif method == 'binance' %}
+                        <div class="d-flex align-items-center mb-1" style="white-space: nowrap;">
+                            <div class="flex">
+                                <div class="d-flex flex-column">
+                                    <p class="mb-0"><strong>Email Address</strong></p>
+                                    <small class="text-50">{{ body.BinanceEmail }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="others[BinanceEmail]" value="{{ body.BinanceEmail }}">
+                    {% endif %}
+                </div>
+                {% if body.WithdrawalRequestMethod|lower == 'emoney' or body.WithdrawalRequestMethod|lower == 'bank' %}
+                    <div class="col-12 mt-3">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group mb-2">
+                                    <label for="slp_rate">SLP Rate</label>
+                                    <input type="text" class="form-control-sm" id="slp_rate" name="slp_rate"
+                                           placeholder="Set SLP Rate" required>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group mb-1">
+                                    <label for="amt">Converted Amount</label>
+                                    <input type="text" class="form-control-sm" id="amt" name="amt"
+                                           placeholder="Set Received Amount" required>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 {% endif %}

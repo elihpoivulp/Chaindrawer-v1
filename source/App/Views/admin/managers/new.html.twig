@@ -31,83 +31,123 @@
     } %}
 {% endblock breadcrumb %}
 {% block content %}
-    <div class="page-section container page__container">
-        <form class="col-lg-10" method="post">
-            {% if errors %}
-                <div class="alert alert-soft-warning fade show">
-                    <div class="d-flex flex-wrap align-items-start">
-                        <div class="mr-8pt">
-                            <i class="material-icons">bug_report</i>
+    <div class="container page__container">
+        <div class="page-section">
+            <div class="row mb-24pt">
+                <div class="col-lg-5 mb-24pt mb-lg-0">
+                    <h4 class="mb-8pt">New Manager Account</h4>
+                    <p class="text-70 mb-24pt">Input manager details</p>
+                </div>
+                <div class="col-lg-7 d-flex align-items-center">
+                    <div class="page-num-timeline d-flex flex-column flex-sm-row align-items-center justify-content-center flex">
+                        <div class="align-content-md-center justify-content-md-between d-md-flex flex-md">
+                            <a href="javascript:void(0);"
+                               data-toggle="tooltip"
+                               data-placement="top"
+                               data-title="Manager Details"
+                               class="page-num-timeline__item page-num-timeline__item-current ml-md-64pt ml-0">
+                                <span class="page-num-timeline__item-tip"></span>
+                                <span class="page-num"><i class="material-icons">build</i></span>
+                            </a>
+                            <a href="javascript:void(0);"
+                               data-toggle="tooltip"
+                               data-placement="top"
+                               data-title="Select Teams"
+                               class="page-num-timeline__item ml-md-112pt ml-0">
+                                <span class="page-num-timeline__item-tip"></span>
+                                <span class="page-num"><i class="material-icons">mouse</i></span>
+                            </a>
+                            <a href="javascript:void(0);"
+                               data-toggle="tooltip"
+                               data-placement="top"
+                               data-title="Set Amount"
+                               class="page-num-timeline__item ml-md-112pt mr-0 mr-md-64pt">
+                                <span class="page-num-timeline__item-tip"></span>
+                                <span class="page-num"><i class="material-icons">extension</i></span>
+                            </a>
                         </div>
-                        <div class="flex">
-                            <p class="text-100">
-                                <strong>Please fix the following errors:</strong><br>
-                            </p>
-                            <ul>
-                                {% for error in errors %}
-                                    <li>{{ error }}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
                     </div>
-                </div>
-            {% endif %}
-            {% autoescape false %}
-                {{ getFlashAlert('msg') }}
-            {% endautoescape %}
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label class="form-label" for="first_name">First Name</label>
-                        <input id="first_name" name="UserFirstName" type="text" class="form-control {{ errors.UserFirstName is defined ? 'is-invalid': '' }}" required autofocus placeholder="First Name" value="{{ vals.UserFirstName is defined ? vals.UserFirstName : '' }}" maxlength="50" minlength="2">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label class="form-label" for="last_name">Last Name</label>
-                        <input id="last_name" name="UserLastName" type="text" class="form-control {{ errors.UserLastName is defined ? 'is-invalid': '' }}" required placeholder="Last Name" value="{{ vals.UserLastName is defined ? vals.UserLastName : '' }}" maxlength="50" minlength="2">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label class="form-label" for="m_name">Middle Name (Optional)</label>
-                        <input id="m_name" name="UserMiddleName" type="text" class="form-control {{ errors.UserMiddleName is defined ? 'is-invalid': '' }}" placeholder="Middle Name (Optional)" value="{{ vals.UserMiddleName is defined ? vals.UserMiddleName : '' }}">
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label class="form-label" for="gender">Gender</label>
-                        <select id="gender" name="UserGender" data-toggle="select" class="form-control" data-minimum-results-for-search="-1">
-                            <option value="M" selected>Male</option>
-                            <option value="F">Female</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-5">
-                    <div class="form-group">
-                        <label class="form-label" for="email">Email</label>
-                        <input id="email" name="UserEmail" type="email" class="form-control {{ errors.UserEmail is defined ? 'is-invalid': '' }}" required placeholder="Email" value="{{ vals.UserEmail is defined ? vals.UserEmail : '' }}" maxlength="50" minlength="8">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label class="form-label" for="phone">Phone Number</label>
-                        <input id="phone" name="UserPhone" type="text" class="form-control {{ errors.UserPhone is defined ? 'is-invalid': '' }}" required placeholder="Phone Number" value="{{ vals.UserPhone is defined ? vals.UserPhone : '' }}" maxlength="13" minlength="11">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="form-label" for="address">Address</label>
-                        <input id="address" name="UserAddress" type="text" class="form-control {{ errors.UserAddress is defined ? 'is-invalid': '' }}" required placeholder="Address" value="{{ vals.UserAddress is defined ? vals.UserAddress : '' }}" maxlength="60" minlength="8">
-                    </div>
-                </div>
-                <div class="col-md-12 text-right">
-                    <button class="btn btn-rounded btn-outline-accent-yellow" type="submit">
-                        <i class="material-icons icon--left">save</i>
-                        Save
-                    </button>
                 </div>
             </div>
-        </form>
+            <div class="row">
+                <form class="col-lg-10" method="post">
+                    {% if errors %}
+                        <div class="alert alert-soft-warning fade show">
+                            <div class="d-flex flex-wrap align-items-start">
+                                <div class="mr-8pt">
+                                    <i class="material-icons">bug_report</i>
+                                </div>
+                                <div class="flex">
+                                    <p class="text-100">
+                                        <strong>Please fix the following errors:</strong><br>
+                                    </p>
+                                    <ul>
+                                        {% for error in errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% autoescape false %}
+                        {{ getFlashAlert('msg') }}
+                    {% endautoescape %}
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label" for="first_name">First Name</label>
+                                <input id="first_name" name="UserFirstName" type="text" class="form-control {{ errors.UserFirstName is defined ? 'is-invalid': '' }}" required autofocus placeholder="First Name" value="{{ vals.UserFirstName is defined ? vals.UserFirstName : '' }}" maxlength="50" minlength="2">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label" for="last_name">Last Name</label>
+                                <input id="last_name" name="UserLastName" type="text" class="form-control {{ errors.UserLastName is defined ? 'is-invalid': '' }}" required placeholder="Last Name" value="{{ vals.UserLastName is defined ? vals.UserLastName : '' }}" maxlength="50" minlength="2">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label" for="m_name">Middle Name (Optional)</label>
+                                <input id="m_name" name="UserMiddleName" type="text" class="form-control {{ errors.UserMiddleName is defined ? 'is-invalid': '' }}" placeholder="Middle Name (Optional)" value="{{ vals.UserMiddleName is defined ? vals.UserMiddleName : '' }}">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label" for="gender">Gender</label>
+                                <select id="gender" name="UserGender" data-toggle="select" class="form-control" data-minimum-results-for-search="-1">
+                                    <option value="M" {{ gender == 'M' ? 'selected' : '' }}>Male</option>
+                                    <option value="F" {{ gender == 'F' ? 'selected' : '' }}>Female</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label class="form-label" for="email">Email</label>
+                                <input id="email" name="UserEmail" type="email" class="form-control {{ errors.UserEmail is defined ? 'is-invalid': '' }}" required placeholder="Email" value="{{ vals.UserEmail is defined ? vals.UserEmail : '' }}" maxlength="50" minlength="8">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label" for="phone">Phone Number</label>
+                                <input id="phone" name="UserPhone" type="text" class="form-control {{ errors.UserPhone is defined ? 'is-invalid': '' }}" required placeholder="Phone Number" value="{{ vals.UserPhone is defined ? vals.UserPhone : '' }}" maxlength="13" minlength="11">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label" for="address">Address</label>
+                                <input id="address" name="UserAddress" type="text" class="form-control {{ errors.UserAddress is defined ? 'is-invalid': '' }}" required placeholder="Address" value="{{ vals.UserAddress is defined ? vals.UserAddress : '' }}" maxlength="60" minlength="8">
+                            </div>
+                        </div>
+                        <div class="col-md-12 text-right mt-4">
+                            <button class="btn btn-rounded btn-outline-accent-yellow" type="submit">
+                                <i class="material-icons icon--left">save</i>
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 {% endblock content %}

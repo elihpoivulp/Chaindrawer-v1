@@ -24,15 +24,16 @@ b, strong {
     background-color: rgba(255,193,7,.05);
 }
 
-span.select2-selection.select2-selection--single {
-    height: 37.5px;
-}
+/*span.select2-selection.select2-selection--single.select2-custom-height {*/
+/*    height: 37.5px;*/
+/*}*/
+
+/*span.select2-dropdown {*/
+/*    max-height: 300px;*/
+/*    overflow: scroll;*/
+/*}*/
 
 input.form-control.form-control-flush,
 div.search-form--dark > input.form-control {
     color: white;
-}
-span.select2-dropdown {
-    max-height: 300px;
-    overflow: scroll;
 }

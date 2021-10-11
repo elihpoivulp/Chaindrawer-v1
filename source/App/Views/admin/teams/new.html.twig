@@ -1,9 +1,17 @@
 {% extends 'base-admin.html.twig' %}
 {% block page_specific_styles %}
     {% include 'includes/stylesheets-forms.html.twig' %}
+    {% include 'includes/stylesheets-datepicker.html.twig' %}
 {% endblock %}
 {% block page_specific_scripts %}
     {% include 'includes/scripts-forms.html.twig' %}
+    {% include 'includes/scripts-datepicker.html.twig' %}
+    <script src="{{ load_static('assets/vendor/toastr.min.js') }}"></script>
+    <script>
+        {% autoescape false %}
+        {{ getFlashToast('toastr') }}
+        {% endautoescape %}
+    </script>
 {% endblock %}
 {% block breadcrumb %}
     {% include 'includes/breadcrumb.html.twig' with {
@@ -19,58 +27,103 @@
             },
             'active': {
                 'url': null,
-                'name': 'New Team'
+                'name': 'New Axie Team'
             }
         }
     } %}
 {% endblock breadcrumb %}
 {% block content %}
-    <div class="container-fluid page__container">
-        <div class="page-section">
-            <div class="page-separator">
-                <div class="page-separator__text">New Team</div>
-            </div>
-            <div class="card card--raised border-left-4 border-left-accent">
-                {% autoescape false %}
-                    {{ form.form.begin('post', site_url('admin/teams/new'), ['col-md-12', 'p-0', 'mx-auto']) }}
-                    <div class="card-body">
-                        {{ getFlashAlert('msg') }}
-                        <div class="form-row mb-3">
-                            <div class="col-md-8 mt-24pt">
-                                <div class="form-group">
-                                    {{ form.form.field('AssetTeamName', 'AssetTeamName', 'Team Name').required.autofocus }}</div>
-                            </div>
-                            <div class="col-md-4 mt-24pt">
-                                <div class="form-group">
-                                    {{ form.form.field('Amount', 'Amount', 'Goal Amount').amount(10).required }}</div>
-                            </div>
-                            <div class="col-md-4 mt-24pt">
-                                <div class="form-group">
-                                    {{ form.form.field('TeamTypeID', 'TeamTypeID', 'Team Type').select(form.team_types).required }}</div>
-                            </div>
-                            <div class="col-md-4 mt-24pt">
-                                <div class="form-group">
-                                    {{ form.form.field('PlayerID', 'PlayerID', 'Player').select(form.players).required }}</div>
-                            </div>
-                            <div class="col-md-4 mt-24pt">
-                                <div class="form-group">
-                                    {{ form.form.field('AssetPlatFormID', 'AssetPlatformID', 'Platform').select(form.platforms).required }}
+    <div class="page-section">
+        <div class="container page__container">
+            <div class="row">
+                <form class="col-lg-6" method="post">
+                    {% if errors %}
+                        <div class="alert alert-soft-warning fade show">
+                            <div class="d-flex flex-wrap align-items-start">
+                                <div class="mr-8pt">
+                                    <i class="material-icons">bug_report</i>
+                                </div>
+                                <div class="flex">
+                                    <p class="text-100">
+                                        <strong>Please fix the following errors:</strong><br>
+                                    </p>
+                                    <ul>
+                                        {% for error in errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
                                 </div>
                             </div>
                         </div>
-
-                    </div>
-                    <div class="card-footer">
-                        <div class="text-right">
-                            <button class="btn btn-outline-accent btn-rounded">
+                    {% endif %}
+                    {% autoescape false %}
+                        {{ getFlashAlert('msg') }}
+                    {% endautoescape %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label" for="team_name">Team Name</label>
+                                <input id="team_name" name="team_name" type="text" class="form-control {{ errors.team_name is defined ? 'is-invalid': '' }}" required autofocus placeholder="Team Name" value="{{ vals.team_name is defined ? vals.team_name : '' }}" maxlength="50" minlength="2">
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="form-group">
+                                <label class="form-label" for="team_value">Team Value</label>
+                                <div class="input-group input-group-merge">
+                                    <input id="team_value" name="team_value" type="text" class="form-control form-control-prepended {{ errors.team_value is defined ? 'is-invalid': '' }}" placeholder="Team Value" value="{{ vals.team_value is defined ? vals.team_value : '' }}" required data-mask="#,##0.00" minlength="8" maxlength="22" data-mask-reverse="true">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            {{ peso_symbol }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label class="form-label" for="team_type">Team Type</label>
+                                <select id="team_type" name="team_type" data-toggle="select" class="form-control" data-minimum-results-for-search="-1" required>
+                                    {% for type in team_types %}
+                                        <option value="{{ type.TeamTypeID }}" {{ d_type == type.TeamTypeID ? 'selected' : '' }}>{{ type.TeamTypeName }} > {{ type.TeamProfitShare }}%</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label" for="tracker_address">Tracker Address</label>
+                                <div class="input-group input-group-merge">
+                                    <input id='tracker_address' name='tracker_address' type='text' class='form-control form-control-prepended {{ errors.tracker_address is defined ? 'is-invalid': '' }}' placeholder='Tracker Address' value='{{ vals.tracker_address is defined ? vals.tracker_address : '' }}' maxlength="200" required>
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <span class="material-icons">link</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="form-group">
+                                <label class="form-label" for="date_established">Date Established</label>
+                                <input id="date_established"
+                                       type="hidden"
+                                       name="date_established"
+                                       class="form-control flatpickr-input"
+                                       data-toggle="flatpickr"
+                                       required
+                                       value="{{ vals.date_established is defined ? vals.date_established : 'today' }}">
+                            </div>
+                        </div>
+                        <div class="col-md-12 text-right mt-4">
+                            <button class="btn btn-rounded btn-outline-accent-electric-violet" type="submit">
                                 <i class="material-icons icon--left">save</i>
                                 Save
                             </button>
                         </div>
                     </div>
-                    {{ form.form.end }}
-                {% endautoescape %}
+                </form>
             </div>
         </div>
     </div>
+
 {% endblock content %}

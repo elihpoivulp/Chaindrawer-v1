@@ -4,6 +4,7 @@ namespace CD\App\Controllers\Admin;
 
 use CD\App\Controllers\Admin\Forms\NewTeamForm;
 use CD\Core\Request;
+use CD\Core\Response;
 use CD\Core\Sessions\Session;
 use CD\Core\View;
 use CD\Core\ViewControllers\AdminViewOnly;
@@ -25,10 +26,6 @@ class Teams extends AdminViewOnly
     public function indexAction()
     {
         $teams = $this->model->getTeams();
-//        echo '<pre>';
-//        print_r($teams);
-//        echo '</pre>';
-//        exit;
         $this->render('teams/all.html.twig', [
             'title' => 'Teams',
             'teams' => $teams
@@ -37,58 +34,134 @@ class Teams extends AdminViewOnly
 
     public function newTeamAction()
     {
-        $form = new NewTeamForm(new Team());
-        if ($this->request->isPost()) {
-            $form->loadData($this->request->getBody());
-            if ($form->validate() === true) {
-                Session::setFlash('msg', 'A new team has been added', [
-                    'type' => Session::FLASH_TYPE_SUCCESS,
-                    'title' => 'Teams',
-                    'dismissable' => true
-                ]);
+        if (has_key_presence('manage', $_GET)) {
+            $this->manageSelectManagersAction(true, $_GET['manage']);
+        } else {
+            $errors = [];
+            $vals = [];
+            $type = 1;
+            if ($this->request->isPost()) {
+                $cleaned = [];
+                $b = $this->request->getBody();
+                $expected = [
+                    'team_name' => [
+                        'min' => 4,
+                        'max' => 50
+                    ],
+                    'team_value' => [
+                        'min' => 8,
+                        'max' => 22
+                    ],
+                    'team_type' => [
+                        'min' => 1,
+                        'max' => 4
+                    ],
+                    'tracker_address' => [
+                        'max' => 200
+                    ],
+                    'date_established' => [
+                        'min' => 10,
+                        'max' => 10
+                    ],
+                ];
+                foreach ($expected as $key => $rules) {
+                    $value = $b[$key];
+                    $field = 'Field' . ' "' . ucwords(str_replace('_', ' ', $key)) . '" ';
+                    if (!has_inclusion_of($key, $b) && !$value) {
+                        $errors[] = $field . 'cannot be empty.';
+                    } else {
+                        if ($rules && is_array($rules)) {
+                            foreach ($rules as $rule => $rule_val) {
+                                switch ($rule) {
+                                    case 'max':
+                                        if (has_length_greater_than($value, $rule_val)) {
+                                            $errors[$key] = $field . 'can\'t have characters greater than ' . $rule_val;
+                                        }
+                                        break;
+                                    case 'min':
+                                        if (has_length_less_than($value, $rule_val)) {
+                                            $errors[$key] = $field . 'can\'t have characters less than  ' . $rule_val;
+                                        }
+                                        break;
+                                }
+                            }
+                        }
+                        if ($key === 'team_name') {
+                            if ($this->model->teamNameTaken(slugify($value))) {
+                                $errors[$key] = 'Team with the same name already exists';
+                            }
+                        }
+                        if ($key === 'team_type') {
+                            if (!preg_match('/^\d+$/', $value)) {
+                                $errors[$key] = $field . 'does not contain a valid integer/number';
+                            }
+                        }
+                        if ($key === 'date_established') {
+                            if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $value)) {
+                                $errors[$key] = $field . 'does not seem to be a valid date format';
+                            }
+                        }
+                        if ($key === 'team_value') {
+                            if (!preg_match('/^[.,\d]+$/', $value)) {
+                                $errors[$key] = $field . 'does not seem to be a valid money format';
+                            }
+                        }
+                        if ($key === 'tracker_address') {
+                            if (!filter_var($value, FILTER_VALIDATE_URL)) {
+                                $errors[$key] = $field . 'does not seem to be a valid URL';
+                            }
+                        }
+                        $vals[$key] = $value;
+                        $cleaned[$key] = strip_tags($value);
+                    }
+                }
+                if (!$errors) {
+                    try {
+                        $cleaned['slug'] = slugify($cleaned['team_name']);
+                        $cleaned['team_value'] = str_replace(',', '', $cleaned['team_value']);
+                        $this->model->saveNewTeam($cleaned);
+                        Response::redirect('admin/teams/new?manage=' . urlencode($cleaned['slug']));
+                    } catch (\Exception | \PDOException $e) {
+                        Session::setFlash('toastr', 'An error has occurred while saving data. Please try again later.', [
+                            'type' => Session::FLASH_TYPE_WARNING,
+                            'title' => 'Failed',
+                            'dismissable' => true
+                        ]);
+                    }
+                }
             }
+            $this->render('teams/new.html.twig', [
+                'title' => 'New Axie Team',
+                'errors' => $errors,
+                'vals' => $vals,
+                'team_types' => $this->model->getTeamTypes(),
+                'd_type' => $type
+            ]);
         }
-        $player = new Players();
-        $platform = new AssetPlatforms();
-        $players = [];
-        $platforms = [];
-        $team_types = [];
-        foreach ($player->getAll() as $player) {
-            $players[$player['PlayerID']] = $player['PlayerIGN'];
-        }
-        foreach ($platform->getAll() as $platform) {
-            $platforms[$platform['AssetPlatformID']] = $platform['AssetPlatformName'];
-        }
-        foreach (array_reverse($this->model->getTeamTypes()) as $team_type) {
-            $team_types[$team_type['TeamTypeID']] = $team_type['TeamTypeName'];
-        }
-        $this->render('teams/new.html.twig', [
-            'title' => 'New Team',
-            'form' => [
-                'form' => $form,
-                'players' => $players,
-                'platforms' => $platforms,
-                'team_types' => $team_types
-            ]
-        ]);
     }
 
     public function manageSelectTeamAction()
     {
-        $teams = $this->model->getPendingTeams();
         $this->render('teams/manage_select.html.twig', [
             'title' => 'Teams | Manage Team',
-            'teams' => $teams
         ]);
     }
 
-    public function manageSelectManagersAction()
+    public function manageSelectManagersAction($step_2 = false, $slug = null)
     {
-        $teams = $this->model->getPendingTeams();
-        $this->render('teams/manage_select.html.twig', [
-            'title' => 'Teams | Manage Team',
-            'teams' => $teams
-        ]);
+        if (!$step_2) {
+            $slug = $this->params['slug'] ?? null;
+        }
+        $slug = urldecode($slug);
+        if (valid_slug($slug) && $team = $this->model->getTeamBySlug($slug)) {
+            $this->render('teams/manage_add.html.twig', [
+                'title' => 'Teams | Manage Team',
+                'team' => $team,
+                'step_2' => $step_2,
+            ]);
+        } else {
+            echo 'die';
+        }
     }
 
     public function manageAddAction()
@@ -103,5 +176,10 @@ class Teams extends AdminViewOnly
                 ]);
             }
         }
+    }
+
+    public function getTeams()
+    {
+        echo json_encode($this->model->getTeamBySearch($_GET['search'], $_GET['skip'] ?? [0]));
     }
 }

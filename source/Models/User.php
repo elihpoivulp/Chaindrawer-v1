@@ -95,14 +95,16 @@ class User extends BaseDBModel
         $this->UserAddress = '';
     }
 
-    private function getManagerAccount()
+    public function getManagerAccount()
     {
         $sql = "SELECT
                 CONVERT(M.ManagerAccountID, CHAR) AS ManagerAccountID,
                 M.ManagerTotalAsset,
                 M.ManagerAccountCurrentSLPBalance,
-                M.ManagerAccountCurrentAXSBalance
+                M.ManagerAccountCurrentAXSBalance,
+                COUNT(ManagerShareID) AS ManagerTeamCount
                 FROM ManagerAccounts M 
+                LEFT JOIN ManagerShares MS ON MS.ManagerAccountID = M.ManagerAccountID
                 WHERE M.UserID = :id";
         $s = $this->db->prepare($sql);
         $s->bindValue(':id', $this->UserID, PDO::PARAM_INT);

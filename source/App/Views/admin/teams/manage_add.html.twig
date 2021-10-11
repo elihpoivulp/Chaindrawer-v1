@@ -1,4 +1,20 @@
 {% extends 'base-admin.html.twig' %}
+{% block page_specific_styles %}
+    {% include 'includes/stylesheets-forms.html.twig' %}
+    {% include 'includes/stylesheets-datepicker.html.twig' %}
+    {% include 'includes/stylesheets-dragula.html.twig' %}
+{% endblock %}
+{% block page_specific_scripts %}
+    {% include 'includes/scripts-forms.html.twig' %}
+    {% include 'includes/scripts-datepicker.html.twig' %}
+    {% include 'includes/scripts-dragula.html.twig' %}
+    <script src="{{ load_static('assets/vendor/toastr.min.js') }}"></script>
+    <script>
+        {% autoescape false %}
+        {{ getFlashToast('toastr') }}
+        {% endautoescape %}
+    </script>
+{% endblock %}
 {% block breadcrumb %}
     {% include 'includes/breadcrumb.html.twig' with {
         'section': 'Teams',
@@ -12,111 +28,103 @@
                 'name': 'Teams'
             },
             2: {
-                'url': site_url('admin/teams/manage'),
-                'name': 'Manage Teams'
+                'url': site_url('admin/teams/new'),
+                'name': 'New Axie Team'
             },
-            'active': {
+            1: {
                 'url': null,
-                'name': team.TeamName
-            }
+                'name': 'Manage Team'
+            },
         }
     } %}
 {% endblock breadcrumb %}
 {% block content %}
-    <div class="container-fluid page__container">
-        <div class="page-section">
-            <div class="page-separator">
-                <div class="page-separator__text">Manage Team</div>
-            </div>
-{#            <div class="card card--raised mb-lg-32pt">#}
-{#                <div class="card-header">#}
-{#                    <h4>{{ team.AssetTeamName }}</h4>#}
-{#                </div>#}
-{#                <div class="card-body">#}
-{#                </div>#}
-{#            </div>#}
-            <div class="row">
-                <div class="col-lg-5">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="d-flex align-items-end">
-                                <strong>Team Details</strong>
+    <div class="page-section">
+        <div class="container page__container">
+            {% if step_2 %}
+                <div class="row mb-24pt">
+                    <div class="col-lg-5 mb-24pt mb-lg-0">
+                        <h4 class="mb-8pt">Manage Team</h4>
+                        <p class="text-70 mb-24pt">Add team managers</p>
+                    </div>
+                    <div class="col-lg-7 d-flex align-items-center">
+                        <div class="page-num-timeline d-flex flex-column flex-sm-row align-items-center justify-content-center flex">
+                            <div class="align-content-md-center justify-content-md-between d-md-flex flex-md">
+                                <a href="javascript:void(0);"
+                                   data-toggle="tooltip"
+                                   data-placement="top"
+                                   data-title="Team Details"
+                                   class="page-num-timeline__item ml-md-112pt ml-0">
+                                    <span class="page-num-timeline__item-tip"></span>
+                                    <span class="page-num"><i class="material-icons">build</i></span>
+                                </a>
+                                <a href="javascript:void(0);"
+                                   data-toggle="tooltip"
+                                   data-placement="top"
+                                   data-title="Add Managers"
+                                   class="page-num-timeline__item page-num-timeline__item-current mr-md-112pt mr-0">
+                                    <span class="page-num-timeline__item-tip"></span>
+                                    <span class="page-num"><i class="material-icons">extension</i></span>
+                                </a>
                             </div>
                         </div>
-
-                        <div class="list-group list-group-flush">
-                            <div class="list-group-item">
-                                <div class="form-group row mb-0">
-                                    <strong class="col-sm-4">Team Name</strong>
-                                    <div class="col-sm-8 d-flex align-items-center">
-                                        <div class="flex">
-                                            {{ team.TeamName }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list-group-item">
-                                <div class="form-group row mb-0">
-                                    <strong class="col-sm-4">Team Status</strong>
-                                    <div class="col-sm-8 d-flex align-items-center">
-                                        <div class="flex">
-                                            {% if team.TeamStatus == 1 %}
-                                                <p class="text-success">Active</p>
-                                                <p><small>This team is already earning.</small></p>
-                                            {% else %}
-                                                <p class="text-warning">Pending</p>
-                                                <p><small>Still collecting fund.</small></p>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list-group-item">
-                                <div class="form-group row mb-0">
-                                    <strong class="col-sm-4">Team Value</strong>
-                                    <div class="col-sm-8 d-flex align-items-center">
-                                        <div class="flex">
-                                            {{ peso_symbol ~ ' ' ~ toMoneyFormat(team.TeamValue) }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list-group-item">
-                                <div class="form-group row mb-0">
-                                    <strong class="col-sm-4">Team Amount Collected</strong>
-                                    <div class="col-sm-8 d-flex align-items-center">
-                                        <div class="flex">
-                                            {{ peso_symbol ~ ' ' ~ toMoneyFormat(team.TeamAmountCollected) }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list-group-item">
-                                <div class="form-group row mb-0">
-                                    <strong class="col-sm-4">Managers</strong>
-                                    <div class="col-sm-8 d-flex align-items-center">
-                                        <div class="flex">
-                                            {{ team.TeamManagerCount }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list-group-item">
-                                <div class="form-group row mb-0">
-                                    <strong class="col-sm-4">Team Player</strong>
-                                    <div class="col-sm-8 d-flex align-items-center">
-                                        <div class="flex">
-                                            {{ team.TeamPlayerIGN }} ({{ team.TeamPlayerFullName }})
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
-                <div class="col-lg-7"></div>
+            {% endif %}
+
+            <div class="row card-group-row mb-lg-8pt" data-toggle="dragula" data-dragula-containers='["#card-left", "#card-right"]'>
+                <div class="col-md-5 card-group-row__col">
+                    <div class="card shadow-none border border-style-dashed card-group-row__card">
+                        <div class="card-body">
+                            <div class="h5 mb-3">Select Managers</div>
+                            <div class="form-group border-bottom-white mb-0">
+                                <label class="form-text d-none" for="search-manager">Search Manager</label>
+                                <input type="text" id="search-manager" class="form-control form-control-flush" placeholder="Search Manager">
+                            </div>
+                            <div class="list-group list-group-flush" id="card-left">
+                                &nbsp;
+                                <div class="list-group-item p-16pt">
+                                    <div class="d-flex align-items-center" style="white-space: nowrap;">
+                                        <div class="avatar avatar-32pt mr-8pt"><span class="bg-accent avatar-title rounded-circle">ME</span>
+                                        </div>
+                                        <div class="flex ml-4pt">
+                                            <div class="d-flex flex-column">
+                                                <p class="mb-0"><strong>Gilbert Barrett</strong></p>
+                                                <small class="text-50">2 Teams</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group-item p-16pt">
+                                    <div class="d-flex align-items-center" style="white-space: nowrap;">
+                                        <div class="avatar avatar-32pt mr-8pt"><span class="bg-accent avatar-title rounded-circle">ME</span>
+                                        </div>
+                                        <div class="flex ml-4pt">
+                                            <div class="d-flex flex-column">
+                                                <p class="mb-0"><strong>Gilbert Barrett</strong></p>
+                                                <small class="text-50">2 Teams</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md card-group-row__col">
+                    <div class="card shadow-none border border-style-dashed card-group-row__card">
+                        <div class="card-body">
+                            <div class="h6 mb-3">Container #2</div>
+                            <div class="list-group list-group-flush" id="card-left">
+                                <div id="card-right">
+                                    &nbsp;
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
 {% endblock content %}

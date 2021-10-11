@@ -3,11 +3,11 @@
 namespace CD\Models;
 
 use CD\Core\DB\BaseDBModel;
+use Exception;
 use PDO;
 
 class Teams extends BaseDBModel
 {
-
     public function tableName(): string
     {
         return 'AssetTeams';
@@ -38,6 +38,37 @@ class Teams extends BaseDBModel
         return $s->fetchAll();
     }
 
+    public function getTeamBySearch($term, $skip)
+    {
+        $sql = 'SELECT AT.AssetTeamName,
+           AT.AssetTeamID,
+           AT.AssetTeamDateAdded,
+           AT.AssetTeamDateLastModified,
+           AT.AssetTeamSlug,
+           AT.AssetTeamValue,
+           AT.AssetTeamCollectedAmount,
+           AT.AssetTeamStatus,
+           AP.AssetPlatformName         AS TeamPlatform,
+           AP.AssetPlatformWebsiteLink  AS TeamPlatformWebsite,
+           TT.TeamTypeName              AS TeamType,
+           TT.TeamProfitShare,
+           P.PlayerID                   AS TeamPlayerID,
+           P.PlayerIGN                  AS TeamPlayerIGN,
+           COUNT(MS.ManagerShareID)     AS TeamManagerCount,
+           IFNULL(SUM(MS.ManagerShareAmount), 0)   AS TotalManagerShares
+    FROM AssetTeams AT
+             INNER JOIN AssetPlatforms AP ON AP.AssetPlatformID = AT.AssetPlatformID
+             INNER JOIN TeamTypes TT ON TT.TeamTypeID = AT.TeamTypeID
+             LEFT JOIN Players P ON P.PlayerID = AT.PlayerID
+             LEFT JOIN Users U ON P.UserID = U.UserID
+             LEFT JOIN ManagerShares MS on AT.AssetTeamID = MS.AssetTeamID
+    WHERE AT.AssetTeamName LIKE ? AND AT.AssetTeamStatus = 0 AND AT.AssetTeamID NOT IN (' . trim(str_repeat(', ?', count($skip)), ', ') . ') GROUP BY AT.AssetTeamID';
+        $s = $this->db->prepare($sql);
+        $data[] = '%' . $term . '%';
+        $s->execute(array_merge($data, $skip));
+        return $s->fetchAll();
+    }
+
     public function getTeamBySlug(string $slug)
     {
         $s = $this->db->prepare('CALL GetTeamBySlug(:slug)');
@@ -52,6 +83,42 @@ class Teams extends BaseDBModel
         $s->setFetchMode(PDO::FETCH_CLASS, Team::class);
         $s->execute(['id' => $id]);
         return $s->fetch();
+    }
+
+    public function getTeamsByIDS($ids)
+    {
+        $sql = '
+         SELECT AT.AssetTeamName,
+           AT.AssetTeamID,
+           AT.AssetTeamDateAdded,
+           AT.AssetTeamDateLastModified,
+           AT.AssetTeamSlug,
+           AT.AssetTeamValue,
+           AT.AssetTeamCollectedAmount,
+           AT.AssetTeamStatus,
+           AP.AssetPlatformName         AS TeamPlatform,
+           AP.AssetPlatformWebsiteLink  AS TeamPlatformWebsite,
+           TT.TeamTypeName              AS TeamType,
+           TT.TeamProfitShare,
+           P.PlayerID                   AS TeamPlayerID,
+           P.PlayerIGN                  AS TeamPlayerIGN,
+           COUNT(MS.ManagerShareID)     AS TeamManagerCount,
+           IFNULL(SUM(MS.ManagerShareAmount), 0)   AS TotalManagerShares
+    FROM AssetTeams AT
+             INNER JOIN AssetPlatforms AP ON AP.AssetPlatformID = AT.AssetPlatformID
+             INNER JOIN TeamTypes TT ON TT.TeamTypeID = AT.TeamTypeID
+             LEFT JOIN Players P ON P.PlayerID = AT.PlayerID
+             LEFT JOIN Users U ON P.UserID = U.UserID
+             LEFT JOIN ManagerShares MS on AT.AssetTeamID = MS.AssetTeamID
+    WHERE AT.AssetTeamID IN (' . trim(str_repeat(', ?', count($ids)), ', ') . ') GROUP BY AT.AssetTeamID;';
+        try {
+            $s = $this->db->prepare($sql);
+            $s->setFetchMode(PDO::FETCH_CLASS, Team::class);
+            $s->execute($ids);
+            return $s->fetchAll();
+        } catch (Exception | \PDOException $e) {
+            return false;
+        }
     }
 
     public function getTeamTypes()
@@ -140,6 +207,41 @@ class Teams extends BaseDBModel
         return $s->execute();
     }
 
+    public function newPayoutDistribution()
+    {
+        try {
+            $this->db->beginTransaction();
+            $sql_fortnight = "INSERT INTO FortnightAxieWithdrawals (FortnightAxieWithdrawalTotalSLP, FortnightAxieWithdrawalIsDistributed, FortnightAxieWithdrawalDate) VALUES (:amt, 1, :date)";
+            $s = $this->db->prepare($sql_fortnight);
+            $s->bindValue(':amt', 'amt');
+            $s->bindValue(':date', 'date');
+            $s->execute();
+            $l = $this->db->lastInsertId();
+
+            $sql_team = "INSERT INTO AxieTeamPayouts (AxieTeamPayoutTotalSLP, AxieTeamPayoutShareRate, FortnightAxieWithdrawalID, AxieTeamID, AxieTeamPayoutDate) VALUES (:amt, :rate, :f_id, :id, :date)";
+            $s = $this->db->prepare($sql_team);
+            $s->bindValue(':amt', null);
+            $s->bindValue(':rate', null);
+            $s->bindValue(':date', null);
+            $s->bindValue(':id', null);
+            $s->bindValue(':f_id', null);
+            $s->execute();
+            $ll = $this->db->lastInsertId();
+
+            $sql_cd = "INSERT INTO ChainDrawerAxiePayouts (ChainDrawerAxiePayoutTotalSLP, AxieTeamPayoutID, ChainDrawerAxiePayoutDate, ChainDrawerAxiePayoutShareRate) VALUES (:amt, :id, :date, :rate)";
+            $s = $this->db->prepare($sql_cd);
+            $s->bindValue(':amt', null);
+            $s->bindValue(':rate', null);
+            $s->bindValue(':date', null);
+            $s->bindValue(':id', null);
+            return $s->execute();
+
+        } catch (Exception | \PDOException $e) {
+            echo $e->getMessage();
+        }
+        return false;
+    }
+
     public function updateTeamLifetimeSLP($id, $amt): bool
     {
         $sql = "UPDATE AxieTeams SET AxieTeamTotalSLPFarmed = AxieTeamTotalSLPFarmed + :amt WHERE AssetTeamID = :id";
@@ -151,10 +253,50 @@ class Teams extends BaseDBModel
 
     public function getIncomingClaims($limit = 5)
     {
-        $sql = "SELECT AssetTeamName, AxieTeamCurrentSLPBalance, AxieTeamTrackerAddress, AxieTeamNextSLPClaim FROM AssetTeams AT INNER JOIN AxieTeams AXT ON AXT.AssetTeamID = AT.AssetTeamID ORDER BY AxieTeamNextSLPClaim LIMIT :limit";
+        $sql = "SELECT AssetTeamName, AxieTeamCurrentSLPBalance, AxieTeamTrackerAddress, AxieTeamNextSLPClaim FROM AssetTeams AT INNER JOIN AxieTeams AXT ON AXT.AssetTeamID = AT.AssetTeamID WHERE AxieTeamNextSLPClaim IS NOT NULL ORDER BY AxieTeamNextSLPClaim LIMIT :limit";
         $s = $this->db->prepare($sql);
         $s->execute([':limit' => $limit]);
         return $s->fetchAll();
+    }
+
+    public function teamNameTaken($slug): bool
+    {
+        $sql = "SELECT AssetTeamName FROM AssetTeams WHERE AssetTeamSlug = :slug LIMIT 1";
+        $s = $this->db->prepare($sql);
+        $s->execute(['slug' => $slug]);
+        return $s->rowCount();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function saveNewTeam($data): bool
+    {
+        try {
+            $this->db->beginTransaction();
+
+            $sql = "INSERT INTO AssetTeams (AssetTeamName, PlayerID, AssetTeamSlug, AssetTeamValue, TeamTypeID, AssetTeamDateAdded, AssetPlatformID) VALUES (:name, 1, :slug, :value, :type, :date, 1)";
+            $s = $this->db->prepare($sql);
+            $s->bindValue(':name', ucwords($data['team_name']));
+            $s->bindValue(':slug', $data['slug']);
+            $s->bindValue(':value', $data['team_value']);
+            $s->bindValue(':type', $data['team_type']);
+            $s->bindValue(':date', $data['date_established']);
+            $s->execute();
+
+            $last_id = $this->db->lastInsertId();
+            $sql = "INSERT INTO AxieTeams (AxieTeamTrackerAddress, AssetTeamID) VALUES (:address, :tid)";
+            $s = $this->db->prepare($sql);
+            $s->bindValue(':address', $data['tracker_address']);
+            $s->bindValue(':tid', $last_id);
+            $s->execute();
+
+            $this->db->commit();
+            return true;
+        } catch (Exception | \PDOException $e) {
+            $this->db->rollBack();
+            throw new Exception($e->getMessage(), 500);
+        }
     }
 
 }
