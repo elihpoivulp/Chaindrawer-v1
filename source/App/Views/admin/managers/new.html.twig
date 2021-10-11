@@ -33,9 +33,44 @@
 {% block content %}
     <div class="container page__container">
         <div class="page-section">
+            <div class="row mb-24pt">
+                <div class="col-lg-5 mb-24pt mb-lg-0">
+                    <h4 class="mb-8pt">New Manager Account</h4>
+                    <p class="text-70 mb-24pt">Input manager details</p>
+                </div>
+                <div class="col-lg-7 d-flex align-items-center">
+                    <div class="page-num-timeline d-flex flex-column flex-sm-row align-items-center justify-content-center flex">
+                        <div class="align-content-md-center justify-content-md-between d-md-flex flex-md">
+                            <a href="javascript:void(0);"
+                               data-toggle="tooltip"
+                               data-placement="top"
+                               data-title="Manager Details"
+                               class="page-num-timeline__item page-num-timeline__item-current ml-md-64pt ml-0">
+                                <span class="page-num-timeline__item-tip"></span>
+                                <span class="page-num"><i class="material-icons">build</i></span>
+                            </a>
+                            <a href="javascript:void(0);"
+                               data-toggle="tooltip"
+                               data-placement="top"
+                               data-title="Select Teams"
+                               class="page-num-timeline__item ml-md-112pt ml-0">
+                                <span class="page-num-timeline__item-tip"></span>
+                                <span class="page-num"><i class="material-icons">mouse</i></span>
+                            </a>
+                            <a href="javascript:void(0);"
+                               data-toggle="tooltip"
+                               data-placement="top"
+                               data-title="Set Amount"
+                               class="page-num-timeline__item ml-md-112pt mr-0 mr-md-64pt">
+                                <span class="page-num-timeline__item-tip"></span>
+                                <span class="page-num"><i class="material-icons">extension</i></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <form class="col-lg-10" method="post">
-                    <h4>New Manager Account</h4>
                     {% if errors %}
                         <div class="alert alert-soft-warning fade show">
                             <div class="d-flex flex-wrap align-items-start">

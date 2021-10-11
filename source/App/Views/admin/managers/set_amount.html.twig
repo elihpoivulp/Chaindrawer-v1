@@ -1,0 +1,157 @@
+{% extends 'base-admin.html.twig' %}
+{% block page_specific_styles %}
+    {% include 'includes/stylesheets-forms.html.twig' %}
+    {% include 'includes/stylesheets-datepicker.html.twig' %}
+{% endblock %}
+{% block page_specific_scripts %}
+    {% include 'includes/scripts-forms.html.twig' %}
+    {% include 'includes/scripts-datepicker.html.twig' %}
+    <script src="{{ load_static('assets/vendor/toastr.min.js') }}"></script>
+    <script>
+        {% autoescape false %}
+        {{ getFlashToast('toastr') }}
+        {% endautoescape %}
+    </script>
+{% endblock %}
+{% block breadcrumb %}
+    {% include 'includes/breadcrumb.html.twig' with {
+        'section': 'Managers',
+        'trails': {
+            0: {
+                'url': site_url('admin'),
+                'name': 'Dashboard'
+            },
+            1: {
+                'url': site_url('admin/managers'),
+                'name': 'Managers'
+            },
+            2: {
+                'url': site_url('admin/managers/new'),
+                'name': 'New'
+            },
+            'active': {
+                'url': null,
+                'name': 'Add to Teams'
+            }
+        }
+    } %}
+{% endblock breadcrumb %}
+{% block content %}
+    <div class="page-section">
+        <div class="container page__container">
+            {% if step_2 %}
+                <div class="row mb-24pt">
+                    <div class="col-lg-5 mb-24pt mb-lg-0">
+                        <h4 class="mb-8pt">Set Amount</h4>
+                        <p class="text-70 mb-24pt">Include this manager to a team</p>
+                    </div>
+                    <div class="col-lg-7 d-flex align-items-center">
+                        <div class="page-num-timeline d-flex flex-column flex-sm-row align-items-center justify-content-center flex">
+                            <div class="align-content-md-center justify-content-md-between d-md-flex flex-md">
+                                <a href="javascript:void(0);"
+                                   data-toggle="tooltip"
+                                   data-placement="top"
+                                   data-title="Manager Details"
+                                   class="page-num-timeline__item ml-md-64pt ml-0">
+                                    <span class="page-num-timeline__item-tip"></span>
+                                    <span class="page-num"><i class="material-icons">build</i></span>
+                                </a>
+                                <a href="javascript:void(0);"
+                                   data-toggle="tooltip"
+                                   data-placement="top"
+                                   data-title="Select Teams"
+                                   class="page-num-timeline__item ml-md-112pt ml-0">
+                                    <span class="page-num-timeline__item-tip"></span>
+                                    <span class="page-num"><i class="material-icons">mouse</i></span>
+                                </a>
+                                <a href="javascript:void(0);"
+                                   data-toggle="tooltip"
+                                   data-placement="top"
+                                   data-title="Set Amount"
+                                   class="page-num-timeline__item page-num-timeline__item-current ml-md-112pt mr-0 mr-md-64pt">
+                                    <span class="page-num-timeline__item-tip"></span>
+                                    <span class="page-num"><i class="material-icons">extension</i></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="row">
+                <form class="col-md" method="post" action="{{ site_url('admin/managers/save-share/' ~ manager.getUserID) }}">
+                    {% if step_2 %}
+                        <input type="hidden" name="step_2" value="true">
+                    {% endif %}
+                    <div class="card shadow-none border border-style-dashed">
+                        <div class="card-body">
+                            <div class="h6 mb-3">Set Amount</div>
+                            {% if errors %}
+                                <div class="alert alert-soft-warning fade show">
+                                    <div class="d-flex flex-wrap align-items-start">
+                                        <div class="mr-8pt">
+                                            <i class="material-icons">bug_report</i>
+                                        </div>
+                                        <div class="flex">
+                                            <p class="text-100">
+                                                <strong>Please fix the following errors:</strong><br>
+                                            </p>
+                                            <ul>
+                                                {% autoescape false %}
+                                                {% for error in errors %}
+                                                    <li style="margin-left: -32px;">{{ error }}</li>
+                                                {% endfor %}
+                                                {% endautoescape %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% for team in teams %}
+                                <div class="form-group">
+                                    <label class="form-label" for="{{ team.AssetTeamSlug }}">{{ team.AssetTeamName }}</label>
+                                    <br>
+                                    <small class="bg-dark"><strong>MAX: </strong>{{ peso_symbol ~ ' ' ~ toMoneyFormat(team.AssetTeamValue - team.AssetTeamCollectedAmount) }}</small>
+                                    <div class="input-group input-group-merge mt-2">
+                                        <input id="{{ team.AssetTeamSlug }}" name="teams[{{ team.AssetTeamSlug }}][amount]" type="text" class="form-control form-control-prepended {{ errors[team.AssetTeamSlug] is defined ? 'is-invalid': '' }}" placeholder="Amount for {{ team.AssetTeamName }}" required data-mask="#,##0.00" minlength="8" maxlength="22" data-mask-reverse="true" value="{{ vals[team.AssetTeamSlug] is defined ? vals[team.AssetTeamSlug] : '' }}">
+                                        <input type="hidden" name="teams[{{ team.AssetTeamSlug }}][name]" value="{{ team.AssetTeamName }}">
+                                        <input type="hidden" name="teams[{{ team.AssetTeamSlug }}][id]" value="{{ team.AssetTeamID }}">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                {{ peso_symbol }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="card-footer text-right">
+                            <button type="submit" class="btn btn-link text-accent-yellow">
+                                Save
+                                <span class="material-icons icon--right">save</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <form class="col-md" method="post">
+                    <div class="card shadow-none border border-style-dashed">
+                        <div class="card-body">
+                            <div class="h6 mb-3">Manager</div>
+                            <div class="d-flex align-items- mb-4" style="white-space: nowrap;">
+                                <div class="d-flex flex-column">
+                                    <p class="mb-1 lead"><strong>{{ manager.getUserFullName }}</strong></p>
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex">
+                                            <small class="text-70">
+                                                Teams: {{ manager.getManagerAccount.ManagerTeamCount }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

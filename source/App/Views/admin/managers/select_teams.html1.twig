@@ -1,0 +1,129 @@
+{% extends 'base-admin.html.twig' %}
+{% block page_specific_styles %}
+    {% include 'includes/stylesheets-forms.html.twig' %}
+    {% include 'includes/stylesheets-datepicker.html.twig' %}
+    {% include 'includes/stylesheets-dragula.html.twig' %}
+{% endblock %}
+{% block page_specific_scripts %}
+    {% include 'includes/scripts-forms.html.twig' %}
+    {% include 'includes/scripts-datepicker.html.twig' %}
+    {% include 'includes/scripts-dragula.html.twig' %}
+    <script src="{{ load_static('assets/vendor/toastr.min.js') }}"></script>
+    <script>
+        {% autoescape false %}
+        {{ getFlashToast('toastr') }}
+        {% endautoescape %}
+    </script>
+{% endblock %}
+{% block breadcrumb %}
+    {% include 'includes/breadcrumb.html.twig' with {
+        'section': 'Managers',
+        'trails': {
+            0: {
+                'url': site_url('admin'),
+                'name': 'Dashboard'
+            },
+            1: {
+                'url': site_url('admin/managers'),
+                'name': 'Managers'
+            },
+            2: {
+                'url': site_url('admin/managers/new'),
+                'name': 'New'
+            },
+            'active': {
+                'url': null,
+                'name': 'Add to Teams'
+            }
+        }
+    } %}
+{% endblock breadcrumb %}
+{% block content %}
+    <div class="page-section">
+        <div class="container page__container">
+            {% if step_2 %}
+                <div class="row mb-24pt">
+                    <div class="col-lg-5 mb-24pt mb-lg-0">
+                        <h4 class="mb-8pt">Add to Teams</h4>
+                        <p class="text-70 mb-24pt">Include this manager to a team</p>
+                    </div>
+                    <div class="col-lg-7 d-flex align-items-center">
+                        <div class="page-num-timeline d-flex flex-column flex-sm-row align-items-center justify-content-center flex">
+                            <div class="align-content-md-center justify-content-md-between d-md-flex flex-md">
+                                <a href="javascript:void(0);"
+                                   data-toggle="tooltip"
+                                   data-placement="top"
+                                   data-title="Manager Details"
+                                   class="page-num-timeline__item ml-md-64pt ml-0">
+                                    <span class="page-num-timeline__item-tip"></span>
+                                    <span class="page-num"><i class="material-icons">build</i></span>
+                                </a>
+                                <a href="javascript:void(0);"
+                                   data-toggle="tooltip"
+                                   data-placement="top"
+                                   data-title="Select Teams"
+                                   class="page-num-timeline__item page-num-timeline__item-current ml-md-112pt ml-0">
+                                    <span class="page-num-timeline__item-tip"></span>
+                                    <span class="page-num"><i class="material-icons">mouse</i></span>
+                                </a>
+                                <a href="javascript:void(0);"
+                                   data-toggle="tooltip"
+                                   data-placement="top"
+                                   data-title="Set Amount"
+                                   class="page-num-timeline__item ml-md-112pt mr-0 mr-md-64pt">
+                                    <span class="page-num-timeline__item-tip"></span>
+                                    <span class="page-num"><i class="material-icons">extension</i></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="row mb-lg-8pt">
+                <form class="col-md-6" method="post">
+                    <div class="card shadow-none border border-style-dashed">
+                        <div class="card-body">
+                            <div class="h5 mb-4">Select Teams</div>
+{#                            <div class="form-group border-bottom-white mb-4">#}
+{#                                <label class="form-text d-none" for="search-team">Search Team</label>#}
+{#                                <input type="text" id="search-team" class="form-control form-control-flush"#}
+{#                                       placeholder="Search Team">#}
+{#                            </div>#}
+                            <div class="list-group list-group-flush">
+                                {% for team in available_teams %}
+                                    <div class="list-group-item pb-1">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox"
+                                                   class="custom-control-input"
+                                                   name="teams[]"
+                                                   value="{{ team.AssetTeamID }}"
+                                                   id="{{ team.AssetTeamSlug }}">
+                                            <label class="custom-control-label from-control-text" for="{{ team.AssetTeamSlug }}"><strong>{{ team.AssetTeamName }}</strong></label>
+                                            <div class="d-flex align-items-center"
+                                                 style="">
+                                                <div class="flex ml-4pt">
+                                                    <div class="d-flex flex-column">
+{#                                                        <p class="mb-0"><strong>{{ team.AssetTeamName }}</strong></p>#}
+                                                        <small class="text-50">{{ peso_symbol }} <span class="lead">{{ toShortFormat(team.TotalManagerShares) }}</span> / {{ toShortFormat(team.AssetTeamValue) }}</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="card-footer text-right">
+                            <button class="btn btn-link text-primary-yellow" type="submit">
+                                Next
+                                <span class="material-icons">navigate_next</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

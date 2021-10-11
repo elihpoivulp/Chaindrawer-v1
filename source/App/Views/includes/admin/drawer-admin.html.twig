@@ -46,6 +46,12 @@
                                 <span class="sidebar-menu-text">New Team</span>
                             </a>
                         </li>
+                        <li class="sidebar-menu-item {% if get_uri(1) == 'teams' and get_uri(2) == 'manage' %}active{% endif %}">
+                            <a class="sidebar-menu-button"
+                               href="{{ site_url('admin/teams/manage') }}">
+                                <span class="sidebar-menu-text">Manage Team</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="sidebar-menu-item {% if get_uri(1) == 'managers' %}active open{% endif %}">

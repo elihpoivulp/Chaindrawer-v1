@@ -13,7 +13,7 @@
             },
             'active': {
                 'url': null,
-                'name': 'Manage Teams'
+                'name': 'Manage Team'
             }
         }
     } %}
@@ -21,135 +21,438 @@
 {% block content %}
     <div class="container-fluid page__container">
         <div class="page-section">
-            <div class="page-separator">
-                <div class="page-separator__text">Select Team</div>
-            </div>
-            <div class="card card--raised mb-lg-32pt">
-                <div class="table-responsive"
-                     data-toggle="lists"
-                     data-lists-sort-by="team-team-added"
-                     data-lists-sort-desc="false"
-                     data-lists-values='["team-player", "team-name", "team-status", "team-fund-amount", "team-team-added", "team-type"]'>
-                    <div class="card-header">
-                        <div class="row align-items-center" style="white-space: nowrap;">
-                            <div class="col-lg-auto">
-                                <div class="search-form search-form--dark d-lg-inline-flex mb-8pt mb-lg-0">
-                                    <label for="search-table" class="d-none"></label>
-                                    <input type="text" id="search-table" class="form-control search w-lg-auto"
-                                           placeholder="Search ...">
-                                    <button class="btn" type="button" role="button"><i class="material-icons">search</i>
-                                    </button>
+            <h4>Select Team</h4>
+            <div class="row">
+                <div class="col-sm-6 col-md-4 col-xl-3">
+                    <div class="card card-sm card--elevated p-relative o-hidden overlay overlay--primary js-overlay mdk-reveal js-mdk-reveal "
+                         data-overlay-onload-show
+                         data-popover-onload-show
+                         data-force-reveal
+                         data-partial-height="44"
+                         data-toggle="popover"
+                         data-trigger="click">
+                        <a href="#"
+                           class="js-image"
+                           data-position="center">
+                            <img src="{{ load_static('assets/chndrwr/images/axies/axie-cropped.png') }}"
+                                 alt="Axie" width="210">
+                            <span class="overlay__content align-items-start justify-content-start">
+                                        <span class="overlay__action card-body d-flex align-items-center">
+                                            <i class="material-icons mr-4pt">build</i>
+                                            <span class="card-title text-white">Manage</span>
+                                        </span>
+                                    </span>
+                        </a>
+                        <div class="mdk-reveal__content">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <div class="flex">
+                                        <a class="card-title mb-4pt"
+                                           href="#">Conqueror's Haki #1</a>
+                                    </div>
+                                    <span>
+                                    <i class="fa fa-circle" style="font-size: 8px; color: greenyellow"></i>
+                                    </span>
+                                </div>
+                                <div class="d-flex">
+                                    <strong>6 Managers</strong>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <table class="table mb-0 thead-border-top-0 table-nowrap">
-                        <thead>
-                        <tr>
-                            </th>
-                            <th>
-                                <a href="javascript:void(0)"
-                                   class="sort"
-                                   data-sort="team-name">Team</a>
-                            </th>
-                            <th class="text-center">
-                                <a href="javascript:void(0)"
-                                   class="sort"
-                                   data-sort="team-fund-amount">Fund Amount</a>
-                            </th>
-                            <th>
-                                <a href="javascript:void(0)"
-                                   class="sort"
-                                   data-sort="team-team-added">Date Added</a>
-                            </th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody class="list" id="teams">
-                        {% for team in teams %}
-                            <tr>
-                                <td>
-                                    <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
-                                        <div class="avatar avatar-32pt mr-8pt">
-                                            <img src="{{ load_static('assets/chndrwr/images/axies/axie_avatar_15.png') }}"
-                                                 alt="{{ team.AssetTeamName }}'s Axie"
-                                                 class="avatar-img rounded-circle">
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="d-flex align-items-center">
-                                                <div class="flex d-flex flex-column">
-                                                    <p class="mb-0"><strong
-                                                                class="team-name">{{ team.AssetTeamName }}</strong></p>
-                                                    <small class="js-lists-values-email text-50">{{ team.AssetPlatformName }}</small>
-                                                </div>
-                                                <a target="_blank" href="{{ team.AssetPlatformWebsiteLink }}" class="d-flex align-items-center ml-12pt">
-                                                    <i class="material-icons text-20 icon-16pt">link</i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="text-center">
-                                    <small class="team-fund-amount"><strong>{{ peso_symbol ~ ' ' ~ toMoneyFormat(team.SharesForAssetTeamGoalAmount) }}</strong></small>
-                                </td>
-                                <td>
-                                    <small class="team-type"><strong>{{ team.AssetTeamDateAdded|date('M j, o') }}</strong></small>
-                                </td>
-                                <td class="text-center">
-                                    <a href="#" class="btn btn-link">Add Managers</a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="card-footer p-8pt">
-                    <ul class="pagination justify-content-start pagination-xsm m-0">
-                        <li class="page-item disabled">
-                            <a class="page-link"
-                               href="#"
-                               aria-label="Previous">
-                                        <span aria-hidden="true"
-                                              class="material-icons">chevron_left</span>
-                                <span>Prev</span>
-                            </a>
-                        </li>
-                        <li class="page-item dropdown">
-                            <a class="page-link dropdown-toggle"
-                               data-toggle="dropdown"
-                               href="#"
-                               aria-label="Page">
-                                <span>1</span>
-                            </a>
-                            <div class="dropdown-menu">
-                                <a href=""
-                                   class="dropdown-item active">1</a>
-                                <a href=""
-                                   class="dropdown-item">2</a>
-                                <a href=""
-                                   class="dropdown-item">3</a>
-                                <a href=""
-                                   class="dropdown-item">4</a>
-                                <a href=""
-                                   class="dropdown-item">5</a>
+                    <div class="popoverContainer d-none">
+                        <div class="media">
+                            <div class="media-left mr-12pt">
+                                <img src="{{ load_static('assets/chndrwr/images/axies/axie-cropped.png') }}"
+                                     width="40"
+                                     height="40"
+                                     alt="Angular"
+                                     class="rounded">
                             </div>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link"
-                               href="#"
-                               aria-label="Next">
-                                <span>Next</span>
-                                <span aria-hidden="true"
-                                      class="material-icons">chevron_right</span>
-                            </a>
-                        </li>
-                    </ul>
+                            <div class="media-body">
+                                <div class="card-title mb-0">Conqueror's Haki #1</div>
+                                <p class="lh-1">
+                                    <span class="text-50 small font-weight-bold">6 Managers</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <p class="my-16pt text-70">Learn the fundamentals of working with Angular and how to create basic applications.</p>
+
+                        <div class="mb-16pt">
+                            <div class="d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-8pt">check</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>Fundamentals of working with Angular</small></p>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-8pt">check</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>Create complete Angular applications</small></p>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-8pt">check</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>Working with the Angular CLI</small></p>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-8pt">check</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>Understanding Dependency Injection</small></p>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-8pt">check</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>Testing with Angular</small></p>
+                            </div>
+                        </div>
+
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <div class="d-flex align-items-center mb-4pt">
+                                    <span class="material-icons icon-16pt text-50 mr-4pt">access_time</span>
+                                    <p class="flex text-50 lh-1 mb-0"><small>6 hours</small></p>
+                                </div>
+                                <div class="d-flex align-items-center mb-4pt">
+                                    <span class="material-icons icon-16pt text-50 mr-4pt">play_circle_outline</span>
+                                    <p class="flex text-50 lh-1 mb-0"><small>12 lessons</small></p>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <span class="material-icons icon-16pt text-50 mr-4pt">assessment</span>
+                                    <p class="flex text-50 lh-1 mb-0"><small>Beginner</small></p>
+                                </div>
+                            </div>
+                            <div class="col text-right">
+                                <a href="instructor-edit-course.html"
+                                   class="btn btn-primary">Edit course</a>
+                            </div>
+                        </div>
+
+                    </div>
 
                 </div>
-                <!-- <div class="card-body bordet-top text-right">
-  15 <span class="text-50">of 1,430</span> <a href="#" class="text-50"><i class="material-icons ml-1">arrow_forward</i></a>
-</div> -->
+
+                <div class="col-sm-6 col-md-4 col-xl-3">
+
+                    <div class="card card-sm card--elevated p-relative o-hidden overlay overlay--primary js-overlay mdk-reveal js-mdk-reveal "
+                         data-partial-height="44"
+                         data-toggle="popover"
+                         data-trigger="click">
+                        <a href="instructor-edit-course.html"
+                           class="js-image"
+                           data-position="">
+                            <img src="../../public/images/paths/swift_430x168.png"
+                                 alt="course">
+                            <span class="overlay__content align-items-start justify-content-start">
+                                        <span class="overlay__action card-body d-flex align-items-center">
+                                            <i class="material-icons mr-4pt">edit</i>
+                                            <span class="card-title text-white">Edit</span>
+                                        </span>
+                                    </span>
+                        </a>
+                        <div class="mdk-reveal__content">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <div class="flex">
+                                        <a class="card-title mb-4pt"
+                                           href="instructor-edit-course.html">Build an iOS Application in Swift</a>
+                                    </div>
+                                    <a href="instructor-edit-course.html"
+                                       class="ml-4pt material-icons text-20 card-course__icon-favorite">edit</a>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="rating flex">
+                                        <span class="rating__item"><span class="material-icons">star</span></span>
+                                        <span class="rating__item"><span class="material-icons">star</span></span>
+                                        <span class="rating__item"><span class="material-icons">star</span></span>
+                                        <span class="rating__item"><span class="material-icons">star</span></span>
+                                        <span class="rating__item"><span class="material-icons">star_border</span></span>
+                                    </div>
+                                    <small class="text-50">6 hours</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="popoverContainer d-none">
+                        <div class="media">
+                            <div class="media-left mr-12pt">
+                                <img src="../../public/images/paths/swift_40x40@2x.png"
+                                     width="40"
+                                     height="40"
+                                     alt="Angular"
+                                     class="rounded">
+                            </div>
+                            <div class="media-body">
+                                <div class="card-title mb-0">Build an iOS Application in Swift</div>
+                                <p class="lh-1">
+                                    <span class="text-50 small">with</span>
+                                    <span class="text-50 small font-weight-bold">Elijah Murray</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <p class="my-16pt text-70">Learn the fundamentals of working with Angular and how to create basic applications.</p>
+
+                        <div class="mb-16pt">
+                            <div class="d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-8pt">check</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>Fundamentals of working with Angular</small></p>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-8pt">check</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>Create complete Angular applications</small></p>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-8pt">check</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>Working with the Angular CLI</small></p>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-8pt">check</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>Understanding Dependency Injection</small></p>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-8pt">check</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>Testing with Angular</small></p>
+                            </div>
+                        </div>
+
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <div class="d-flex align-items-center mb-4pt">
+                                    <span class="material-icons icon-16pt text-50 mr-4pt">access_time</span>
+                                    <p class="flex text-50 lh-1 mb-0"><small>6 hours</small></p>
+                                </div>
+                                <div class="d-flex align-items-center mb-4pt">
+                                    <span class="material-icons icon-16pt text-50 mr-4pt">play_circle_outline</span>
+                                    <p class="flex text-50 lh-1 mb-0"><small>12 lessons</small></p>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <span class="material-icons icon-16pt text-50 mr-4pt">assessment</span>
+                                    <p class="flex text-50 lh-1 mb-0"><small>Beginner</small></p>
+                                </div>
+                            </div>
+                            <div class="col text-right">
+                                <a href="instructor-edit-course.html"
+                                   class="btn btn-primary">Edit course</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-xl-3">
+
+                    <div class="card card-sm card--elevated p-relative o-hidden overlay overlay--primary js-overlay mdk-reveal js-mdk-reveal "
+                         data-partial-height="44"
+                         data-toggle="popover"
+                         data-trigger="click">
+                        <a href="instructor-edit-course.html"
+                           class="js-image"
+                           data-position="">
+                            <img src="../../public/images/paths/wordpress_430x168.png"
+                                 alt="course">
+                            <span class="overlay__content align-items-start justify-content-start">
+                                        <span class="overlay__action card-body d-flex align-items-center">
+                                            <i class="material-icons mr-4pt">edit</i>
+                                            <span class="card-title text-white">Edit</span>
+                                        </span>
+                                    </span>
+                        </a>
+                        <div class="mdk-reveal__content">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <div class="flex">
+                                        <a class="card-title mb-4pt"
+                                           href="instructor-edit-course.html">Build a WordPress Website</a>
+                                    </div>
+                                    <a href="instructor-edit-course.html"
+                                       class="ml-4pt material-icons text-20 card-course__icon-favorite">edit</a>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="rating flex">
+                                        <span class="rating__item"><span class="material-icons">star</span></span>
+                                        <span class="rating__item"><span class="material-icons">star</span></span>
+                                        <span class="rating__item"><span class="material-icons">star</span></span>
+                                        <span class="rating__item"><span class="material-icons">star</span></span>
+                                        <span class="rating__item"><span class="material-icons">star_border</span></span>
+                                    </div>
+                                    <small class="text-50">6 hours</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="popoverContainer d-none">
+                        <div class="media">
+                            <div class="media-left mr-12pt">
+                                <img src="../../public/images/paths/wordpress_40x40@2x.png"
+                                     width="40"
+                                     height="40"
+                                     alt="Angular"
+                                     class="rounded">
+                            </div>
+                            <div class="media-body">
+                                <div class="card-title mb-0">Build a WordPress Website</div>
+                                <p class="lh-1">
+                                    <span class="text-50 small">with</span>
+                                    <span class="text-50 small font-weight-bold">Elijah Murray</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <p class="my-16pt text-70">Learn the fundamentals of working with Angular and how to create basic applications.</p>
+
+                        <div class="mb-16pt">
+                            <div class="d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-8pt">check</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>Fundamentals of working with Angular</small></p>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-8pt">check</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>Create complete Angular applications</small></p>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-8pt">check</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>Working with the Angular CLI</small></p>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-8pt">check</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>Understanding Dependency Injection</small></p>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-8pt">check</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>Testing with Angular</small></p>
+                            </div>
+                        </div>
+
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <div class="d-flex align-items-center mb-4pt">
+                                    <span class="material-icons icon-16pt text-50 mr-4pt">access_time</span>
+                                    <p class="flex text-50 lh-1 mb-0"><small>6 hours</small></p>
+                                </div>
+                                <div class="d-flex align-items-center mb-4pt">
+                                    <span class="material-icons icon-16pt text-50 mr-4pt">play_circle_outline</span>
+                                    <p class="flex text-50 lh-1 mb-0"><small>12 lessons</small></p>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <span class="material-icons icon-16pt text-50 mr-4pt">assessment</span>
+                                    <p class="flex text-50 lh-1 mb-0"><small>Beginner</small></p>
+                                </div>
+                            </div>
+                            <div class="col text-right">
+                                <a href="instructor-edit-course.html"
+                                   class="btn btn-primary">Edit course</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-xl-3">
+
+                    <div class="card card-sm card--elevated p-relative o-hidden overlay overlay--primary js-overlay mdk-reveal js-mdk-reveal "
+                         data-partial-height="44"
+                         data-toggle="popover"
+                         data-trigger="click">
+                        <a href="instructor-edit-course.html"
+                           class="js-image"
+                           data-position="left">
+                            <img src="../../public/images/paths/react_430x168.png"
+                                 alt="course">
+                            <span class="overlay__content align-items-start justify-content-start">
+                                        <span class="overlay__action card-body d-flex align-items-center">
+                                            <i class="material-icons mr-4pt">edit</i>
+                                            <span class="card-title text-white">Edit</span>
+                                        </span>
+                                    </span>
+                        </a>
+                        <div class="mdk-reveal__content">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <div class="flex">
+                                        <a class="card-title mb-4pt"
+                                           href="instructor-edit-course.html">Become a React Native Developer</a>
+                                    </div>
+                                    <a href="instructor-edit-course.html"
+                                       class="ml-4pt material-icons text-20 card-course__icon-favorite">edit</a>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="rating flex">
+                                        <span class="rating__item"><span class="material-icons">star</span></span>
+                                        <span class="rating__item"><span class="material-icons">star</span></span>
+                                        <span class="rating__item"><span class="material-icons">star</span></span>
+                                        <span class="rating__item"><span class="material-icons">star</span></span>
+                                        <span class="rating__item"><span class="material-icons">star_border</span></span>
+                                    </div>
+                                    <small class="text-50">6 hours</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="popoverContainer d-none">
+                        <div class="media">
+                            <div class="media-left mr-12pt">
+                                <img src="../../public/images/paths/react_40x40@2x.png"
+                                     width="40"
+                                     height="40"
+                                     alt="Angular"
+                                     class="rounded">
+                            </div>
+                            <div class="media-body">
+                                <div class="card-title mb-0">Become a React Native Developer</div>
+                                <p class="lh-1">
+                                    <span class="text-50 small">with</span>
+                                    <span class="text-50 small font-weight-bold">Elijah Murray</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <p class="my-16pt text-70">Learn the fundamentals of working with Angular and how to create basic applications.</p>
+
+                        <div class="mb-16pt">
+                            <div class="d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-8pt">check</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>Fundamentals of working with Angular</small></p>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-8pt">check</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>Create complete Angular applications</small></p>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-8pt">check</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>Working with the Angular CLI</small></p>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-8pt">check</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>Understanding Dependency Injection</small></p>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-8pt">check</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>Testing with Angular</small></p>
+                            </div>
+                        </div>
+
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <div class="d-flex align-items-center mb-4pt">
+                                    <span class="material-icons icon-16pt text-50 mr-4pt">access_time</span>
+                                    <p class="flex text-50 lh-1 mb-0"><small>6 hours</small></p>
+                                </div>
+                                <div class="d-flex align-items-center mb-4pt">
+                                    <span class="material-icons icon-16pt text-50 mr-4pt">play_circle_outline</span>
+                                    <p class="flex text-50 lh-1 mb-0"><small>12 lessons</small></p>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <span class="material-icons icon-16pt text-50 mr-4pt">assessment</span>
+                                    <p class="flex text-50 lh-1 mb-0"><small>Beginner</small></p>
+                                </div>
+                            </div>
+                            <div class="col text-right">
+                                <a href="instructor-edit-course.html"
+                                   class="btn btn-primary">Edit course</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
 
             </div>
         </div>

@@ -33,11 +33,10 @@
     } %}
 {% endblock breadcrumb %}
 {% block content %}
-    <div class="container page__container">
-        <div class="page-section">
+    <div class="page-section">
+        <div class="container page__container">
             <div class="row">
                 <form class="col-lg-6" method="post">
-                    <h4>New Axie Team</h4>
                     {% if errors %}
                         <div class="alert alert-soft-warning fade show">
                             <div class="d-flex flex-wrap align-items-start">
@@ -71,7 +70,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="team_value">Team Value</label>
                                 <div class="input-group input-group-merge">
-                                    <input id="team_value" name="team_value" type="text" class="form-control form-control-prepended {{ errors.team_value is defined ? 'is-invalid': '' }}" placeholder="Team Value" value="{{ vals.team_value is defined ? vals.team_value : '' }}" required data-mask="#,##0.00" minlength="8" maxlength="22" data-mask-reverse='"true'">
+                                    <input id="team_value" name="team_value" type="text" class="form-control form-control-prepended {{ errors.team_value is defined ? 'is-invalid': '' }}" placeholder="Team Value" value="{{ vals.team_value is defined ? vals.team_value : '' }}" required data-mask="#,##0.00" minlength="8" maxlength="22" data-mask-reverse="true">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
                                             {{ peso_symbol }}
@@ -116,7 +115,7 @@
                             </div>
                         </div>
                         <div class="col-md-12 text-right mt-4">
-                            <button class="btn btn-rounded btn-outline-accent-yellow" type="submit">
+                            <button class="btn btn-rounded btn-outline-accent-electric-violet" type="submit">
                                 <i class="material-icons icon--left">save</i>
                                 Save
                             </button>
@@ -126,4 +125,5 @@
             </div>
         </div>
     </div>
+
 {% endblock content %}
