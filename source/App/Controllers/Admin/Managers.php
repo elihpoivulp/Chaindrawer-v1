@@ -180,6 +180,7 @@ class Managers extends AdminViewOnly
         $vals = [];
         $_ids = [];
         $teams = new \CD\Models\Teams();
+        $users = new \CD\Models\Users();
         if (!$this->params['id'] || !preg_match('/\d+/', $this->params['id']) || !$this->request->isPost() || !has_key_presence('teams', $_POST)) {
             Response::errorPage(404);
         }
@@ -212,7 +213,8 @@ class Managers extends AdminViewOnly
                     }
                     if (!$errors[$team_name]) {
                         try {
-                            $team->newShare($amt, $this->params['id']);
+                            $user = $users->getOne($this->params['id'], 'UserID');
+                            $team->newShare($amt, $user->getManagerAccount()->getManagerAccountID());
                         } catch (\Exception | \PDOException $e) {
                             $fail_count += 1;
                         }
