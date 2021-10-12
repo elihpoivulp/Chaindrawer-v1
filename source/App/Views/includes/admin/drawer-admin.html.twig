@@ -34,7 +34,7 @@
                         <span class="ml-auto sidebar-menu-toggle-icon"></span>
                     </a>
                     <ul class="sidebar-submenu collapse sm-indent {% if get_uri(1) == 'teams' %}show{% endif %}" id="teams_menu">
-                        <li class="sidebar-menu-item {% if get_uri(1) == 'teams' and get_uri(2) == null %}active{% endif %}">
+                        <li class="sidebar-menu-item {% if get_uri(1) == 'teams' and (get_uri(2) == null or get_uri(2)matches '/[^(new)][a-z0-9]+(?:-[a-z0-9]+)*/') %}active{% endif %}">
                             <a class="sidebar-menu-button"
                                href="{{ site_url('admin/teams') }}">
                                 <span class="sidebar-menu-text">All Teams</span>

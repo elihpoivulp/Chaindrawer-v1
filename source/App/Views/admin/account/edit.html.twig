@@ -1,0 +1,430 @@
+{% extends 'base-admin.html.twig' %}
+{% block page_specific_scripts %}
+    {% include 'includes/scripts-tables.html.twig' %}
+    <script>
+        if ('{{ once }}' === 'true') {
+            if (window.history.replaceState) {
+                window.history.replaceState(null, null, window.location.href);
+            }
+        }
+    </script>
+{% endblock %}
+{% block breadcrumb %}
+    {% include 'includes/breadcrumb.html.twig' with {
+        'trails': {
+            'active': {
+                'url': null,
+                'name': 'Edit'
+            }
+        }
+    } %}
+{% endblock breadcrumb %}
+{% block content %}
+    <div class="container-fluid page__container">
+        <div class="page-section d-md-none d-block">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="flex">
+                        <div class="card p-relative o-hidden mb-0">
+                            <div class="card-header card-header-tabs-basic nav px-0"
+                                 role="tablist">
+                                <a href="#"
+                                        {% if active_tab == 'email' %}
+                                            class="active"
+                                            aria-selected="true"
+                                        {% endif %}
+                                   data-toggle="tab"
+                                   data-target="#email-panel"
+                                   id="email-tab"
+                                   role="tab">Email</a>
+                                <a href="#"
+                                        {% if active_tab == 'username' %}
+                                            class="active"
+                                            aria-selected="true"
+                                        {% endif %}
+                                   data-toggle="tab"
+                                   data-target="#username-panel"
+                                   id="username-tab"
+                                   role="tab">Username</a>
+                                <a href="#"
+                                        {% if active_tab == 'password' %}
+                                            class="active"
+                                            aria-selected="true"
+                                        {% endif %}
+                                   data-toggle="tab"
+                                   data-target="#password-panel"
+                                   id="password-tab"
+                                   role="tab">Password</a>
+                            </div>
+                            <div class="card-body">
+                                <div class="tab-content">
+                                    <section class="tab-pane fade {{ active_tab == 'email' ? 'show active' : '' }}" id="email-panel"
+                                             role="tabpanel"
+                                             aria-labelledby="email-tab">
+                                        <h4>Email</h4>
+                                        <p class="text-70"><small>Change your account email.</small></p>
+                                        {% if errors.email is defined %}
+                                            <div class="alert alert-soft-warning">
+                                                <div class="d-flex flex-wrap">
+                                                    <div class="mr-8pt">
+                                                        <i class="material-icons">error</i>
+                                                    </div>
+                                                    <div class="flex" style="min-width: 180px">
+                                                        <small class="text-100">
+                                                            {{ errors.email.warning }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                        {% if success.email is defined %}
+                                            <div class="alert alert-soft-success">
+                                                <div class="d-flex flex-wrap">
+                                                    <div class="mr-8pt">
+                                                        <i class="material-icons">check_circle</i>
+                                                    </div>
+                                                    <div class="flex" style="min-width: 180px">
+                                                        <small class="text-100">
+                                                            {{ success.email }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                        <form action="{{ site_url('admin/account/edit') }}" method="post">
+                                            <input type="hidden" name="_token" value="{{ csrf }}">
+                                            <div class="form-group">
+                                                <label class="form-label" for="email">Email</label>
+                                                <input id="email" name="email" type="email" class="form-control" maxlength="50" minlength="8"
+                                                       placeholder="New email" value="{{ account.LoginEmail }}" required>
+                                            </div>
+                                            <div class="text-right">
+                                                <input type="hidden" name="submit" class="btn btn-accent" value="email-submit">
+                                                <button type="submit" class="btn btn-accent">Save</button>
+                                            </div>
+                                        </form>
+                                    </section>
+                                    <section class="tab-pane fade {{ active_tab == 'username' ? 'show active' : '' }}"
+                                             id="username-panel" role="tabpanel"
+                                             aria-labelledby="username-tab">
+                                        <h4>Username</h4>
+                                        <p class="text-70"><small>Change your account username.</small></p>
+                                        {% if errors.username is defined %}
+                                            <div class="alert alert-soft-warning">
+                                                <div class="d-flex flex-wrap">
+                                                    <div class="mr-8pt">
+                                                        <i class="material-icons">error</i>
+                                                    </div>
+                                                    <div class="flex" style="min-width: 180px">
+                                                        <small class="text-100">
+                                                            {{ errors.username.warning }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                        {% if success.username is defined %}
+                                            <div class="alert alert-soft-success">
+                                                <div class="d-flex flex-wrap">
+                                                    <div class="mr-8pt">
+                                                        <i class="material-icons">check_circle</i>
+                                                    </div>
+                                                    <div class="flex" style="min-width: 180px">
+                                                        <small class="text-100">
+                                                            {{ success.username }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                        <form action="{{ site_url('admin/account/edit') }}" method="post">
+                                            <input type="hidden" name="_token" value="{{ csrf }}">
+                                            <div class="form-group">
+                                                <label class="form-label" for="username">Username</label>
+                                                <input id="username" name="username" type="text" maxlength="20" minlength="4"
+                                                       class="form-control"
+                                                       placeholder="New username" value="{{ account.LoginUsername }}" required>
+                                            </div>
+                                            <div class="text-right">
+                                                <input type="hidden" name="submit" class="btn btn-accent" value="username-submit">
+                                                <button type="submit" class="btn btn-accent">Save</button>
+                                            </div>
+                                        </form>
+                                    </section>
+                                    <section class="tab-pane fade {{ active_tab == 'password' ? 'show active' : '' }}"
+                                             id="password-panel" role="tabpanel"
+                                             aria-labelledby="password-tab">
+                                        <h4>Password</h4>
+                                        <p class="text-70"><small>Change your account password.</small></p>
+                                        {% if errors.password is defined %}
+                                            <div class="alert alert-soft-warning">
+                                                <div class="d-flex flex-wrap">
+                                                    <div class="mr-8pt">
+                                                        <i class="material-icons">error</i>
+                                                    </div>
+                                                    <div class="flex" style="min-width: 180px">
+                                                        <small class="text-100">
+                                                            {{ errors.password.warning }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                        {% if success.password is defined %}
+                                            <div class="alert alert-soft-success">
+                                                <div class="d-flex flex-wrap">
+                                                    <div class="mr-8pt">
+                                                        <i class="material-icons">check_circle</i>
+                                                    </div>
+                                                    <div class="flex" style="min-width: 180px">
+                                                        <small class="text-100">
+                                                            {{ success.password }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                        <form action="{{ site_url('admin/account/edit') }}" method="post">
+                                            <input type="hidden" name="_token" value="{{ csrf }}">
+                                            <div class="border-bottom-2 mb-2">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="old-password">Old Password</label>
+                                                    <input id="old-password" name="old-password" maxlength="30" minlength="8"
+                                                           type="password" class="form-control" placeholder="Old Password" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group mt-1">
+                                                <label class="form-label" for="new-password">New Password</label>
+                                                <input id="new-password" name="new-password" maxlength="30" minlength="8" type="password"
+                                                       class="form-control" placeholder="New Password" required>
+                                            </div>
+                                            <div class="form-group mt-1">
+                                                <label class="form-label" for="confirm-new-password">Confirm New Password</label>
+                                                <input id="confirm-new-password" name="confirm-new-password" maxlength="30" minlength="8"
+                                                       type="password" class="form-control" placeholder="Confirm New Password" required>
+                                            </div>
+                                            <div class="text-right">
+                                                <input type="hidden" name="submit" class="btn btn-accent" value="password-submit">
+                                                <button type="submit" class="btn btn-accent">Save</button>
+                                            </div>
+                                        </form>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-section d-md-block d-none">
+            <div class="row">
+                <div class="col-md-2 mr-4">
+                    <div class="flex border-right-2">
+                        <div class="card shadow-none bg-transparent card-flush p-relative o-hidden mb-0">
+                            <div class="card-header border-bottom-0 card-header-tabs-basic nav px-0 flex-column"
+                                 role="tablist">
+                                <a href="#"
+                                        {% if active_tab == 'email' %}
+                                            class="active"
+                                            aria-selected="true"
+                                        {% endif %}
+                                   data-toggle="tab"
+                                   data-target="#email-panel1"
+                                   id="email-tab1"
+                                   role="tab">Email</a>
+                                <a href="#"
+                                        {% if active_tab == 'username' %}
+                                            class="active"
+                                            aria-selected="true"
+                                        {% endif %}
+                                   data-toggle="tab"
+                                   data-target="#username-panel1"
+                                   id="username-tab1"
+                                   role="tab">Username</a>
+                                <a href="#"
+                                        {% if active_tab == 'password' %}
+                                            class="active"
+                                            aria-selected="true"
+                                        {% endif %}
+                                   data-toggle="tab"
+                                   data-target="#password-panel1"
+                                   id="password-tab1"
+                                   role="tab">Password</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    {% if errors.danger is defined %}
+                        <div class="alert alert-soft-danger">
+                            <div class="d-flex flex-wrap">
+                                <div class="mr-8pt">
+                                    <i class="material-icons">error</i>
+                                </div>
+                                <div class="flex" style="min-width: 180px">
+                                    <small class="text-100">
+                                        {{ errors.danger }}
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="tab-content">
+                        <section class="tab-pane fade {{ active_tab == 'email' ? 'show active' : '' }}" id="email-panel1"
+                                 role="tabpanel"
+                                 aria-labelledby="email-tab1">
+                            <h4>Email</h4>
+                            <p class="text-70"><small>Change your account email.</small></p>
+                            {% if errors.email is defined %}
+                                <div class="alert alert-soft-warning">
+                                    <div class="d-flex flex-wrap">
+                                        <div class="mr-8pt">
+                                            <i class="material-icons">error</i>
+                                        </div>
+                                        <div class="flex" style="min-width: 180px">
+                                            <small class="text-100">
+                                                {{ errors.email.warning }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if success.email is defined %}
+                                <div class="alert alert-soft-success">
+                                    <div class="d-flex flex-wrap">
+                                        <div class="mr-8pt">
+                                            <i class="material-icons">check_circle</i>
+                                        </div>
+                                        <div class="flex" style="min-width: 180px">
+                                            <small class="text-100">
+                                                {{ success.email }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <form action="{{ site_url('admin/account/edit') }}" method="post">
+                                <input type="hidden" name="_token" value="{{ csrf }}">
+                                <div class="form-group">
+                                    <label class="form-label" for="email">Email</label>
+                                    <input id="email" name="email" type="email" class="form-control" maxlength="50" minlength="8"
+                                           placeholder="New email" value="{{ account.LoginEmail }}" required>
+                                </div>
+                                <div class="text-right">
+                                    <input type="hidden" name="submit" class="btn btn-accent" value="email-submit">
+                                    <button type="submit" class="btn btn-accent">Save</button>
+                                </div>
+                            </form>
+                        </section>
+                        <section class="tab-pane fade {{ active_tab == 'username' ? 'show active' : '' }}"
+                                 id="username-panel1" role="tabpanel"
+                                 aria-labelledby="username-tab1">
+                            <h4>Username</h4>
+                            <p class="text-70"><small>Change your account username.</small></p>
+                            {% if errors.username is defined %}
+                                <div class="alert alert-soft-warning">
+                                    <div class="d-flex flex-wrap">
+                                        <div class="mr-8pt">
+                                            <i class="material-icons">error</i>
+                                        </div>
+                                        <div class="flex" style="min-width: 180px">
+                                            <small class="text-100">
+                                                {{ errors.username.warning }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if success.username is defined %}
+                                <div class="alert alert-soft-success">
+                                    <div class="d-flex flex-wrap">
+                                        <div class="mr-8pt">
+                                            <i class="material-icons">check_circle</i>
+                                        </div>
+                                        <div class="flex" style="min-width: 180px">
+                                            <small class="text-100">
+                                                {{ success.username }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <form action="{{ site_url('admin/account/edit') }}" method="post">
+                                <input type="hidden" name="_token" value="{{ csrf }}">
+                                <div class="form-group">
+                                    <label class="form-label" for="username">Username</label>
+                                    <input id="username" name="username" type="text" maxlength="20" minlength="4"
+                                           class="form-control"
+                                           placeholder="New username" value="{{ account.LoginUsername }}" required>
+                                </div>
+                                <div class="text-right">
+                                    <input type="hidden" name="submit" class="btn btn-accent" value="username-submit">
+                                    <button type="submit" class="btn btn-accent">Save</button>
+                                </div>
+                            </form>
+                        </section>
+                        <section class="tab-pane fade {{ active_tab == 'password' ? 'show active' : '' }}"
+                                 id="password-panel1" role="tabpanel"
+                                 aria-labelledby="password-tab1">
+                            <h4>Password</h4>
+                            <p class="text-70"><small>Change your account password</small></p>
+                            {% if errors.password is defined %}
+                                <div class="alert alert-soft-warning">
+                                    <div class="d-flex flex-wrap">
+                                        <div class="mr-8pt">
+                                            <i class="material-icons">error</i>
+                                        </div>
+                                        <div class="flex" style="min-width: 180px">
+                                            <small class="text-100">
+                                                {{ errors.password.warning }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if success.password is defined %}
+                                <div class="alert alert-soft-success">
+                                    <div class="d-flex flex-wrap">
+                                        <div class="mr-8pt">
+                                            <i class="material-icons">check_circle</i>
+                                        </div>
+                                        <div class="flex" style="min-width: 180px">
+                                            <small class="text-100">
+                                                {{ success.password }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <form action="{{ site_url('admin/account/edit') }}" method="post">
+                                <input type="hidden" name="_token" value="{{ csrf }}">
+                                <div class="border-bottom-2 mb-2">
+                                    <div class="form-group">
+                                        <label class="form-label" for="old-password">Old Password</label>
+                                        <input id="old-password" name="old-password" maxlength="30" minlength="8"
+                                               type="password" class="form-control" placeholder="Old Password" required>
+                                    </div>
+                                </div>
+                                <div class="form-group mt-1">
+                                    <label class="form-label" for="new-password">New Password</label>
+                                    <input id="new-password" name="new-password" maxlength="30" minlength="8" type="password"
+                                           class="form-control" placeholder="New Password" required>
+                                </div>
+                                <div class="form-group mt-1">
+                                    <label class="form-label" for="confirm-new-password">Confirm New Password</label>
+                                    <input id="confirm-new-password" name="confirm-new-password" maxlength="30" minlength="8"
+                                           type="password" class="form-control" placeholder="Confirm New Password" required>
+                                </div>
+                                <div class="text-right">
+                                    <input type="hidden" name="submit" class="btn btn-accent" value="password-submit">
+                                    <button type="submit" class="btn btn-accent">Save</button>
+                                </div>
+                            </form>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
