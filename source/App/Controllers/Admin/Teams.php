@@ -2,15 +2,13 @@
 
 namespace CD\App\Controllers\Admin;
 
-use CD\App\Controllers\Admin\Forms\NewTeamForm;
+use CD\Config\Config;
 use CD\Core\Request;
 use CD\Core\Response;
 use CD\Core\Sessions\Session;
 use CD\Core\View;
 use CD\Core\ViewControllers\AdminViewOnly;
-use CD\Models\AssetPlatforms;
-use CD\Models\Players;
-use CD\Models\Team;
+use CD\Models\Teams as TeamsModel;
 
 class Teams extends AdminViewOnly
 {
@@ -19,7 +17,7 @@ class Teams extends AdminViewOnly
     public function __construct(array $params, View $view, Request $request)
     {
         parent::__construct($params, $view, $request);
-        $this->registerPath(VIEWS_PATH . "/"  . static::$template_namespace, static::$template_namespace);
+        $this->registerPath(VIEWS_PATH . "/" . static::$template_namespace, static::$template_namespace);
         $this->loadModel('Teams');
     }
 
@@ -137,6 +135,67 @@ class Teams extends AdminViewOnly
                 'team_types' => $this->model->getTeamTypes(),
                 'd_type' => $type
             ]);
+        }
+    }
+
+    public function viewAction()
+    {
+        if (has_key_presence('slug', $this->params)) {
+            $slug = $this->params['slug'];
+            if (valid_slug($slug)) {
+                $teams = new TeamsModel();
+                $team = $teams->getTeamBySlug($slug);
+                if ($team) {
+                    $labels = [];
+                    $rates = [];
+                    $colors = [];
+                    foreach ($managers = $team->getTeamManagers() as $manager) {
+                        // $labels[] = 'INV-' . strtoupper(substr(md5($manager->getManagerAccountID()), 0, 5));
+                        $label = $manager->UserFullName;
+                        if ($this->user->getUserID() == intval($manager->UserID)) {
+                            $label = 'Me';
+                        }
+                        $labels[] = $label;
+                        $rates[] = $manager->OwnershipRate;
+                        while (true) {
+                            $color = array_rand(array_flip(Config::CHART_COLORS), 1);
+                            if (!in_array($color, $colors)) {
+                                $colors[] = $color;
+                                break;
+                            }
+                        }
+                    }
+                    $slp_grind = [
+                        'labels' => [],
+                        'data' => []
+                    ];
+                    foreach ($daily_grind = $team->AxieTeam()->getDailySLPGrinds() as $grind) {
+                        $slp_grind['labels'][] = date_format(date_create($grind['DailySLPGrindDateAdded']), 'D');
+                        $slp_grind['data'][] = $grind['DailySLPGrindAmount'];
+                    }
+                    $this->render('teams/view.html.twig', [
+                        'title' => $team->AssetTeamName,
+                        'team' => $team,
+                        'account' => $this->user,
+//                        'last_payout' => $team->getLastPayoutDate(),
+                        'charts' => [
+                            'doughnut' => [
+                                'has_data' => $managers,
+                                'labels' => implode(', ', $labels),
+                                'rates' => implode(', ', $rates),
+                                'colors' => implode(', ', $colors)
+                            ],
+                            'line' => [
+                                'has_data' => $daily_grind,
+                                'labels' => implode(', ', $slp_grind['labels']),
+                                'data' => implode(', ', $slp_grind['data']),
+                            ]
+                        ]
+                    ]);
+                } else {
+                    Response::errorPage(404);
+                }
+            }
         }
     }
 

@@ -124,10 +124,12 @@ VALUES (:amt, NOW(), :manager, :team);";
             "
                 SELECT
                 MA.*,
+                CONCAT(UserFirstName, ' ', UserMiddleName, ' ', UserLastName) AS UserFullName,
                 CONVERT(MA.ManagerAccountID, CHAR) AS ManagerAccountID,
                 ROUND((MS.ManagerShareAmount / $this->AssetTeamValue) * 100, 2) AS OwnershipRate
                 FROM ManagerShares MS
                 JOIN ManagerAccounts MA on MS.ManagerAccountID = MA.ManagerAccountID
+                JOIN Users On Users.UserID = MA.UserID
                 WHERE MS.AssetTeamID = :id
                 ORDER BY OwnershipRate DESC, MA.ManagerAccountID 
                 "

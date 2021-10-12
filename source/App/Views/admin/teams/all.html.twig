@@ -105,7 +105,7 @@
                                                     <small class="team-name">
                                                         <strong>
                                                             <a class="text-white"
-                                                               href="{{ site_url('manager/teams') ~ '/' ~ team.AssetTeamSlug|url_encode }}">{{ team.AssetTeamName }}
+                                                               href="{{ site_url('admin/teams') ~ '/' ~ team.AssetTeamSlug|url_encode }}">{{ team.AssetTeamName }}
                                                                 <i class="fa fa-link text-50"
                                                                    style="font-size: 8px; position: relative; top: -5px"></i></a>
                                                         </strong>
@@ -147,7 +147,7 @@
                                     </td>
                                     <td class="text-center">
                                         <a class="text-50"
-                                           href="{{ site_url('manager/teams') ~ '/' ~ team.AssetTeamSlug|url_encode }}">Details</a>
+                                           href="{{ site_url('admin/teams') ~ '/' ~ team.AssetTeamSlug|url_encode }}">Details</a>
                                     </td>
                                 </tr>
                             {% endfor %}
